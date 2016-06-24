@@ -1,0 +1,2 @@
+include ':app', ':algorithms', ':gof', ':sdk_doc'
+include ':pluginSDK_vivo_30'
