@@ -1,2 +1,2 @@
-include ':app', ':algorithms', ':gof', ':sdk_doc'
+include ':app', ':algorithms', ':gof'
 include ':pluginSDK_vivo_30'
