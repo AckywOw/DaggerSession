@@ -1,5 +1,4 @@
 #Activity生命周期
----
 A--->B--->C
 A:singleTask
 B:standard
