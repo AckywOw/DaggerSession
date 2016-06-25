@@ -46,13 +46,14 @@ Intent中可以没有category，但如果有，不管有几个，每个category�
         待补充
 
 
-&emsp;&emsp;可以用以下两种方法,来判断Intent是否匹配IntentFilter：
-  
-    PackageManager：//找不到就返回null
-    public abstract ResolveInfo resolveActivityAsUser(Intent intent, int flags, int userId);
+&emsp;可以用以下两种方法,来判断Intent是否匹配IntentFilter：
+``` java 
+PackageManager：//找不到就返回null
+public abstract ResolveInfo resolveActivityAsUser(Intent intent, int flags, int userId);
     
-    Intent：//找不到就返回null
-    public ComponentName resolveActivity(PackageManager pm)
+Intent：//找不到就返回null
+public ComponentName resolveActivity(PackageManager pm)
     
-    PackageManager：//返回所有匹成功配的Activity信息
-    public abstract List<ResolveInfo> queryIntentActivities(Intent intent, int flags);
+PackageManager：//返回所有匹成功配的Activity信息
+public abstract List<ResolveInfo> queryIntentActivities(Intent intent, int flags);
+```
