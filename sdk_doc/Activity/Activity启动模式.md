@@ -35,6 +35,7 @@ singleTop
 ### 五. IntentFilter
 &emsp;&emsp;有两种启动Activity的模式，显示调用和隐式调用，显示优先级大。  
 &emsp;&emsp;IntentFilter就是用来隐式调用的，一个Activity可以有多个IntentFilter,每个IntentFilter由action、category和data组成，一个Intent只要能匹配任意一组IntentFilter，就能成功启动Activity。  
+
 1. action  
 系统预定义了一些action，我们也可以自定义action。  
 匹配要求：只要Intent中有action存在(可以有多个)并且和IntentFilter中的其中一个action相同(区分大小写)。  
