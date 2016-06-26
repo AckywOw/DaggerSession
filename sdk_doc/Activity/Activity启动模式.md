@@ -34,7 +34,7 @@ singleTop
 
 ### 五. IntentFilter
 &emsp;&emsp;有两种启动Activity的模式，显示调用和隐式调用，显示优先级大。  
-&emsp;&emsp;IntentFilter就是用来隐式调用的，一个Activity可以有多个IntentFilter,每个IntentFilter由action、category和data组成，一个Intent只要能匹配任意一组IntentFilter，就能成功启动Activity。
+&emsp;&emsp;IntentFilter就是用来隐式调用的，一个Activity可以有多个IntentFilter,每个IntentFilter由action、category和data组成，一个Intent只要能匹配任意一组IntentFilter，就能成功启动Activity。  
 1. action  
 系统预定义了一些action，我们也可以自定义action。  
 匹配要求：只要Intent中有action存在(可以有多个)并且和IntentFilter中的其中一个action相同(区分大小写)。
@@ -47,13 +47,13 @@ Intent中可以没有category，但如果有，不管有几个，每个category�
 
 
 &emsp;可以用以下两种方法,来判断Intent是否匹配IntentFilter：
-``` java 
+``` java
 PackageManager：//找不到就返回null
 public abstract ResolveInfo resolveActivityAsUser(Intent intent, int flags, int userId);
-    
+
 Intent：//找不到就返回null
 public ComponentName resolveActivity(PackageManager pm)
-    
+
 PackageManager：//返回所有匹成功配的Activity信息
 public abstract List<ResolveInfo> queryIntentActivities(Intent intent, int flags);
 ```
