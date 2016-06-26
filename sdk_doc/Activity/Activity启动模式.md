@@ -37,11 +37,11 @@ singleTop
 &emsp;&emsp;IntentFilter就是用来隐式调用的，一个Activity可以有多个IntentFilter,每个IntentFilter由action、category和data组成，一个Intent只要能匹配任意一组IntentFilter，就能成功启动Activity。  
 1. action  
 系统预定义了一些action，我们也可以自定义action。  
-匹配要求：只要Intent中有action存在(可以有多个)并且和IntentFilter中的其中一个action相同(区分大小写)。
+匹配要求：只要Intent中有action存在(可以有多个)并且和IntentFilter中的其中一个action相同(区分大小写)。  
 2. category  
 系统预定义了一些category，我们也可以自定义category。  
 Intent中可以没有category，但如果有，不管有几个，每个category都必须与IntentFilter中的一个相同。
-如果不设置category，因为系统在startActivity时，会默认为Intent加上“android.intent.category.DEFAULT”这个category。，因此，为了我们自己的Activity能够被隐式调用，必须在IntentFilter中加上这个category。
+如果不设置category，因为系统在startActivity时，会默认为Intent加上“android.intent.category.DEFAULT”这个category。，因此，为了我们自己的Activity能够被隐式调用，必须在IntentFilter中加上这个category。  
 3. data  
         待补充
 
