@@ -19,7 +19,6 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Looper.prepareMainLooper();
         mNetComponent = DaggerNetComponent.builder().appModule(new AppModule(this)).netModule(new NetModule("a//a"))
                 .build();
     }
