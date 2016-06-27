@@ -1,6 +1,7 @@
 package com.ackywow.daggersession;
 
 import android.app.Application;
+import android.os.Looper;
 
 import com.ackywow.daggersession.component.DaggerNetComponent;
 import com.ackywow.daggersession.component.NetComponent;
@@ -18,7 +19,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Looper.prepareMainLooper();
         mNetComponent = DaggerNetComponent.builder().appModule(new AppModule(this)).netModule(new NetModule("a//a"))
                 .build();
     }

@@ -39,7 +39,7 @@ public void dispatchMessage(Message msg) {
     if (msg.callback != null) { //先判断msg是否有Handler来post的Runnable
         handleCallback(msg);
     } else {
-        if (mCallback != null) { //这里的mCallback是Handler构造方法传入的，用来同意处理msg的
+        if (mCallback != null) { //这里的mCallback是Handler构造方法传入的，用来统一处理msg的
             if (mCallback.handleMessage(msg)) {
                 return;
             }
