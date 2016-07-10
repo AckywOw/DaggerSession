@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 最大岛面积
  * Created by AckywOw on 2016/6/13.
  */
 public class IslandDFS {
@@ -59,21 +60,17 @@ public class IslandDFS {
                 {0, 0, 0, 3, 7, 8, 6, 0, 1, 2},
                 {0, 0, 0, 0, 0, 0, 0, 0, 1, 0}};
         int[][] book = new int[width][height];
-        List<Step> steps = new ArrayList<Step>();
         List<Step> finalSteps = new ArrayList<Step>();
-        steps.add(new Step(startX, startY));
         finalSteps.add(new Step(startX, startY));
 
         book[startX][startY] = 1;
-        AtomicInteger sum = new AtomicInteger(1);
-        letsGo(startX, startY, sum, finalSteps, map, next, book, width, height);
+        letsGo(startX, startY, finalSteps, map, next, book, width, height);
         System.out.println("sum:" + finalSteps.size());
         System.out.println("content:" + finalSteps.toString());
     }
 
-    private static void letsGo(int x, int y, AtomicInteger sum, List<Step> finalSteps, int[][] map, int[][] next,
-                               int[][] book, int width,
-                               int height) {
+    private static void letsGo(int x, int y, List<Step> finalSteps, int[][] map, int[][] next,
+                               int[][] book, int width, int height) {
         for (int i = 0; i < next.length; i++) {
             int tx = x + next[i][0];
             int ty = y + next[i][1];
@@ -82,11 +79,9 @@ public class IslandDFS {
             }
 
             if (map[tx][ty] > 0 && book[tx][ty] == 0) {
-                sum.incrementAndGet();
                 book[tx][ty] = 1;
-                Step newStep = new Step(tx, ty);
-                finalSteps.add(newStep);
-                letsGo(tx, ty, sum, finalSteps, map, next, book, width, height);
+                finalSteps.add(new Step(tx, ty));
+                letsGo(tx, ty, finalSteps, map, next, book, width, height);
             }
         }
     }

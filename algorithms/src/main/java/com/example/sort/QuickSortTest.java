@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * 快速排序
  */
-public class QuickSort {
+public class QuickSortTest {
 
     public static void main(String[] args) {
         int[] nums = new int[10];
@@ -26,31 +26,27 @@ public class QuickSort {
 
     private static void quickSort(int[] arr, int left, int right) {
         if (left >= right) return;
+        int temp = arr[left];
         int i = left;
         int j = right;
-        int temp = arr[left];
         int t;
-
         while (i != j) {
             while (arr[j] >= temp && i < j) {
                 j--;
             }
-
+            
             while (arr[i] <= temp && i < j) {
                 i++;
             }
-
             if (i < j) {
-                t = arr[i];
-                arr[i] = arr[j];
-                arr[j] = t;
-                System.out.println(Arrays.toString(arr));
+                t = arr[j];
+                arr[j] = arr[i];
+                arr[i] = t;
             }
         }
 
         arr[left] = arr[i];
         arr[i] = temp;
-        System.out.println(Arrays.toString(arr));
 
         quickSort(arr, left, i - 1);
         quickSort(arr, i + 1, right);

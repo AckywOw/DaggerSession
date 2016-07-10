@@ -7,7 +7,7 @@ import java.util.List;
  * 最大岛面积
  * Created by AckywOw on 2016/6/13.
  */
-public class IslandBFS {
+public class IslandBFSTest {
     static class Step {
         int x, y;
 
@@ -60,17 +60,19 @@ public class IslandBFS {
         int startX = 5, startY = 7, width = 10, height = 10;
         List<Step> steps = new ArrayList<Step>();
         steps.add(new Step(startX, startY));
-        int head = 0, tail = 1, tx = 0, ty = 0;
+
+        int head = 0, tail = 0;
+        tail++;
         while (head < tail) {
             for (int i = 0; i < next.length; i++) {
-                tx = steps.get(head).x + next[i][0];
-                ty = steps.get(head).y + next[i][1];
-                if (tx < 0 || tx >= width || ty < 0 || ty >= height) {
+                startX = steps.get(head).x + next[i][0];
+                startY = steps.get(head).y + next[i][1];
+                if (startX < 0 || startX >= height || startY < 0 || startY >= width) {
                     continue;
                 }
-                Step newStep = new Step(tx, ty);
-                if (map[tx][ty] > 0 && !steps.contains(newStep)) {
-                    steps.add(newStep);
+                Step step = new Step(startX, startY);
+                if (map[startX][startY] > 0 && !steps.contains(step)) {
+                    steps.add(step);
                     tail++;
                 }
             }

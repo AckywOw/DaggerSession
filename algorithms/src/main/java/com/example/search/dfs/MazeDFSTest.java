@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 迷宫找人
  * Created by AckywOw on 2016/6/12.
  */
-public class MazeDFS {
+public class MazeDFSTest {
 
     static class Step {
         int x, y;
@@ -45,14 +44,15 @@ public class MazeDFS {
         steps.add(new Step(0, 0));
 
         AtomicInteger sum = new AtomicInteger(Integer.MAX_VALUE);
-        dfsMaze(startX, startY, endX, endY, width, height, maze, book, next, 0, steps, sum, finalSteps);
+        dfsMaze(startX, startY, endX, endY, width, height, maze, book, next, 0, steps, sum,
+                finalSteps);
         System.out.println("sum:" + sum.toString());
         System.out.println("step:" + finalSteps.toString());
     }
 
-    private static void dfsMaze(int x, int y, int endX, int endY, int width, int height, int[][] maze, int[][] book,
-                                int[][] next, int step, List<Step> steps, AtomicInteger min, ArrayList<Step>
-                                        finalSteps) {
+    private static void dfsMaze(int x, int y, int endX, int endY, int width, int height, int[][]
+            maze, int[][] book, int[][] next, int step, List<Step> steps, AtomicInteger min,
+                                ArrayList<Step> finalSteps) {
         if (x == endX && y == endY) {
             if (min.get() > step) {
                 min.set(step);
@@ -68,12 +68,15 @@ public class MazeDFS {
             if (tx < 0 || tx >= height || ty < 0 || ty >= width) {
                 continue;
             }
-
-            if (maze[tx][ty] == 0 && book[tx][ty] == 0) {
-                book[tx][ty] = 1;
+            if (maze[tx][ty] > 0) {
+                continue;
+            }
+            if (book[tx][ty] == 0) {
+                book[x][y] = 1;
                 steps.add(step + 1, new Step(tx, ty));
-                steps = steps.subList(0, step + 2);
-                dfsMaze(tx, ty, endX, endY, width, height, maze, book, next, step + 1, steps, min, finalSteps);
+                dfsMaze(tx, ty, endX, endY, width, height, maze, book, next, step + 1, steps, min,
+                        finalSteps);
+                steps.remove(step + 1);
                 book[tx][ty] = 0;
             }
         }

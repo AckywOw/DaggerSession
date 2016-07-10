@@ -41,7 +41,8 @@ public class BellmanFord {
                 break;
         }
 
-        boolean flag = false; //检测负权回路
+        //检测负权回路
+        boolean flag = false; 
         for (int i = 0; i < m; i++) {
             if (distances[v[i]] > distances[u[i]] + w[i]) {
                 distances[v[i]] = distances[u[i]] + w[i];

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by AckywOw on 2016/6/14.
  */
-public class FlightsBFS {
+public class FlightsBFSTest {
     static class Step {
         int num;
         int sum;
@@ -41,11 +41,11 @@ public class FlightsBFS {
         steps.add(new Step(0, 0, null));
         tail++;
         while (head < tail) {
-            for (int i = 1; i < sum; i++) {
+            for (int i = 0; i < sum; i++) {
                 if (map[head][i] > 0 && book[i] == 0) {
                     start = i;
-                    book[i] = 1;
                     steps.add(new Step(i, steps.get(head).sum + 1, steps.get(head)));
+                    book[i] = 1;
                     tail++;
                 }
                 if (start == end) {

@@ -1,13 +1,14 @@
-package com.example.search.bfs;
+package com.example.search.dfs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 最大岛面积
  * Created by AckywOw on 2016/6/13.
  */
-public class IslandBFS {
+public class IslandDFSTest {
     static class Step {
         int x, y;
 
@@ -45,7 +46,8 @@ public class IslandBFS {
     }
 
     public static void main(String[] args) {
-        int[][] next = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        int startX = 5, startY = 7, width = 10, height = 10;
+        int[][] next = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         int[][] map = {
                 {1, 2, 1, 0, 0, 0, 0, 0, 2, 3},
                 {3, 0, 2, 0, 1, 2, 1, 0, 1, 2},
@@ -57,27 +59,30 @@ public class IslandBFS {
                 {0, 0, 3, 4, 8, 9, 7, 5, 0, 0},
                 {0, 0, 0, 3, 7, 8, 6, 0, 1, 2},
                 {0, 0, 0, 0, 0, 0, 0, 0, 1, 0}};
-        int startX = 5, startY = 7, width = 10, height = 10;
-        List<Step> steps = new ArrayList<Step>();
-        steps.add(new Step(startX, startY));
-        int head = 0, tail = 1, tx = 0, ty = 0;
-        while (head < tail) {
-            for (int i = 0; i < next.length; i++) {
-                tx = steps.get(head).x + next[i][0];
-                ty = steps.get(head).y + next[i][1];
-                if (tx < 0 || tx >= width || ty < 0 || ty >= height) {
-                    continue;
-                }
-                Step newStep = new Step(tx, ty);
-                if (map[tx][ty] > 0 && !steps.contains(newStep)) {
-                    steps.add(newStep);
-                    tail++;
-                }
-            }
-            head++;
-        }
+        int[][] book = new int[width][height];
+        List<Step> finalSteps = new ArrayList<Step>();
+        finalSteps.add(new Step(startX, startY));
 
-        System.out.println("sum:" + steps.size());
-        System.out.println("content:" + steps.toString());
+        book[startX][startY] = 1;
+        letsGo(startX, startY, finalSteps, map, next, book, width, height);
+        System.out.println("sum:" + finalSteps.size());
+        System.out.println("content:" + finalSteps.toString());
+    }
+
+    private static void letsGo(int x, int y, List<Step> finalSteps, int[][]
+            map, int[][] next, int[][] book, int width, int height) {
+        for (int i = 0; i < next.length; i++) {
+            int tx = x + next[i][0];
+            int ty = y + next[i][1];
+            if (tx < 0 || tx >= height || ty < 0 || ty >= width) {
+                continue;
+            }
+
+            if (map[tx][ty] > 0 && book[tx][ty] == 0) {
+                book[tx][ty] = 1;
+                finalSteps.add(new Step(tx, ty));
+                letsGo(tx, ty, finalSteps, map, next, book, width, height);
+            }
+        }
     }
 }

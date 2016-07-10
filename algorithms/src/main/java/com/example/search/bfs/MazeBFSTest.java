@@ -8,7 +8,7 @@ import java.util.List;
  * 迷宫找人
  * Created by AckywOw on 2016/6/12.
  */
-public class MazeBFS {
+public class MazeBFSTest {
 
     static class Step {
         int x, y, step;
@@ -44,40 +44,38 @@ public class MazeBFS {
         List<Step> steps = new ArrayList<>();
         ArrayList<Step> finalSteps = new ArrayList<>();
 
-        int head = 0, tail = 0;
-        steps.add(tail, new Step(0, 0, null, 0));
+        int head = 0, tail = 0, ty, tx;
+        steps.add(new Step(0, 0, null, 0));
         tail++;
-        book[0][0] = 1;
-
         boolean getIt = false;
         while (head < tail) {
             for (int i = 0; i < next.length; i++) {
-                startX = steps.get(head).x + next[i][0];
-                startY = steps.get(head).y + next[i][1];
-
-                if (startX < 0 || startX >= height || startY < 0 || startY >= width) {
+                tx = steps.get(head).x + next[i][0];
+                ty = steps.get(head).y + next[i][1];
+                if (tx < 0 || tx >= height || ty < 0 || ty >= width) {
                     continue;
                 }
-
-                if (maze[startX][startY] == 0 && book[startX][startY] == 0) {
-                    book[startX][startY] = 1;
-                    steps.add(tail, new Step(startX, startY, steps.get(head), steps.get(head).step + 1));
-//                    steps = steps.subList(0, tail + 1);
+                if (maze[tx][ty] > 0) {
+                    continue;
+                }
+                if (book[tx][ty] == 0) {
+                    book[tx][ty] = 1;
+                    steps.add(new Step(tx, ty, steps.get(head), steps.get(head).step + 1));
                     tail++;
                 }
-                if (startX == endX && startY == endY) {
+                if (tx == endX && ty == endY) {
                     getIt = true;
                     break;
                 }
             }
-
             if (getIt) {
                 break;
             }
             head++;
         }
+
         Step last = steps.get(tail - 1);
-        makeSteps(last,finalSteps);
+        makeSteps(last, finalSteps);
         System.out.println("sum:" + last.step);
         System.out.println("step:" + finalSteps.toString());
     }

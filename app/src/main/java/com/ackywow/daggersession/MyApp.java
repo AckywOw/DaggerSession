@@ -21,6 +21,7 @@ public class MyApp extends Application {
         super.onCreate();
         mNetComponent = DaggerNetComponent.builder().appModule(new AppModule(this)).netModule(new NetModule("a//a"))
                 .build();
+        
     }
 
     public NetComponent getNetComponent() {

@@ -3,6 +3,7 @@ package com.example.search.dfs;
 import java.util.Arrays;
 
 /**
+ * 全排列
  * Created by AckywOw on 2016/6/11.
  */
 public class FullArray {
