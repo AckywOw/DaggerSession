@@ -4,11 +4,10 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * 冒泡排序
- * Created by AckywOw on 2016/6/29.
+ * 插入排序
+ * Created by AckywOw on 2016/7/29.
  */
-public class BubbleSort {
-
+public class InsertSort {
     public static void main(String[] args) {
         int[] nums = new int[10];
         Random random = new Random();
@@ -17,17 +16,17 @@ public class BubbleSort {
         }
 
         System.out.println(Arrays.toString(nums));
-        bubbleSort(nums);
+        insertSort(nums);
         System.out.println(Arrays.toString(nums));
     }
 
-    private static void bubbleSort(int[] nums) {
-        for (int i = 0; i < nums.length - 1; i++) {
-            for (int j = 0; j < nums.length - i - 1; j++) {
-                if (nums[j] > nums[j + 1]) {
+    private static void insertSort(int[] nums) {
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = i; j > 0; j--) {
+                if (nums[j] < nums[j - 1]) {
                     int temp = nums[j];
-                    nums[j] = nums[j + 1];
-                    nums[j + 1] = temp;
+                    nums[j] = nums[j - 1];
+                    nums[j - 1] = temp;
                 }
             }
         }

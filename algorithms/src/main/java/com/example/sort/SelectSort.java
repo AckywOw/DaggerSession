@@ -4,11 +4,9 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * 冒泡排序
- * Created by AckywOw on 2016/6/29.
+ * Created by AckywOw on 2016/7/29.
  */
-public class BubbleSort {
-
+public class SelectSort {
     public static void main(String[] args) {
         int[] nums = new int[10];
         Random random = new Random();
@@ -17,17 +15,17 @@ public class BubbleSort {
         }
 
         System.out.println(Arrays.toString(nums));
-        bubbleSort(nums);
+        selectSort(nums);
         System.out.println(Arrays.toString(nums));
     }
 
-    private static void bubbleSort(int[] nums) {
+    private static void selectSort(int[] nums) {
         for (int i = 0; i < nums.length - 1; i++) {
-            for (int j = 0; j < nums.length - i - 1; j++) {
-                if (nums[j] > nums[j + 1]) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] > nums[j]) {
                     int temp = nums[j];
-                    nums[j] = nums[j + 1];
-                    nums[j + 1] = temp;
+                    nums[j] = nums[i];
+                    nums[i] = temp;
                 }
             }
         }

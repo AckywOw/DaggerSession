@@ -25,29 +25,26 @@ public class QuickSortTest {
     }
 
     private static void quickSort(int[] arr, int left, int right) {
-        if (left >= right) return;
-        int temp = arr[left];
-        int i = left;
-        int j = right;
-        int t;
+        if (left >= right)
+            return;
+        int i = left, j = right, mid = arr[left], temp;
         while (i != j) {
-            while (arr[j] >= temp && i < j) {
+            while (arr[j] >= mid && i < j) {
                 j--;
             }
-            
-            while (arr[i] <= temp && i < j) {
+
+            while (arr[i] <= mid && i < j) {
                 i++;
             }
             if (i < j) {
-                t = arr[j];
-                arr[j] = arr[i];
-                arr[i] = t;
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
             }
         }
 
         arr[left] = arr[i];
-        arr[i] = temp;
-
+        arr[i] = mid;
         quickSort(arr, left, i - 1);
         quickSort(arr, i + 1, right);
     }
