@@ -1,5 +1,7 @@
 package com.example.tree;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import javax.transaction.TransactionRequiredException;
@@ -88,5 +90,74 @@ public class Solution {
             node = node.right;
             return node;
         }
+    }
+
+    /**
+     * 二叉树的前序遍历
+     * @param root: The root of binary tree.
+     * @return: Preorder in ArrayList which contains node values.
+     */
+    public ArrayList<Integer> preorderTraversal(TreeNode root) {
+        // write your code here
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        ArrayList<Integer> preorder = new ArrayList<Integer>();
+
+        if (root == null) {
+            return preorder;
+        }
+
+        stack.push(root);
+        while (!stack.empty()) {
+            TreeNode node = stack.pop();
+            preorder.add(node.val);
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+
+        return preorder;
+    }
+
+    /**
+     * 二叉树的中序遍历
+     * @param root: The root of binary tree.
+     * @return: Inorder in ArrayList which contains node values.
+     */
+    public ArrayList<Integer> inorderTraversal(TreeNode root) {
+        // write your code here
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        TreeNode curt = root;
+        while (curt != null || !stack.empty()) {
+            while (curt != null) {
+                stack.add(curt);
+                curt = curt.left;
+            }
+            curt = stack.peek();
+            stack.pop();
+            result.add(curt.val);
+            curt = curt.right;
+        }
+        return result;
+    }
+
+    /**
+     * 二叉树的后序遍历
+     * @param root: The root of binary tree.
+     * @return: Postorder in ArrayList which contains node values.
+     */
+    public ArrayList<Integer> postorderTraversal(TreeNode root) {
+        // write your code here
+        ArrayList<Integer> result = new ArrayList<Integer>();   
+        if (root == null) {
+            return result;
+        }
+        result.addAll(postorderTraversal(root.left));
+        result.addAll(postorderTraversal(root.right));
+        result.add(root.val);
+        return result;
     }
 }
