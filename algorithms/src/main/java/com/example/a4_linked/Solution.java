@@ -7,6 +7,34 @@ package com.example.a4_linked;
 public class Solution {
 
     /**
+     * 删除链表中的元素
+     * 给出链表 1->2->3->3->4->5->3, 和 val = 3, 你需要返回删除3之后的链表：1->2->4->5。
+     * Created by AckywOw on 2016/7/29.
+     * @param head a ListNode
+     * @param val  an integer
+     * @return a ListNode
+     */
+    public ListNode removeElements(ListNode head, int val) {
+        // Write your code here
+        if (head == null)
+            return null;
+        ListNode first = head, last = head.next;
+        while (last != null) {
+            if (last.val == val) {
+                first.next = last.next;
+                last = first.next;
+            } else {
+                first = first.next;
+                last = last.next;
+            }
+        }
+        if (head.val == val) {
+            head = head.next;
+        }
+        return head;
+    }
+
+    /**
      * 链表求和
      * 你有两个用链表代表的整数，其中每个节点包含一个数字。数字存储按照在原来整数中相反的顺序，使得第一个数字位于链表的开头。写出一个函数将两个整数相加，用链表形式返回和。
      * 给出两个链表 3->1->5->null 和 5->9->2->null，返回 8->0->8->null
