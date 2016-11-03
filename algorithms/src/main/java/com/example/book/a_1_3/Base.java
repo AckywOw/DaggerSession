@@ -17,16 +17,4 @@ public interface Base<T> {
      * @return
      */
     int size();
-
-    /**
-     * 添加元素
-     * @param t
-     */
-    void push(T t);
-
-    /**
-     * 弹出元素
-     * @return
-     */
-    T pop();
 }

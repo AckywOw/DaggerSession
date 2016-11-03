@@ -6,7 +6,7 @@ import java.util.Iterator;
  * Created by Jiang on 2016/11/2.
  */
 
-public class ResizingArrayStack<T> implements Base<T>, Resize, Iterable<T> {
+public class ResizingArrayStack<T> implements BaseStack<T>, Resize, Iterable<T> {
 
     private T[] strs = (T[]) new Object[2];
     private int N;

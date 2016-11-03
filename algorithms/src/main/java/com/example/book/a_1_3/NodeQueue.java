@@ -6,9 +6,10 @@ import java.util.Iterator;
  * Created by Jiang on 2016/11/3.
  */
 
-public class NodeStack<T> implements BaseStack<T>, Iterable<T> {
+public class NodeQueue<T> implements BaseQueue<T>, Iterable<T> {
 
     private Node<T> head;
+    private Node<T> tail;
     private int N;
 
     @Override
@@ -22,20 +23,27 @@ public class NodeStack<T> implements BaseStack<T>, Iterable<T> {
     }
 
     @Override
-    public void push(T t) {
-        Node<T> oldFirst = head;
-        head = new Node<T>();
-        head.item = t;
-        head.next = oldFirst;
+    public void enqueue(T t) {
+        Node<T> oldTail = tail;
+        tail = new Node<T>();
+        tail.item = t;
+        if (isEmpty()) {
+            head = tail;
+        } else {
+            oldTail.next = tail;
+        }
         N++;
     }
 
     @Override
-    public T pop() {
-        Node<T> oldFirst = head;
-        head = head.next;
-        N--;
-        return oldFirst == null ? null : oldFirst.item;
+    public T dequeue() {
+        if (!isEmpty()) {
+            Node<T> oldFirst = head;
+            head = head.next;
+            N--;
+            return oldFirst == null ? null : oldFirst.item;
+        }
+        return null;
     }
 
 
