@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion project.compileSdkVersion as int
+    buildToolsVersion project.buildToolsVersion
 
     defaultConfig {
         applicationId "com.ackywow.daggersession"
-        minSdkVersion 15
-        targetSdkVersion 22
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
@@ -27,12 +26,21 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.1.0'
+
+    compile "com.android.support:design:$project.androidSupportLibrary"
+    compile "com.android.support:appcompat-v7:$project.androidSupportLibrary"
+    compile "com.android.support:recyclerview-v7:$project.androidSupportLibrary"
+    compile "com.android.support.constraint:constraint-layout:$project.constraintLayout"
+
     // apt command comes from the android-apt plugin
-    apt 'com.google.dagger:dagger-compiler:2.2'
-    compile 'com.google.dagger:dagger:2.2'
+    compile "com.google.dagger:dagger:$project.dagger2"
+    annotationProcessor "com.google.dagger:dagger-compiler:$project.dagger2"
     provided 'javax.annotation:jsr250-api:1.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    compile "io.reactivex:rxjava:$project.rxjava"
+    compile "io.reactivex:rxandroid:$project.rxandroid"
+    compile "com.squareup.retrofit2:retrofit:$project.retrofit"
+    compile "com.squareup.retrofit2:converter-gson:$project.retrofit"
+    compile "com.squareup.retrofit2:adapter-rxjava:$project.retrofit"
+    compile "com.google.code.gson:gson:$project.gson"
+    compile "com.jakewharton:butterknife:$project.butterknife"
 }
