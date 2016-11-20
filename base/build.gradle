@@ -1,13 +1,12 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    compileSdkVersion project.compileSdkVersion as int
+    buildToolsVersion project.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.example.agera"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -27,8 +26,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:design:$project.androidSupportLibrary"
     compile "com.android.support:appcompat-v7:$project.androidSupportLibrary"
-    compile "com.google.android.agera:agera:$project.agera"
     testCompile 'junit:junit:4.12'
+
+    compile "org.greenrobot:eventbus:$project.eventbus"
+    compile "com.google.guava:guava:$project.guava"
+    compile "io.reactivex:rxjava:$project.rxjava"
+    compile "io.reactivex:rxandroid:$project.rxandroid"
 }
