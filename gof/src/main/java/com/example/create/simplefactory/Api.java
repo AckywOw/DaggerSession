@@ -5,5 +5,5 @@ package com.example.create.simplefactory;
  */
 public interface Api {
 
-    void test();
+  void test();
 }

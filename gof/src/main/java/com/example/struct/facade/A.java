@@ -5,7 +5,7 @@ package com.example.struct.facade;
  */
 public interface A {
 
-    void a1();
-    void a2();
+  void a1();
 
+  void a2();
 }

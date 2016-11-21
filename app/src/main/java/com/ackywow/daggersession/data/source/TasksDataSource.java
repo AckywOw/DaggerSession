@@ -17,12 +17,8 @@
 package com.ackywow.daggersession.data.source;
 
 import android.support.annotation.NonNull;
-
-
 import com.ackywow.daggersession.data.Task;
-
 import java.util.List;
-
 import rx.Observable;
 
 /**
@@ -31,25 +27,25 @@ import rx.Observable;
  */
 public interface TasksDataSource {
 
-    Observable<List<Task>> getTasks();
+  Observable<List<Task>> getTasks();
 
-    Observable<Task> getTask(@NonNull String taskId);
+  Observable<Task> getTask(@NonNull String taskId);
 
-    void saveTask(@NonNull Task task);
+  void saveTask(@NonNull Task task);
 
-    void completeTask(@NonNull Task task);
+  void completeTask(@NonNull Task task);
 
-    void completeTask(@NonNull String taskId);
+  void completeTask(@NonNull String taskId);
 
-    void activateTask(@NonNull Task task);
+  void activateTask(@NonNull Task task);
 
-    void activateTask(@NonNull String taskId);
+  void activateTask(@NonNull String taskId);
 
-    void clearCompletedTasks();
+  void clearCompletedTasks();
 
-    void refreshTasks();
+  void refreshTasks();
 
-    void deleteAllTasks();
+  void deleteAllTasks();
 
-    void deleteTask(@NonNull String taskId);
+  void deleteTask(@NonNull String taskId);
 }

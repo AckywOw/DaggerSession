@@ -10,47 +10,47 @@ import java.util.Stack;
  */
 public class MinStack {
 
-    Stack<Integer> stack;
-    int min;
+  Stack<Integer> stack;
+  int min;
 
-    public MinStack() {
-        // do initialize if necessary
-        stack = new Stack<Integer>();
-        min = 0;
-    }
+  public MinStack() {
+    // do initialize if necessary
+    stack = new Stack<Integer>();
+    min = 0;
+  }
 
-    public void push(int number) {
-        // write your code here
-        if (stack.isEmpty()) {
-            stack.push(number);
-            min = number;
-        } else {
-            if (number >= min) {
-                stack.push(number);
-            } else {
-                stack.push(2 * number - min);
-                min = number;
-            }
-        }
+  public void push(int number) {
+    // write your code here
+    if (stack.isEmpty()) {
+      stack.push(number);
+      min = number;
+    } else {
+      if (number >= min) {
+        stack.push(number);
+      } else {
+        stack.push(2 * number - min);
+        min = number;
+      }
     }
+  }
 
-    public int pop() {
-        // write your code here
-        if (stack.isEmpty()) {
-            return min;
-        } else {
-            int temp = stack.pop();
-            if (temp < min) {
-                int num = min;
-                min = 2 * min - temp;
-                temp = num;
-            }
-            return temp;
-        }
+  public int pop() {
+    // write your code here
+    if (stack.isEmpty()) {
+      return min;
+    } else {
+      int temp = stack.pop();
+      if (temp < min) {
+        int num = min;
+        min = 2 * min - temp;
+        temp = num;
+      }
+      return temp;
     }
+  }
 
-    public int min() {
-        // write your code here
-        return min;
-    }
+  public int min() {
+    // write your code here
+    return min;
+  }
 }

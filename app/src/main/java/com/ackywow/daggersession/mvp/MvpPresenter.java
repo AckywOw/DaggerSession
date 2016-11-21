@@ -8,10 +8,9 @@ import rx.Subscription;
 
 public class MvpPresenter extends MVPContact.Presenter {
 
-    @Override
-    void loadNetDate() {
-        Subscription subscription = null;
-        // TODO: initTask
-        subscribe(subscription);
-    }
+  @Override void loadNetDate() {
+    Subscription subscription = null;
+    // TODO: initTask
+    subscribe(subscription);
+  }
 }

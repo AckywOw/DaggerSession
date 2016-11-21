@@ -6,8 +6,11 @@ package com.example.struct.facade;
  */
 public interface Facade {
 
-    void a1();
-    void b1();
-    void c1();
-    void test();
+  void a1();
+
+  void b1();
+
+  void c1();
+
+  void test();
 }

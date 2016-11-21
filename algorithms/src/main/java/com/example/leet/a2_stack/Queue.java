@@ -10,51 +10,51 @@ import java.util.Stack;
  * Created by AckywOw on 2016/7/29.
  */
 public class Queue {
-    private Stack<Integer> stack1;
-    private Stack<Integer> stack2;
+  private Stack<Integer> stack1;
+  private Stack<Integer> stack2;
 
-    public Queue() {
-        // do initialization if necessary
-        stack1 = new Stack<Integer>();
-        stack2 = new Stack<Integer>();
-    }
+  public Queue() {
+    // do initialization if necessary
+    stack1 = new Stack<Integer>();
+    stack2 = new Stack<Integer>();
+  }
 
-    public void push(int element) {
-        // write your code here
-        stack1.push(element);
-    }
+  public void push(int element) {
+    // write your code here
+    stack1.push(element);
+  }
 
-    public int pop() {
-        // write your code here
-        int temp;
-        if (!stack2.isEmpty()) {
-            temp = stack2.pop();
-        } else {
-            while (stack1.size() > 1) {
-                stack2.push(stack1.pop());
-            }
-            temp = stack1.pop();
-            while (!stack2.isEmpty()) {
-                stack1.push(stack2.pop());
-            }
-        }
-        return temp;
+  public int pop() {
+    // write your code here
+    int temp;
+    if (!stack2.isEmpty()) {
+      temp = stack2.pop();
+    } else {
+      while (stack1.size() > 1) {
+        stack2.push(stack1.pop());
+      }
+      temp = stack1.pop();
+      while (!stack2.isEmpty()) {
+        stack1.push(stack2.pop());
+      }
     }
+    return temp;
+  }
 
-    public int top() {
-        // write your code 
-        int temp;
-        if (!stack2.isEmpty()) {
-            temp = stack2.peek();
-        } else {
-            while (stack1.size() > 1) {
-                stack2.push(stack1.pop());
-            }
-            temp = stack1.peek();
-            while (!stack2.isEmpty()) {
-                stack1.push(stack2.pop());
-            }
-        }
-        return temp;
+  public int top() {
+    // write your code
+    int temp;
+    if (!stack2.isEmpty()) {
+      temp = stack2.peek();
+    } else {
+      while (stack1.size() > 1) {
+        stack2.push(stack1.pop());
+      }
+      temp = stack1.peek();
+      while (!stack2.isEmpty()) {
+        stack1.push(stack2.pop());
+      }
     }
+    return temp;
+  }
 }

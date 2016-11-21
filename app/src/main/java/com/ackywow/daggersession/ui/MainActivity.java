@@ -1,29 +1,46 @@
 package com.ackywow.daggersession.ui;
 
+import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
+import android.support.annotation.NonNull;
+import android.util.Log;
+import com.ackywow.base.BaseActivity;
+import com.ackywow.base.CommonPresenter;
 import com.ackywow.daggersession.MyApp;
 import com.ackywow.daggersession.R;
-
 import javax.inject.Inject;
-
 import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    @Inject
-    OkHttpClient mOkHttpClient;
+  @Inject OkHttpClient okHttpClient;
 
-    @Inject
-    SharedPreferences mSharedPreferences;
+  @Inject SharedPreferences sharedPreferences;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+  @Inject Retrofit retrofit;
 
-        ((MyApp) getApplication()).getNetComponent().inject(this);
-    }
+  @Inject Application application;
+
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    ((MyApp) getApplication()).getApplicationComponent().inject(this);
+    Log.e(TAG, okHttpClient.toString());
+    Log.e(TAG, sharedPreferences.toString());
+    Log.e(TAG, retrofit.toString());
+    Log.e(TAG, application.toString());
+  }
+
+  @Override protected int getLayoutId() {
+    return R.layout.activity_main;
+  }
+
+  @Override protected boolean hasPresenter() {
+    return false;
+  }
+
+  @NonNull @Override public CommonPresenter initPresenter() {
+    return null;
+  }
 }

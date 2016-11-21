@@ -7,10 +7,9 @@ import javax.inject.Inject;
  */
 public class Ball {
 
-    private String color;
+  private String color;
 
-    @Inject
-    public Ball() {
+  @Inject public Ball() {
 
-    }
+  }
 }

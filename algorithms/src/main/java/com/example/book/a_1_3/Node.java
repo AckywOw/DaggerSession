@@ -5,6 +5,6 @@ package com.example.book.a_1_3;
  */
 
 public class Node<T> {
-    T item;
-    Node<T> next;
+  T item;
+  Node<T> next;
 }

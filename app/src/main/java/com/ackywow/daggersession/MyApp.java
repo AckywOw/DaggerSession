@@ -1,9 +1,8 @@
 package com.ackywow.daggersession;
 
 import android.app.Application;
-
-import com.ackywow.daggersession.component.DaggerNetComponent;
-import com.ackywow.daggersession.component.NetComponent;
+import com.ackywow.daggersession.component.ApplicationComponent;
+import com.ackywow.daggersession.component.DaggerApplicationComponent;
 import com.ackywow.daggersession.module.AppModule;
 import com.ackywow.daggersession.module.NetModule;
 
@@ -12,19 +11,17 @@ import com.ackywow.daggersession.module.NetModule;
  */
 public class MyApp extends Application {
 
-    private NetComponent mNetComponent;
+  private ApplicationComponent applicationComponent;
 
+  @Override public void onCreate() {
+    super.onCreate();
+    applicationComponent = DaggerApplicationComponent.builder()
+        .appModule(new AppModule(this))
+        .netModule(new NetModule("https://app.ackywow.com"))
+        .build();
+  }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mNetComponent = DaggerNetComponent.builder().appModule(new AppModule(this)).netModule(new
-                NetModule("a//a"))
-                .build();
-
-    }
-
-    public NetComponent getNetComponent() {
-        return mNetComponent;
-    }
+  public ApplicationComponent getApplicationComponent() {
+    return applicationComponent;
+  }
 }

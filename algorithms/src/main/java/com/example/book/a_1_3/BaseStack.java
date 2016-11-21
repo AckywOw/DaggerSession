@@ -6,15 +6,13 @@ package com.example.book.a_1_3;
 
 public interface BaseStack<T> extends Base<T> {
 
-    /**
-     * 添加元素
-     * @param t
-     */
-    void push(T t);
+  /**
+   * 添加元素
+   */
+  void push(T t);
 
-    /**
-     * 弹出元素
-     * @return
-     */
-    T pop();
+  /**
+   * 弹出元素
+   */
+  T pop();
 }

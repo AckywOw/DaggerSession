@@ -7,22 +7,20 @@ import android.support.annotation.NonNull;
  */
 public interface BaseView<Presenter extends CommonPresenter> {
 
-    /**
-     * 初始化Presenter
-     * @return Presenter
-     */
-    @NonNull
-    Presenter initPresenter();
+  /**
+   * 初始化Presenter
+   *
+   * @return Presenter
+   */
+  @NonNull Presenter initPresenter();
 
-    /**
-     * 设置Presenter
-     * @param presenter
-     */
-    void setPresenter(@NonNull Presenter presenter);
+  /**
+   * 设置Presenter
+   */
+  void setPresenter(@NonNull Presenter presenter);
 
-    /**
-     * 当前View的UI是否可用
-     * @return
-     */
-    boolean isAvailable();
+  /**
+   * 当前View的UI是否可用
+   */
+  boolean isAvailable();
 }

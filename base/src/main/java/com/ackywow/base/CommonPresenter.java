@@ -1,9 +1,7 @@
 package com.ackywow.base;
 
 import android.support.annotation.NonNull;
-
 import java.lang.ref.WeakReference;
-
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -13,31 +11,27 @@ import rx.subscriptions.CompositeSubscription;
 
 public abstract class CommonPresenter<View extends BaseView> implements BasePresenter<View> {
 
-    private CompositeSubscription mSubscriptions;
+  private CompositeSubscription mSubscriptions;
 
-    private WeakReference<View> wrView;
+  private WeakReference<View> wrView;
 
-    protected CommonPresenter() {
-        mSubscriptions = new CompositeSubscription();
-    }
+  protected CommonPresenter() {
+    mSubscriptions = new CompositeSubscription();
+  }
 
-    @Override
-    public void subscribe(Subscription subscription) {
-        mSubscriptions.add(subscription);
-    }
+  @Override public void subscribe(Subscription subscription) {
+    mSubscriptions.add(subscription);
+  }
 
-    @Override
-    public void unSubscribe() {
-        mSubscriptions.clear();
-    }
+  @Override public void unSubscribe() {
+    mSubscriptions.clear();
+  }
 
-    @Override
-    public void setView(@NonNull View view) {
-        wrView = new WeakReference<View>(view);
-    }
+  @Override public View getView() {
+    return wrView.get();
+  }
 
-    @Override
-    public View getView() {
-        return wrView.get();
-    }
+  @Override public void setView(@NonNull View view) {
+    wrView = new WeakReference<View>(view);
+  }
 }

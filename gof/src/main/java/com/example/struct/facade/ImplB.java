@@ -5,15 +5,13 @@ package com.example.struct.facade;
  */
 public class ImplB implements B {
 
-    @Override
-    public void b1() {
+  @Override public void b1() {
 
-        System.out.println("outB");
-    }
+    System.out.println("outB");
+  }
 
-    @Override
-    public void b2() {
+  @Override public void b2() {
 
-        System.out.println("inB");
-    }
+    System.out.println("inB");
+  }
 }

@@ -5,5 +5,5 @@ package com.example.struct.adapter;
  */
 public interface Old {
 
-    void start();
+  void start();
 }

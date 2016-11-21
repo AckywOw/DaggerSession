@@ -9,19 +9,19 @@ import com.ackywow.base.CommonPresenter;
 
 public interface MVPContact {
 
-    abstract class View extends BaseActivity<Presenter> {
+  abstract class View extends BaseActivity<Presenter> {
 
-        /**
-         * 显示错误信息
-         */
-        abstract void showErrowDialog();
-    }
+    /**
+     * 显示错误信息
+     */
+    abstract void showErrowDialog();
+  }
 
-    abstract class Presenter extends CommonPresenter<View> {
+  abstract class Presenter extends CommonPresenter<View> {
 
-        /**
-         * 加载数据
-         */
-        abstract void loadNetDate();
-    }
+    /**
+     * 加载数据
+     */
+    abstract void loadNetDate();
+  }
 }

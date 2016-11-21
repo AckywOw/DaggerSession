@@ -8,67 +8,63 @@ import java.util.List;
  * Created by AckywOw on 2016/6/14.
  */
 public class FlightsBFS {
-    static class Step {
-        int num;
-        int sum;
-        Step front;
+  public static void main(String[] args) {
+    int[][] map = {
+        { 0, 1, 1, 0, 0 }, { 1, 0, 1, 1, 0 }, { 1, 1, 0, 1, 1 }, { 0, 1, 1, 0, 1 },
+        { 0, 0, 1, 1, 0 }
+    };
+    int[] book = new int[5];
+    book[0] = 1;
+    int sum = 5, start = 0, end = 4, head = 0, tail = 0;
 
-        public Step(int num, int sum, Step front) {
-            this.num = num;
-            this.sum = sum;
-            this.front = front;
+    List<Step> steps = new ArrayList<>();
+    steps.add(new Step(0, 0, null));
+    tail++;
+    while (head < tail) {
+      for (int i = 1; i < sum; i++) {
+        if (map[head][i] > 0 && book[i] == 0) {
+          start = i;
+          book[i] = 1;
+          steps.add(new Step(i, steps.get(head).sum + 1, steps.get(head)));
+          tail++;
         }
-
-        @Override
-        public String toString() {
-            return "[" + num + ", " + sum + "]";
+        if (start == end) {
+          break;
         }
+      }
+      if (start == end) {
+        break;
+      }
+      head++;
     }
 
-    public static void main(String[] args) {
-        int[][] map = {
-                {0, 1, 1, 0, 0},
-                {1, 0, 1, 1, 0},
-                {1, 1, 0, 1, 1},
-                {0, 1, 1, 0, 1},
-                {0, 0, 1, 1, 0}
-        };
-        int[] book = new int[5];
-        book[0] = 1;
-        int sum = 5, start = 0, end = 4, head = 0, tail = 0;
+    ArrayList<Step> finalSteps = new ArrayList<>();
+    makeSteps(steps.get(tail - 1), finalSteps);
+    System.out.println("to 5:" + finalSteps.toString());
+  }
 
-        List<Step> steps = new ArrayList<>();
-        steps.add(new Step(0, 0, null));
-        tail++;
-        while (head < tail) {
-            for (int i = 1; i < sum; i++) {
-                if (map[head][i] > 0 && book[i] == 0) {
-                    start = i;
-                    book[i] = 1;
-                    steps.add(new Step(i, steps.get(head).sum + 1, steps.get(head)));
-                    tail++;
-                }
-                if (start == end) {
-                    break;
-                }
-            }
-            if (start == end) {
-                break;
-            }
-            head++;
-        }
+  private static void makeSteps(Step last, ArrayList<Step> finalSteps) {
+    finalSteps.add(last);
+    if (last.front != null) {
+      makeSteps(last.front, finalSteps);
+    } else {
+      Collections.reverse(finalSteps);
+    }
+  }
 
-        ArrayList<Step> finalSteps = new ArrayList<>();
-        makeSteps(steps.get(tail - 1), finalSteps);
-        System.out.println("to 5:" + finalSteps.toString());
+  static class Step {
+    int num;
+    int sum;
+    Step front;
+
+    public Step(int num, int sum, Step front) {
+      this.num = num;
+      this.sum = sum;
+      this.front = front;
     }
 
-    private static void makeSteps(Step last, ArrayList<Step> finalSteps) {
-        finalSteps.add(last);
-        if (last.front != null) {
-            makeSteps(last.front, finalSteps);
-        } else {
-            Collections.reverse(finalSteps);
-        }
+    @Override public String toString() {
+      return "[" + num + ", " + sum + "]";
     }
+  }
 }

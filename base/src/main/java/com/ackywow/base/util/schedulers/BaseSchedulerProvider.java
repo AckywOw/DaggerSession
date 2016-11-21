@@ -1,7 +1,6 @@
 package com.ackywow.base.util.schedulers;
 
 import android.support.annotation.NonNull;
-
 import rx.Scheduler;
 
 /**
@@ -9,12 +8,9 @@ import rx.Scheduler;
  */
 public interface BaseSchedulerProvider {
 
-    @NonNull
-    Scheduler computation();
+  @NonNull Scheduler computation();
 
-    @NonNull
-    Scheduler io();
+  @NonNull Scheduler io();
 
-    @NonNull
-    Scheduler ui();
+  @NonNull Scheduler ui();
 }
