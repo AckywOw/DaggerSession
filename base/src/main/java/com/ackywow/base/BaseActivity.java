@@ -61,7 +61,9 @@ public abstract class BaseActivity<Presenter extends CommonPresenter> extends Ap
   protected void onPause() {
     super.onPause();
     isAvailable = false;
-    presenter.unSubscribe();
+    if (hasPresenter()) {
+      presenter.unSubscribe();
+    }
   }
 
   @Override
