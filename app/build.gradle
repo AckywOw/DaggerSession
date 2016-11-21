@@ -13,12 +13,14 @@ android {
   }
   buildTypes {
     debug {
+      buildConfigField "String", "BASE_RUL", "\"https://dev.ackywow.com\""
       minifyEnabled true
       useProguard false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
 
     release {
+      buildConfigField "String", "BASE_RUL", "\"https://app.ackywow.com\""
       minifyEnabled true
       useProguard true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

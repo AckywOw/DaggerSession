@@ -9,11 +9,15 @@ import com.ackywow.base.BaseActivity;
 import com.ackywow.base.CommonPresenter;
 import com.ackywow.daggersession.MyApp;
 import com.ackywow.daggersession.R;
+import com.google.gson.Gson;
 import javax.inject.Inject;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 public class MainActivity extends BaseActivity {
+
+  @Inject
+  Gson gson;
 
   @Inject
   OkHttpClient okHttpClient;
@@ -31,9 +35,11 @@ public class MainActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ((MyApp) getApplication()).getApplicationComponent().inject(this);
+    Log.e(TAG, gson.toString());
     Log.e(TAG, okHttpClient.toString());
     Log.e(TAG, sharedPreferences.toString());
     Log.e(TAG, retrofit.toString());
+    Log.e(TAG, retrofit.baseUrl().toString());
     Log.e(TAG, application.toString());
   }
 

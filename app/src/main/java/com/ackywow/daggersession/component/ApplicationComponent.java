@@ -12,10 +12,10 @@ import javax.inject.Singleton;
  */
 @Singleton
 @ApplicationScope
-@Component(modules = { NetModule.class })
+@Component(modules = NetModule.class)
 public interface ApplicationComponent {
 
   void inject(MyApp app);
 
-  void inject(MainActivity app);
+  void inject(MainActivity activity);
 }
