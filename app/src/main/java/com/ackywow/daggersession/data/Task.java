@@ -27,9 +27,11 @@ public final class Task {
 
   private final String mId;
 
-  @Nullable private final String mTitle;
+  @Nullable
+  private final String mTitle;
 
-  @Nullable private final String mDescription;
+  @Nullable
+  private final String mDescription;
 
   private final boolean mCompleted;
 
@@ -81,11 +83,13 @@ public final class Task {
     return mId;
   }
 
-  @Nullable public String getTitle() {
+  @Nullable
+  public String getTitle() {
     return mTitle;
   }
 
-  @Nullable public String getTitleForList() {
+  @Nullable
+  public String getTitleForList() {
     if (mTitle != null && !mTitle.equals("")) {
       return mTitle;
     } else {
@@ -93,7 +97,8 @@ public final class Task {
     }
   }
 
-  @Nullable public String getDescription() {
+  @Nullable
+  public String getDescription() {
     return mDescription;
   }
 
@@ -110,7 +115,8 @@ public final class Task {
         mDescription));
   }
 
-  @Override public boolean equals(Object o) {
+  @Override
+  public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Task task = (Task) o;
@@ -119,11 +125,13 @@ public final class Task {
         Objects.equal(mDescription, task.mDescription);
   }
 
-  @Override public int hashCode() {
+  @Override
+  public int hashCode() {
     return Objects.hashCode(mId, mTitle, mDescription);
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "Task with title " + mTitle;
   }
 }

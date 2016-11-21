@@ -76,11 +76,13 @@ public class LoginActivity extends AppCompatActivity
   private View mProgressView;
   private View mLoginFormView;
 
-  @Override public void update() {
+  @Override
+  public void update() {
     repository.get().ifSucceededSendTo(this);
   }
 
-  @Override public void accept(@NonNull String value) {
+  @Override
+  public void accept(@NonNull String value) {
     Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
   }
 
@@ -90,7 +92,9 @@ public class LoginActivity extends AppCompatActivity
         .onUpdatesPerLoop()
         .goTo(WORK_EXECUTOR)
         .attemptGetFrom(new Supplier<Result<String>>() {
-          @NonNull @Override public Result<String> get() {
+          @NonNull
+          @Override
+          public Result<String> get() {
             try {
               return Result.success("attemptGetFrom-");
             } catch (ArithmeticException e) {
@@ -99,21 +103,28 @@ public class LoginActivity extends AppCompatActivity
           }
         })
         .orEnd(new Function<Throwable, Result<String>>() {
-          @NonNull @Override public Result<String> apply(@NonNull Throwable input) {
+          @NonNull
+          @Override
+          public Result<String> apply(@NonNull Throwable input) {
             return Result.absentIfNull(null);
           }
         })
         .transform(new Function<String, Result<String>>() {
-          @NonNull @Override public Result<String> apply(@NonNull String input) {
+          @NonNull
+          @Override
+          public Result<String> apply(@NonNull String input) {
             return Result.success(input + "transform");
           }
         })
         .thenMergeIn(new Supplier<Integer>() {
-          @NonNull @Override public Integer get() {
+          @NonNull
+          @Override
+          public Integer get() {
             return 110;
           }
         }, new Merger<Result<String>, Integer, Result<String>>() {
-          @NonNull @Override
+          @NonNull
+          @Override
           public Result<String> merge(@NonNull Result<String> s, @NonNull Integer integer) {
             return Result.success(s.get() + integer);
           }
@@ -123,7 +134,8 @@ public class LoginActivity extends AppCompatActivity
     repository.addUpdatable(this);
   }
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
     // Set up the login form.
@@ -132,7 +144,8 @@ public class LoginActivity extends AppCompatActivity
 
     mPasswordView = (EditText) findViewById(R.id.password);
     mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-      @Override public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+      @Override
+      public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
         if (id == R.id.login || id == EditorInfo.IME_NULL) {
           attemptLogin();
           return true;
@@ -143,7 +156,8 @@ public class LoginActivity extends AppCompatActivity
 
     Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
     mEmailSignInButton.setOnClickListener(new OnClickListener() {
-      @Override public void onClick(View view) {
+      @Override
+      public void onClick(View view) {
         attemptLogin();
       }
     });
@@ -170,7 +184,9 @@ public class LoginActivity extends AppCompatActivity
     if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
       Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
           .setAction(android.R.string.ok, new View.OnClickListener() {
-            @Override @TargetApi(Build.VERSION_CODES.M) public void onClick(View v) {
+            @Override
+            @TargetApi(Build.VERSION_CODES.M)
+            public void onClick(View v) {
               requestPermissions(new String[] { READ_CONTACTS }, REQUEST_READ_CONTACTS);
             }
           });
@@ -183,7 +199,8 @@ public class LoginActivity extends AppCompatActivity
   /**
    * Callback received when a permissions request has been completed.
    */
-  @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
       @NonNull int[] grantResults) {
     if (requestCode == REQUEST_READ_CONTACTS) {
       if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -257,7 +274,8 @@ public class LoginActivity extends AppCompatActivity
   /**
    * Shows the progress UI and hides the login form.
    */
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2) private void showProgress(final boolean show) {
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+  private void showProgress(final boolean show) {
     // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
     // for very easy animations. If available, use these APIs to fade-in
     // the progress spinner.
@@ -269,7 +287,8 @@ public class LoginActivity extends AppCompatActivity
           .setDuration(shortAnimTime)
           .alpha(show ? 0 : 1)
           .setListener(new AnimatorListenerAdapter() {
-            @Override public void onAnimationEnd(Animator animation) {
+            @Override
+            public void onAnimationEnd(Animator animation) {
               mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
             }
           });
@@ -279,7 +298,8 @@ public class LoginActivity extends AppCompatActivity
           .setDuration(shortAnimTime)
           .alpha(show ? 1 : 0)
           .setListener(new AnimatorListenerAdapter() {
-            @Override public void onAnimationEnd(Animator animation) {
+            @Override
+            public void onAnimationEnd(Animator animation) {
               mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             }
           });
@@ -291,7 +311,8 @@ public class LoginActivity extends AppCompatActivity
     }
   }
 
-  @Override public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+  @Override
+  public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
     return new CursorLoader(this,
         // Retrieve data rows for the device user's 'profile' contact.
         Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
@@ -307,7 +328,8 @@ public class LoginActivity extends AppCompatActivity
         ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
   }
 
-  @Override public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+  @Override
+  public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
     List<String> emails = new ArrayList<>();
     cursor.moveToFirst();
     while (!cursor.isAfterLast()) {
@@ -318,7 +340,8 @@ public class LoginActivity extends AppCompatActivity
     addEmailsToAutoComplete(emails);
   }
 
-  @Override public void onLoaderReset(Loader<Cursor> cursorLoader) {
+  @Override
+  public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
   }
 
@@ -355,7 +378,8 @@ public class LoginActivity extends AppCompatActivity
       mPassword = password;
     }
 
-    @Override protected Boolean doInBackground(Void... params) {
+    @Override
+    protected Boolean doInBackground(Void... params) {
       // TODO: attempt authentication against a network service.
 
       try {
@@ -377,7 +401,8 @@ public class LoginActivity extends AppCompatActivity
       return true;
     }
 
-    @Override protected void onPostExecute(final Boolean success) {
+    @Override
+    protected void onPostExecute(final Boolean success) {
       mAuthTask = null;
       showProgress(false);
 
@@ -389,7 +414,8 @@ public class LoginActivity extends AppCompatActivity
       }
     }
 
-    @Override protected void onCancelled() {
+    @Override
+    protected void onCancelled() {
       mAuthTask = null;
       showProgress(false);
     }

@@ -10,7 +10,9 @@ import javax.inject.Singleton;
 /**
  * Created by AckywOw on 2016/6/5.
  */
-@Singleton @ApplicationScope @Component(modules = { NetModule.class })
+@Singleton
+@ApplicationScope
+@Component(modules = { NetModule.class })
 public interface ApplicationComponent {
 
   void inject(MyApp app);

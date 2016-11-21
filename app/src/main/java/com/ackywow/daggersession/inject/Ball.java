@@ -9,7 +9,8 @@ public class Ball {
 
   private String color;
 
-  @Inject public Ball() {
+  @Inject
+  public Ball() {
 
   }
 }

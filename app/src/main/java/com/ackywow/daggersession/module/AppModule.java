@@ -8,7 +8,8 @@ import javax.inject.Singleton;
 /**
  * Created by AckywOw on 2016/6/5.
  */
-@Module public class AppModule {
+@Module
+public class AppModule {
 
   Application application;
 
@@ -16,7 +17,9 @@ import javax.inject.Singleton;
     this.application = application;
   }
 
-  @Provides @Singleton public Application getApplication() {
+  @Provides
+  @Singleton
+  public Application getApplication() {
     return application;
   }
 }

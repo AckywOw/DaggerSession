@@ -8,19 +8,23 @@ public class FacadeImpl implements Facade {
     new FacadeImpl().test();
   }
 
-  @Override public void a1() {
+  @Override
+  public void a1() {
     new ImplA().a1();
   }
 
-  @Override public void b1() {
+  @Override
+  public void b1() {
     new ImplB().b1();
   }
 
-  @Override public void c1() {
+  @Override
+  public void c1() {
     new ImplC().c1();
   }
 
-  @Override public void test() {
+  @Override
+  public void test() {
     a1();
     b1();
     c1();

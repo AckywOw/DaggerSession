@@ -12,15 +12,18 @@ public class NodeQueue<T> implements BaseQueue<T>, Iterable<T> {
   private Node<T> tail;
   private int N;
 
-  @Override public boolean isEmpty() {
+  @Override
+  public boolean isEmpty() {
     return head == null;
   }
 
-  @Override public int size() {
+  @Override
+  public int size() {
     return N;
   }
 
-  @Override public void enqueue(T t) {
+  @Override
+  public void enqueue(T t) {
     Node<T> oldTail = tail;
     tail = new Node<T>();
     tail.item = t;
@@ -32,7 +35,8 @@ public class NodeQueue<T> implements BaseQueue<T>, Iterable<T> {
     N++;
   }
 
-  @Override public T dequeue() {
+  @Override
+  public T dequeue() {
     if (!isEmpty()) {
       Node<T> oldFirst = head;
       head = head.next;
@@ -42,7 +46,8 @@ public class NodeQueue<T> implements BaseQueue<T>, Iterable<T> {
     return null;
   }
 
-  @Override public Iterator<T> iterator() {
+  @Override
+  public Iterator<T> iterator() {
     return new PositiveIterator();
   }
 
@@ -50,11 +55,13 @@ public class NodeQueue<T> implements BaseQueue<T>, Iterable<T> {
 
     Node<T> temp = (Node<T>) head;
 
-    @Override public boolean hasNext() {
+    @Override
+    public boolean hasNext() {
       return temp != null;
     }
 
-    @Override public T next() {
+    @Override
+    public T next() {
       Node<T> next = temp;
       temp = temp.next;
       return next.item;

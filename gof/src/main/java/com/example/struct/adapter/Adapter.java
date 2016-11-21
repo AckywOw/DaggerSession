@@ -11,7 +11,8 @@ public class Adapter implements New {
     mOld = old;
   }
 
-  @Override public void run() {
+  @Override
+  public void run() {
     mOld.start();
     System.out.println("new");
   }

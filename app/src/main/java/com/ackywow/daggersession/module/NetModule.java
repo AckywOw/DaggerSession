@@ -18,7 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by AckywOw on 2016/6/5.
  */
-@Module(includes = AppModule.class) public class NetModule {
+@Module(includes = AppModule.class)
+public class NetModule {
 
   String mBaseUrl;
 
@@ -26,27 +27,38 @@ import retrofit2.converter.gson.GsonConverterFactory;
     this.mBaseUrl = baseUrl;
   }
 
-  @Provides @Singleton SharedPreferences providesSharedPreferences(Application application) {
+  @Provides
+  @Singleton
+  SharedPreferences providesShasdadasdadsasdasdadsaredPreferences(Application application) {
+
     return PreferenceManager.getDefaultSharedPreferences(application);
   }
 
-  @Provides @Singleton Cache provideOkHttpCache(Application application) {
+  @Provides
+  @Singleton
+  Cache provideOkHttpCache(Application application) {
     int cacheSize = 10 * 1024 * 1024;
     Cache cache = new Cache(application.getCacheDir(), cacheSize);
     return cache;
   }
 
-  @Provides @Singleton Gson provideGson() {
+  @Provides
+  @Singleton
+  Gson provideGson() {
     GsonBuilder builder = new GsonBuilder();
     builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
     return builder.create();
   }
 
-  @Provides @Singleton OkHttpClient provideOkHttpClient(Cache cache) {
+  @Provides
+  @Singleton
+  OkHttpClient provideOkHttpClient(Cache cache) {
     return new OkHttpClient.Builder().cache(cache).build();
   }
 
-  @Provides @Singleton Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
+  @Provides
+  @Singleton
+  Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
     Retrofit retrofit =
         new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

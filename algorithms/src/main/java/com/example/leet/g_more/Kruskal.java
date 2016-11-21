@@ -93,7 +93,8 @@ public class Kruskal {
       this.w = w;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return String.valueOf(w);
     }
   }

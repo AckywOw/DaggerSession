@@ -49,7 +49,8 @@ public class IslandBFS {
       this.y = y;
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
 
@@ -59,13 +60,15 @@ public class IslandBFS {
       return y == step.y;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       int result = x;
       result = 31 * result + y;
       return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "[" + x + ", " + y + "]";
     }
   }

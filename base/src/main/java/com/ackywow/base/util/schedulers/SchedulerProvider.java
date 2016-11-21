@@ -11,7 +11,8 @@ import rx.schedulers.Schedulers;
  */
 public class SchedulerProvider implements BaseSchedulerProvider {
 
-  @Nullable private static SchedulerProvider INSTANCE;
+  @Nullable
+  private static SchedulerProvider INSTANCE;
 
   // Prevent direct instantiation.
   private SchedulerProvider() {
@@ -24,15 +25,21 @@ public class SchedulerProvider implements BaseSchedulerProvider {
     return INSTANCE;
   }
 
-  @Override @NonNull public Scheduler computation() {
+  @Override
+  @NonNull
+  public Scheduler computation() {
     return Schedulers.computation();
   }
 
-  @Override @NonNull public Scheduler io() {
+  @Override
+  @NonNull
+  public Scheduler io() {
     return Schedulers.io();
   }
 
-  @Override @NonNull public Scheduler ui() {
+  @Override
+  @NonNull
+  public Scheduler ui() {
     return AndroidSchedulers.mainThread();
   }
 }

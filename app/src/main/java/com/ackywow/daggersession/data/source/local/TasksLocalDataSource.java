@@ -40,11 +40,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class TasksLocalDataSource implements TasksDataSource {
 
-  @Nullable private static TasksLocalDataSource INSTANCE;
+  @Nullable
+  private static TasksLocalDataSource INSTANCE;
 
-  @NonNull private final BriteDatabase mDatabaseHelper;
+  @NonNull
+  private final BriteDatabase mDatabaseHelper;
 
-  @NonNull private Func1<Cursor, Task> mTaskMapperFunction;
+  @NonNull
+  private Func1<Cursor, Task> mTaskMapperFunction;
 
   // Prevent direct instantiation.
   private TasksLocalDataSource(@NonNull Context context,
@@ -55,7 +58,8 @@ public class TasksLocalDataSource implements TasksDataSource {
     SqlBrite sqlBrite = SqlBrite.create();
     mDatabaseHelper = sqlBrite.wrapDatabaseHelper(dbHelper, schedulerProvider.io());
     mTaskMapperFunction = new Func1<Cursor, Task>() {
-      @Override public Task call(Cursor c) {
+      @Override
+      public Task call(Cursor c) {
         String itemId = c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_ENTRY_ID));
         String title = c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_TITLE));
         String description =
@@ -78,7 +82,8 @@ public class TasksLocalDataSource implements TasksDataSource {
     INSTANCE = null;
   }
 
-  @Override public Observable<List<Task>> getTasks() {
+  @Override
+  public Observable<List<Task>> getTasks() {
     String[] projection = {
         TaskEntry.COLUMN_NAME_ENTRY_ID, TaskEntry.COLUMN_NAME_TITLE,
         TaskEntry.COLUMN_NAME_DESCRIPTION, TaskEntry.COLUMN_NAME_COMPLETED
@@ -88,7 +93,8 @@ public class TasksLocalDataSource implements TasksDataSource {
     return mDatabaseHelper.createQuery(TaskEntry.TABLE_NAME, sql).mapToList(mTaskMapperFunction);
   }
 
-  @Override public Observable<Task> getTask(@NonNull String taskId) {
+  @Override
+  public Observable<Task> getTask(@NonNull String taskId) {
     String[] projection = {
         TaskEntry.COLUMN_NAME_ENTRY_ID, TaskEntry.COLUMN_NAME_TITLE,
         TaskEntry.COLUMN_NAME_DESCRIPTION, TaskEntry.COLUMN_NAME_COMPLETED
@@ -99,7 +105,8 @@ public class TasksLocalDataSource implements TasksDataSource {
         .mapToOneOrDefault(mTaskMapperFunction, null);
   }
 
-  @Override public void saveTask(@NonNull Task task) {
+  @Override
+  public void saveTask(@NonNull Task task) {
     checkNotNull(task);
     ContentValues values = new ContentValues();
     values.put(TaskEntry.COLUMN_NAME_ENTRY_ID, task.getId());
@@ -109,11 +116,13 @@ public class TasksLocalDataSource implements TasksDataSource {
     mDatabaseHelper.insert(TaskEntry.TABLE_NAME, values, SQLiteDatabase.CONFLICT_REPLACE);
   }
 
-  @Override public void completeTask(@NonNull Task task) {
+  @Override
+  public void completeTask(@NonNull Task task) {
     completeTask(task.getId());
   }
 
-  @Override public void completeTask(@NonNull String taskId) {
+  @Override
+  public void completeTask(@NonNull String taskId) {
     ContentValues values = new ContentValues();
     values.put(TaskEntry.COLUMN_NAME_COMPLETED, true);
 
@@ -122,11 +131,13 @@ public class TasksLocalDataSource implements TasksDataSource {
     mDatabaseHelper.update(TaskEntry.TABLE_NAME, values, selection, selectionArgs);
   }
 
-  @Override public void activateTask(@NonNull Task task) {
+  @Override
+  public void activateTask(@NonNull Task task) {
     activateTask(task.getId());
   }
 
-  @Override public void activateTask(@NonNull String taskId) {
+  @Override
+  public void activateTask(@NonNull String taskId) {
     ContentValues values = new ContentValues();
     values.put(TaskEntry.COLUMN_NAME_COMPLETED, false);
 
@@ -135,22 +146,26 @@ public class TasksLocalDataSource implements TasksDataSource {
     mDatabaseHelper.update(TaskEntry.TABLE_NAME, values, selection, selectionArgs);
   }
 
-  @Override public void clearCompletedTasks() {
+  @Override
+  public void clearCompletedTasks() {
     String selection = TaskEntry.COLUMN_NAME_COMPLETED + " LIKE ?";
     String[] selectionArgs = { "1" };
     mDatabaseHelper.delete(TaskEntry.TABLE_NAME, selection, selectionArgs);
   }
 
-  @Override public void refreshTasks() {
+  @Override
+  public void refreshTasks() {
     // Not required because the {@link TasksRepository} handles the logic of refreshing the
     // tasks from all the available data sources.
   }
 
-  @Override public void deleteAllTasks() {
+  @Override
+  public void deleteAllTasks() {
     mDatabaseHelper.delete(TaskEntry.TABLE_NAME, null);
   }
 
-  @Override public void deleteTask(@NonNull String taskId) {
+  @Override
+  public void deleteTask(@NonNull String taskId) {
     String selection = TaskEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
     String[] selectionArgs = { taskId };
     mDatabaseHelper.delete(TaskEntry.TABLE_NAME, selection, selectionArgs);

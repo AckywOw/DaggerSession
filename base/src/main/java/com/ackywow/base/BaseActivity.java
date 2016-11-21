@@ -22,7 +22,8 @@ public abstract class BaseActivity<Presenter extends CommonPresenter> extends Ap
 
   private boolean isAvailable;
 
-  @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+  @Override
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     activity = this;
     setContentView(getLayoutId());
@@ -43,24 +44,28 @@ public abstract class BaseActivity<Presenter extends CommonPresenter> extends Ap
    */
   protected abstract boolean hasPresenter();
 
-  @Override public void setPresenter(@NonNull Presenter presenter) {
+  @Override
+  public void setPresenter(@NonNull Presenter presenter) {
     this.presenter = checkNotNull(presenter, presenter.getClass().getName() + " cannot be " +
         "null!");
     this.presenter.setView(this);
   }
 
-  @Override protected void onResume() {
+  @Override
+  protected void onResume() {
     super.onResume();
     isAvailable = true;
   }
 
-  @Override protected void onPause() {
+  @Override
+  protected void onPause() {
     super.onPause();
     isAvailable = false;
     presenter.unSubscribe();
   }
 
-  @Override public boolean isAvailable() {
+  @Override
+  public boolean isAvailable() {
     return isAvailable;
   }
 }

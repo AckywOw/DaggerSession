@@ -15,15 +15,20 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends BaseActivity {
 
-  @Inject OkHttpClient okHttpClient;
+  @Inject
+  OkHttpClient okHttpClient;
 
-  @Inject SharedPreferences sharedPreferences;
+  @Inject
+  SharedPreferences sharedPreferences;
 
-  @Inject Retrofit retrofit;
+  @Inject
+  Retrofit retrofit;
 
-  @Inject Application application;
+  @Inject
+  Application application;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ((MyApp) getApplication()).getApplicationComponent().inject(this);
     Log.e(TAG, okHttpClient.toString());
@@ -32,15 +37,19 @@ public class MainActivity extends BaseActivity {
     Log.e(TAG, application.toString());
   }
 
-  @Override protected int getLayoutId() {
+  @Override
+  protected int getLayoutId() {
     return R.layout.activity_main;
   }
 
-  @Override protected boolean hasPresenter() {
+  @Override
+  protected boolean hasPresenter() {
     return false;
   }
 
-  @NonNull @Override public CommonPresenter initPresenter() {
+  @NonNull
+  @Override
+  public CommonPresenter initPresenter() {
     return null;
   }
 }

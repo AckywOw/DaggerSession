@@ -5,19 +5,24 @@ import com.ackywow.daggersession.R;
 
 public class MvpActivity extends MVPContact.View {
 
-  @Override void showErrowDialog() {
+  @Override
+  void showErrowDialog() {
 
   }
 
-  @Override protected int getLayoutId() {
+  @Override
+  protected int getLayoutId() {
     return R.layout.activity_mvp;
   }
 
-  @Override protected boolean hasPresenter() {
+  @Override
+  protected boolean hasPresenter() {
     return true;
   }
 
-  @NonNull @Override public MVPContact.Presenter initPresenter() {
+  @NonNull
+  @Override
+  public MVPContact.Presenter initPresenter() {
     return new MvpPresenter();
   }
 }

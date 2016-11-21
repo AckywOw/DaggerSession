@@ -8,6 +8,9 @@ import javax.inject.Qualifier;
 /**
  * Created by AckywOw on 2016/6/5.
  */
-@Qualifier @Retention(RetentionPolicy.RUNTIME) @Documented public @interface Named {
+@Qualifier
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface Named {
   String value() default "";
 }

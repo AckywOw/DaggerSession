@@ -63,7 +63,8 @@ public class FlightsBFS {
       this.front = front;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "[" + num + ", " + sum + "]";
     }
   }

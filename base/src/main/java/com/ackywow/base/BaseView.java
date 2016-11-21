@@ -12,7 +12,8 @@ public interface BaseView<Presenter extends CommonPresenter> {
    *
    * @return Presenter
    */
-  @NonNull Presenter initPresenter();
+  @NonNull
+  Presenter initPresenter();
 
   /**
    * 设置Presenter

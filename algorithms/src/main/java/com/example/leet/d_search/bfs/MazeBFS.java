@@ -81,7 +81,8 @@ public class MazeBFS {
       this.step = step;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "[" + x + ", " + y + "]";
     }
   }

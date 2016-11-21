@@ -70,7 +70,8 @@ public class MazeDFSTest {
       this.y = y;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return "[" + x + ", " + y + "]";
     }
   }

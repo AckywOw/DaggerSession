@@ -19,19 +19,23 @@ public abstract class CommonPresenter<View extends BaseView> implements BasePres
     mSubscriptions = new CompositeSubscription();
   }
 
-  @Override public void subscribe(Subscription subscription) {
+  @Override
+  public void subscribe(Subscription subscription) {
     mSubscriptions.add(subscription);
   }
 
-  @Override public void unSubscribe() {
+  @Override
+  public void unSubscribe() {
     mSubscriptions.clear();
   }
 
-  @Override public View getView() {
+  @Override
+  public View getView() {
     return wrView.get();
   }
 
-  @Override public void setView(@NonNull View view) {
+  @Override
+  public void setView(@NonNull View view) {
     wrView = new WeakReference<View>(view);
   }
 }
