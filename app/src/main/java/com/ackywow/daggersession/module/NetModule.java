@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dagger.Module;
 import dagger.Provides;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -19,13 +20,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by AckywOw on 2016/6/5.
  */
-@Module(includes = AppModule.class)
+@Module
 public class NetModule {
 
   @Provides
   @Singleton
+  @Named("BASE_URL")
   static String providesBaseUrl() {
-    return BuildConfig.BASE_RUL;
+    return BuildConfig.BASE_URL;
   }
 
   @Provides
@@ -58,10 +60,12 @@ public class NetModule {
 
   @Provides
   @Singleton
-  static Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient, String baseUrl) {
+  static Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient,
+      @Named("BASE_URL") String baseUrl) {
     Retrofit retrofit =
         new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).baseUrl(baseUrl)
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .baseUrl(baseUrl)
             .client(okHttpClient)
             .build();
     return retrofit;

@@ -13,7 +13,7 @@ android {
   }
   buildTypes {
     debug {
-      buildConfigField "String", "BASE_RUL", "\"https://dev.ackywow.com\""
+      buildConfigField "String", "BASE_URL", "\"https://dev.ackywow.com\""
       minifyEnabled true
       useProguard false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

@@ -22,6 +22,8 @@ public interface BaseView<Presenter extends CommonPresenter> {
 
   /**
    * 当前View的UI是否可用
+   *
+   * @return boolean
    */
   boolean isAvailable();
 }

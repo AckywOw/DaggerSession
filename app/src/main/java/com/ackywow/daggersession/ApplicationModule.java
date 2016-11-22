@@ -1,7 +1,6 @@
-package com.ackywow.daggersession.module;
+package com.ackywow.daggersession;
 
 import android.app.Application;
-import com.ackywow.daggersession.MyApp;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -10,11 +9,11 @@ import javax.inject.Singleton;
  * Created by AckywOw on 2016/6/5.
  */
 @Module
-public class AppModule {
+public class ApplicationModule {
 
   Application application;
 
-  public AppModule(MyApp application) {
+  public ApplicationModule(MyApp application) {
     this.application = application;
   }
 

@@ -2,9 +2,7 @@ package com.ackywow.daggersession;
 
 import android.app.Application;
 import android.widget.Toast;
-import com.ackywow.daggersession.component.ApplicationComponent;
-import com.ackywow.daggersession.component.DaggerApplicationComponent;
-import com.ackywow.daggersession.module.AppModule;
+import com.ackywow.daggersession.data.source.TasksRepository;
 import javax.inject.Inject;
 
 /**
@@ -14,15 +12,15 @@ public class MyApp extends Application {
 
   @Inject
   Application application;
+  @Inject
+  TasksRepository tasksRepository;
   private ApplicationComponent applicationComponent;
 
   @Override
   public void onCreate() {
     super.onCreate();
-    applicationComponent = DaggerApplicationComponent.builder()
-        .appModule(new AppModule(this))
-        .build();
-
+    applicationComponent =
+        DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
     applicationComponent.inject(this);
 
     Toast.makeText(this, application.toString(), Toast.LENGTH_SHORT).show();

@@ -41,6 +41,7 @@ public abstract class BaseActivity<Presenter extends CommonPresenter> extends Ap
 
   /**
    * 是否需要Presenter
+   * @return boolean
    */
   protected abstract boolean hasPresenter();
 
