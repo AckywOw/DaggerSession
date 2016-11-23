@@ -1,15 +1,21 @@
 package com.ackywow.daggersession.ui;
 
 import android.app.Application;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import com.ackywow.base.BaseActivity;
-import com.ackywow.base.CommonPresenter;
+import android.widget.ImageView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.ackywow.daggersession.MyApp;
 import com.ackywow.daggersession.R;
+import com.ackywow.daggersession.base.BaseActivity;
+import com.ackywow.daggersession.base.CommonPresenter;
 import com.ackywow.daggersession.inject.Ball;
+import com.ackywow.daggersession.mvp.MvpActivity;
 import com.google.gson.Gson;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -40,9 +46,13 @@ public class MainActivity extends BaseActivity {
   @Inject
   Ball ball;
 
+  @Bind(R.id.imageView)
+  ImageView imageView;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    ButterKnife.bind(this);
     ((MyApp) getApplication()).getApplicationComponent()
         .plus(new MainActivityModule(this))
         .inject(this);
@@ -69,5 +79,10 @@ public class MainActivity extends BaseActivity {
   @Override
   public CommonPresenter initPresenter() {
     return null;
+  }
+
+  @OnClick(R.id.imageView)
+  public void onClick() {
+    startActivity(new Intent(this, MvpActivity.class));
   }
 }

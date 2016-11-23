@@ -1,4 +1,4 @@
-package com.ackywow.base;
+package com.ackywow.daggersession.base;
 
 import android.app.Activity;
 import android.content.Context;

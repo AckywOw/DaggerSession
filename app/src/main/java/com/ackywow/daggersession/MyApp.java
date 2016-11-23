@@ -2,7 +2,8 @@ package com.ackywow.daggersession;
 
 import android.app.Application;
 import android.widget.Toast;
-import com.ackywow.daggersession.data.source.TasksRepository;
+import com.ackywow.base.util.schedulers.SchedulerProvider;
+import com.ackywow.daggersession.data.source.TasksDataSource;
 import javax.inject.Inject;
 
 /**
@@ -10,18 +11,23 @@ import javax.inject.Inject;
  */
 public class MyApp extends Application {
 
+  static Application application;
   @Inject
-  Application application;
+  TasksDataSource tasksDataSource;
   @Inject
-  TasksRepository tasksRepository;
+  SchedulerProvider schedulerProvider;
   private ApplicationComponent applicationComponent;
+
+  public static MyApp getApplication() {
+    return (MyApp) application;
+  }
 
   @Override
   public void onCreate() {
     super.onCreate();
+    application = this;
     applicationComponent =
         DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
-    applicationComponent.inject(this);
 
     Toast.makeText(this, application.toString(), Toast.LENGTH_SHORT).show();
   }
@@ -30,7 +36,11 @@ public class MyApp extends Application {
     return applicationComponent;
   }
 
-  public MyApp getApplication() {
-    return (MyApp) application;
+  public TasksDataSource getTasksDataSource() {
+    return tasksDataSource;
+  }
+
+  public SchedulerProvider getSchedulerProvider() {
+    return schedulerProvider;
   }
 }

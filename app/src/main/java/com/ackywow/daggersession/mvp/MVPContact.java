@@ -1,7 +1,7 @@
 package com.ackywow.daggersession.mvp;
 
-import com.ackywow.base.BaseActivity;
-import com.ackywow.base.CommonPresenter;
+import com.ackywow.daggersession.base.BaseActivity;
+import com.ackywow.daggersession.base.CommonPresenter;
 
 /**
  * Created by Jiang on 2016/11/17.

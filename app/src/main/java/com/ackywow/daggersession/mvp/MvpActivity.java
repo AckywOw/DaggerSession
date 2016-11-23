@@ -25,4 +25,10 @@ public class MvpActivity extends MVPContact.View {
   public MVPContact.Presenter initPresenter() {
     return new MvpPresenter();
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    presenter.loadNetDate();
+  }
 }

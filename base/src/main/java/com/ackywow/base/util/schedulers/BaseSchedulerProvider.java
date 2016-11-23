@@ -16,4 +16,7 @@ public interface BaseSchedulerProvider {
 
   @NonNull
   Scheduler ui();
+
+  @NonNull
+  Scheduler immediate();
 }
