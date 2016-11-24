@@ -1,7 +1,7 @@
 package com.ackywow.daggersession.base;
 
 import android.support.annotation.NonNull;
-import com.ackywow.base.util.schedulers.SchedulerProvider;
+import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.daggersession.MyApp;
 import com.ackywow.daggersession.data.source.TasksDataSource;
 import java.lang.ref.WeakReference;
@@ -14,9 +14,13 @@ import rx.subscriptions.CompositeSubscription;
 
 public abstract class CommonPresenter<View extends BaseView> implements BasePresenter<View> {
 
+  @NonNull
   protected TasksDataSource tasksDataSource;
-  protected SchedulerProvider schedulerProvider;
+  @NonNull
+  protected BaseSchedulerProvider schedulerProvider;
+  @NonNull
   private CompositeSubscription mSubscriptions;
+  @NonNull
   private WeakReference<View> wrView;
 
   protected CommonPresenter() {
@@ -26,12 +30,12 @@ public abstract class CommonPresenter<View extends BaseView> implements BasePres
   }
 
   @Override
-  public void subscribe(Subscription subscription) {
+  public void addSubscription(Subscription subscription) {
     mSubscriptions.add(subscription);
   }
 
   @Override
-  public void unSubscribe() {
+  public void clearSubscriptions() {
     mSubscriptions.clear();
   }
 

@@ -9,14 +9,14 @@ import rx.Subscription;
 public interface BasePresenter<View extends BaseView> {
 
   /**
-   * 开始执行Task
+   * 添加Task
    */
-  void subscribe(@NonNull Subscription subscription);
+  void addSubscription(@NonNull Subscription subscription);
 
   /**
    * 解绑所有task
    */
-  void unSubscribe();
+  void clearSubscriptions();
 
   /**
    * 获取View

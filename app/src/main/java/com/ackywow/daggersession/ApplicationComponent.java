@@ -4,7 +4,6 @@ import com.ackywow.base.scope.ApplicationScope;
 import com.ackywow.base.util.schedulers.SchedulerModule;
 import com.ackywow.daggersession.data.TasksDataSourceModule;
 import com.ackywow.daggersession.module.NetModule;
-import com.ackywow.daggersession.mvp.MvpPresenter;
 import com.ackywow.daggersession.ui.MainActivityComponent;
 import com.ackywow.daggersession.ui.MainActivityModule;
 import dagger.Component;
@@ -22,8 +21,6 @@ import javax.inject.Singleton;
 public interface ApplicationComponent {
 
   void inject(MyApp app);
-
-  void inject(MvpPresenter mvpPresenter);
 
   MainActivityComponent plus(MainActivityModule module);
 }

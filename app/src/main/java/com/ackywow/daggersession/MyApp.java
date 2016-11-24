@@ -1,9 +1,10 @@
 package com.ackywow.daggersession;
 
 import android.app.Application;
-import android.widget.Toast;
-import com.ackywow.base.util.schedulers.SchedulerProvider;
+import android.support.annotation.NonNull;
+import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.daggersession.data.source.TasksDataSource;
+import dagger.Lazy;
 import javax.inject.Inject;
 
 /**
@@ -13,9 +14,9 @@ public class MyApp extends Application {
 
   static Application application;
   @Inject
-  TasksDataSource tasksDataSource;
+  Lazy<TasksDataSource> tasksDataSourceLazy;
   @Inject
-  SchedulerProvider schedulerProvider;
+  Lazy<BaseSchedulerProvider> schedulerProviderLazy;
   private ApplicationComponent applicationComponent;
 
   public static MyApp getApplication() {
@@ -28,19 +29,20 @@ public class MyApp extends Application {
     application = this;
     applicationComponent =
         DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
-
-    Toast.makeText(this, application.toString(), Toast.LENGTH_SHORT).show();
+    applicationComponent.inject(this);
   }
 
   public ApplicationComponent getApplicationComponent() {
     return applicationComponent;
   }
 
-  public TasksDataSource getTasksDataSource() {
-    return tasksDataSource;
+  @NonNull
+  public final TasksDataSource getTasksDataSource() {
+    return tasksDataSourceLazy.get();
   }
 
-  public SchedulerProvider getSchedulerProvider() {
-    return schedulerProvider;
+  @NonNull
+  public final BaseSchedulerProvider getSchedulerProvider() {
+    return schedulerProviderLazy.get();
   }
 }

@@ -1,23 +1,24 @@
 package com.ackywow.daggersession.mvp;
 
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 import com.ackywow.daggersession.R;
 
 public class MvpActivity extends MVPContact.View {
 
   @Override
   void showErrowDialog() {
+    Toast.makeText(activity, "error", Toast.LENGTH_SHORT).show();
+  }
 
+  @Override
+  void showToast(String str) {
+    Toast.makeText(activity, str, Toast.LENGTH_SHORT).show();
   }
 
   @Override
   protected int getLayoutId() {
     return R.layout.activity_mvp;
-  }
-
-  @Override
-  protected boolean hasPresenter() {
-    return true;
   }
 
   @NonNull

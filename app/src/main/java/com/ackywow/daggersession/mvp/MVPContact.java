@@ -15,6 +15,13 @@ public interface MVPContact {
      * 显示错误信息
      */
     abstract void showErrowDialog();
+
+    abstract void showToast(String str);
+
+    @Override
+    protected boolean hasPresenter() {
+      return true;
+    }
   }
 
   abstract class Presenter extends CommonPresenter<View> {

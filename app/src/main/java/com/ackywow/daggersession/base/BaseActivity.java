@@ -63,7 +63,7 @@ public abstract class BaseActivity<Presenter extends CommonPresenter> extends Ap
     super.onPause();
     isAvailable = false;
     if (hasPresenter()) {
-      presenter.unSubscribe();
+      presenter.clearSubscriptions();
     }
   }
 
