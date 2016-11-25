@@ -1,6 +1,5 @@
 package com.ackywow.daggersession.mvp;
 
-import com.ackywow.daggersession.bean.LoginInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,23 +19,7 @@ public class MvpPresenter extends MVPContact.Presenter {
   @Override
   void loadNetDate() {
     try {
-      Subscription subscription =
-          getApiServiceImpl().login("ll", "222", new Subscriber<LoginInfo>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(LoginInfo loginInfo) {
-
-            }
-          });
+      Subscription subscription = getSubscription3();
       addSubscription(subscription);
     } catch (Exception e) {
       e.printStackTrace();
@@ -53,8 +36,8 @@ public class MvpPresenter extends MVPContact.Presenter {
           }
         })
         .delay(3, TimeUnit.SECONDS)
-        .subscribeOn(getSchedulerProvider().computation())
-        .observeOn(getSchedulerProvider().ui())
+        .subscribeOn(schedulerProvider.computation())
+        .observeOn(schedulerProvider.ui())
         .subscribe(new Subscriber<Integer>() {
 
           @Override
@@ -96,8 +79,8 @@ public class MvpPresenter extends MVPContact.Presenter {
           }
         })
         .delay(3, TimeUnit.SECONDS)
-        .subscribeOn(getSchedulerProvider().computation())
-        .observeOn(getSchedulerProvider().ui())
+        .subscribeOn(schedulerProvider.computation())
+        .observeOn(schedulerProvider.ui())
         .subscribe(new Action1<Integer>() {
           @Override
           public void call(Integer s) {
@@ -122,6 +105,8 @@ public class MvpPresenter extends MVPContact.Presenter {
     list.add("11111");
     list.add("2222");
     list.add("33333");
+    list.add("44444");
+    list.add("55555");
     return Observable.just(list)
         .map(new Func1<List<String>, List<String>>() { //修改数据并返回它
           @Override
@@ -134,16 +119,21 @@ public class MvpPresenter extends MVPContact.Presenter {
           public Observable<String> call(List<String> strings) {
             return Observable.from(strings);
           }
-        })
+        }).observeOn(schedulerProvider.ui()).doOnNext(new Action1<String>() {
+          @Override
+          public void call(String s) {
+            getView().showToast("doOnNext: " + s);
+          }
+        }).observeOn(schedulerProvider.io())
         .filter(new Func1<String, Boolean>() { //过滤
           @Override
           public Boolean call(String s) {
             return !"2222".equals(s);
           }
-        })
-        .take(1) //截取数据数量
-        .delay(3, TimeUnit.SECONDS) //延迟发射
-        .subscribeOn(getSchedulerProvider().computation()).observeOn(getSchedulerProvider().ui())
+        }).take(3) //截取数据数量
+        .delay(2, TimeUnit.SECONDS) //延迟发射
+        .subscribeOn(schedulerProvider.io())
+        .observeOn(schedulerProvider.ui())
         .subscribe(new Subscriber<String>() {
 
           @Override
