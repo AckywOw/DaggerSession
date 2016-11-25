@@ -4,21 +4,17 @@ import android.support.annotation.NonNull;
 import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.daggersession.base.BaseView;
 import com.ackywow.daggersession.bean.HttpResult;
-import com.ackywow.daggersession.bean.LoginInfo;
-import retrofit2.http.Query;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
+import rx.functions.Func1;
 
 /**
  * Created by Jiang on 2016/11/24.
  */
 
-public class ApiServiceImpl {
-
-  @NonNull
-  protected ApiService apiService;
+public class RequestUtil {
 
   @NonNull
   protected BaseSchedulerProvider schedulerProvider;
@@ -26,9 +22,7 @@ public class ApiServiceImpl {
   @NonNull
   protected BaseView view;
 
-  public ApiServiceImpl(@NonNull ApiService apiService,
-      @NonNull BaseSchedulerProvider schedulerProvider) {
-    this.apiService = apiService;
+  public RequestUtil(@NonNull BaseSchedulerProvider schedulerProvider) {
     this.schedulerProvider = schedulerProvider;
   }
 
@@ -36,9 +30,9 @@ public class ApiServiceImpl {
     this.view = view;
   }
 
-  public Subscription login(@Query("username") String username, @Query("password") String password,
-      Subscriber<LoginInfo> subscriber) {
-    return dealRxNetRequest(apiService.login(username, password), subscriber);
+  public <T> Subscription dealRxNetRequest(Observable<HttpResult<T>> observable,
+      Subscriber<T> subscriber) {
+    return dealRxNetRequest(observable, subscriber, new HttpResultFunc<T>());
   }
 
   /**
@@ -49,10 +43,9 @@ public class ApiServiceImpl {
    * @param <T>
    * @return
    */
-  private <T> Subscription dealRxNetRequest(Observable<HttpResult<T>> observable,
-      Subscriber<T> subscriber) {
-    return observable.subscribeOn(schedulerProvider.io())
-        .map(new HttpResultFunc<T>())
+  public <T> Subscription dealRxNetRequest(Observable<HttpResult<T>> observable,
+      Subscriber<T> subscriber, Func1<HttpResult<T>, T> func1) {
+    return observable.subscribeOn(schedulerProvider.io()).map(func1)
         .observeOn(schedulerProvider.ui())
         .unsubscribeOn(schedulerProvider.io())
         .subscribe(subscriber);
@@ -66,7 +59,7 @@ public class ApiServiceImpl {
    * @param <T>
    * @return
    */
-  private <T> Subscription dealRxNetRequestWithLoadingDialog(Observable<HttpResult<T>> observable,
+  public <T> Subscription dealRxNetRequestWithLoadingDialog(Observable<HttpResult<T>> observable,
       Subscriber<T> subscriber) {
     return observable.map(new HttpResultFunc<T>())
         .subscribeOn(schedulerProvider.io())

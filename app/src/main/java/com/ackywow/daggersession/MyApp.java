@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.daggersession.data.source.TasksDataSource;
 import com.ackywow.daggersession.net.ApiService;
-import com.ackywow.daggersession.net.ApiServiceImpl;
+import com.ackywow.daggersession.net.RequestUtil;
 import dagger.Lazy;
 import javax.inject.Inject;
 
@@ -22,7 +22,7 @@ public class MyApp extends Application {
   @Inject
   Lazy<ApiService> apiServiceLazy;
   @Inject
-  Lazy<ApiServiceImpl> apiServiceImplLazy;
+  Lazy<RequestUtil> requestUtilLazy;
 
   private ApplicationComponent applicationComponent;
 
@@ -59,7 +59,7 @@ public class MyApp extends Application {
   }
 
   @NonNull
-  public final ApiServiceImpl getApiServiceImpl() {
-    return apiServiceImplLazy.get();
+  public final RequestUtil getRequestUtil() {
+    return requestUtilLazy.get();
   }
 }

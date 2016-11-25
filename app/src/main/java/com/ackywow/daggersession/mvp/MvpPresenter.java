@@ -1,5 +1,6 @@
 package com.ackywow.daggersession.mvp;
 
+import com.ackywow.daggersession.bean.LoginInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +28,10 @@ public class MvpPresenter extends MVPContact.Presenter {
     }
   }
 
+  public Subscription login(String username, String password, Subscriber<LoginInfo> subscriber) {
+    return getrequestUtil().dealRxNetRequest(getApiService().login(username, password), subscriber);
+  }
+
   private Subscription getSubscription1() {
     return Observable.just("11111")
         .map(new Func1<String, Integer>() {
@@ -36,8 +41,8 @@ public class MvpPresenter extends MVPContact.Presenter {
           }
         })
         .delay(3, TimeUnit.SECONDS)
-        .subscribeOn(schedulerProvider.computation())
-        .observeOn(schedulerProvider.ui())
+        .subscribeOn(getSchedulerProvider().computation())
+        .observeOn(getSchedulerProvider().ui())
         .subscribe(new Subscriber<Integer>() {
 
           @Override
@@ -79,8 +84,8 @@ public class MvpPresenter extends MVPContact.Presenter {
           }
         })
         .delay(3, TimeUnit.SECONDS)
-        .subscribeOn(schedulerProvider.computation())
-        .observeOn(schedulerProvider.ui())
+        .subscribeOn(getSchedulerProvider().computation())
+        .observeOn(getSchedulerProvider().ui())
         .subscribe(new Action1<Integer>() {
           @Override
           public void call(Integer s) {
@@ -119,12 +124,12 @@ public class MvpPresenter extends MVPContact.Presenter {
           public Observable<String> call(List<String> strings) {
             return Observable.from(strings);
           }
-        }).observeOn(schedulerProvider.ui()).doOnNext(new Action1<String>() {
+        }).observeOn(getSchedulerProvider().ui()).doOnNext(new Action1<String>() {
           @Override
           public void call(String s) {
             getView().showToast("doOnNext: " + s);
           }
-        }).observeOn(schedulerProvider.io())
+        }).observeOn(getSchedulerProvider().io())
         .filter(new Func1<String, Boolean>() { //过滤
           @Override
           public Boolean call(String s) {
@@ -132,8 +137,7 @@ public class MvpPresenter extends MVPContact.Presenter {
           }
         }).take(3) //截取数据数量
         .delay(2, TimeUnit.SECONDS) //延迟发射
-        .subscribeOn(schedulerProvider.io())
-        .observeOn(schedulerProvider.ui())
+        .subscribeOn(getSchedulerProvider().io()).observeOn(getSchedulerProvider().ui())
         .subscribe(new Subscriber<String>() {
 
           @Override

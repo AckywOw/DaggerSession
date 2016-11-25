@@ -93,8 +93,7 @@ public class NetModule {
 
   @Provides
   @Singleton
-  static ApiServiceImpl provideApiServiceImpl(ApiService apiService,
-      BaseSchedulerProvider schedulerProvider) {
-    return new ApiServiceImpl(apiService, schedulerProvider);
+  static RequestUtil provideApiServiceImpl(BaseSchedulerProvider schedulerProvider) {
+    return new RequestUtil(schedulerProvider);
   }
 }

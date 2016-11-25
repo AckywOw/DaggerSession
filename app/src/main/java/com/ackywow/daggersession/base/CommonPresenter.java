@@ -5,7 +5,7 @@ import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.daggersession.MyApp;
 import com.ackywow.daggersession.data.source.TasksDataSource;
 import com.ackywow.daggersession.net.ApiService;
-import com.ackywow.daggersession.net.ApiServiceImpl;
+import com.ackywow.daggersession.net.RequestUtil;
 import java.lang.ref.WeakReference;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -23,7 +23,7 @@ public abstract class CommonPresenter<View extends BaseView> implements BasePres
   @NonNull
   private ApiService apiService;
   @NonNull
-  private ApiServiceImpl apiServiceImpl;
+  private RequestUtil requestUtil;
   @NonNull
   private CompositeSubscription mSubscriptions;
   @NonNull
@@ -72,8 +72,8 @@ public abstract class CommonPresenter<View extends BaseView> implements BasePres
   }
 
   @NonNull
-  public ApiServiceImpl getApiServiceImpl() {
-    apiServiceImpl = MyApp.getApplication().getApiServiceImpl();
-    return apiServiceImpl;
+  public RequestUtil getrequestUtil() {
+    requestUtil = MyApp.getApplication().getRequestUtil();
+    return requestUtil;
   }
 }
