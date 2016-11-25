@@ -26,4 +26,14 @@ public interface BaseView<Presenter extends CommonPresenter> {
    * @return boolean
    */
   boolean isAvailable();
+
+  /**
+   * 显示loading框
+   */
+  void showLoadingDialog();
+
+  /**
+   * 消失loading框
+   */
+  void dismissLoadingDialog();
 }

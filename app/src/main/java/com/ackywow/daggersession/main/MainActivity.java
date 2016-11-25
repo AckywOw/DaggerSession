@@ -1,4 +1,4 @@
-package com.ackywow.daggersession.ui;
+package com.ackywow.daggersession.main;
 
 import android.app.Application;
 import android.content.Intent;
@@ -22,6 +22,8 @@ import javax.inject.Named;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
+import static com.ackywow.daggersession.constant.Nameds.Activity_Name;
+
 public class MainActivity extends BaseActivity {
 
   @Inject
@@ -40,7 +42,7 @@ public class MainActivity extends BaseActivity {
   Application application;
 
   @Inject
-  @Named("Activity_Name")
+  @Named(Activity_Name)
   String name;
 
   @Inject

@@ -1,4 +1,4 @@
-package com.ackywow.daggersession.util;
+package com.example.test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,7 +15,7 @@ public class SequenceId {
    *
    * @return int
    */
-  public final static int nextValue() {
+  public static int nextValue() {
     return counter.getAndIncrement();
   }
 
@@ -24,7 +24,7 @@ public class SequenceId {
    *
    * @return int
    */
-  public final static String nextValueString() {
+  public static String nextValueContant() {
     return String.valueOf(nextValue());
   }
 }

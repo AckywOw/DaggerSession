@@ -13,14 +13,20 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public abstract class BaseActivity<Presenter extends CommonPresenter> extends AppCompatActivity
     implements BaseView<Presenter> {
-
   protected final String TAG = getClass().getSimpleName();
-
   protected Activity activity;
-
   protected Presenter presenter;
-
   private boolean isAvailable;
+
+  @Override
+  public void showLoadingDialog() {
+
+  }
+
+  @Override
+  public void dismissLoadingDialog() {
+
+  }
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -1,4 +1,4 @@
-package com.ackywow.daggersession.ui;
+package com.ackywow.daggersession.main;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

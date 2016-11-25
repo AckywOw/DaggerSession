@@ -3,9 +3,9 @@ package com.ackywow.daggersession;
 import com.ackywow.base.scope.ApplicationScope;
 import com.ackywow.base.util.schedulers.SchedulerModule;
 import com.ackywow.daggersession.data.TasksDataSourceModule;
-import com.ackywow.daggersession.module.NetModule;
-import com.ackywow.daggersession.ui.MainActivityComponent;
-import com.ackywow.daggersession.ui.MainActivityModule;
+import com.ackywow.daggersession.main.MainActivityComponent;
+import com.ackywow.daggersession.main.MainActivityModule;
+import com.ackywow.daggersession.net.NetModule;
 import dagger.Component;
 import javax.inject.Singleton;
 

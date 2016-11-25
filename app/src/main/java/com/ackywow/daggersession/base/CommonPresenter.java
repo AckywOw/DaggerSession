@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.daggersession.MyApp;
 import com.ackywow.daggersession.data.source.TasksDataSource;
+import com.ackywow.daggersession.net.ApiService;
+import com.ackywow.daggersession.net.ApiServiceImpl;
 import java.lang.ref.WeakReference;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -15,9 +17,13 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class CommonPresenter<View extends BaseView> implements BasePresenter<View> {
 
   @NonNull
-  protected TasksDataSource tasksDataSource;
+  private TasksDataSource tasksDataSource;
   @NonNull
-  protected BaseSchedulerProvider schedulerProvider;
+  private BaseSchedulerProvider schedulerProvider;
+  @NonNull
+  private ApiService apiService;
+  @NonNull
+  private ApiServiceImpl apiServiceImpl;
   @NonNull
   private CompositeSubscription mSubscriptions;
   @NonNull
@@ -25,8 +31,6 @@ public abstract class CommonPresenter<View extends BaseView> implements BasePres
 
   protected CommonPresenter() {
     mSubscriptions = new CompositeSubscription();
-    tasksDataSource = MyApp.getApplication().getTasksDataSource();
-    schedulerProvider = MyApp.getApplication().getSchedulerProvider();
   }
 
   @Override
@@ -47,5 +51,29 @@ public abstract class CommonPresenter<View extends BaseView> implements BasePres
   @Override
   public void setView(@NonNull View view) {
     wrView = new WeakReference<View>(view);
+  }
+
+  @NonNull
+  public TasksDataSource getTasksDataSource() {
+    tasksDataSource = MyApp.getApplication().getTasksDataSource();
+    return tasksDataSource;
+  }
+
+  @NonNull
+  public BaseSchedulerProvider getSchedulerProvider() {
+    schedulerProvider = MyApp.getApplication().getSchedulerProvider();
+    return schedulerProvider;
+  }
+
+  @NonNull
+  public ApiService getApiService() {
+    apiService = MyApp.getApplication().getApiService();
+    return apiService;
+  }
+
+  @NonNull
+  public ApiServiceImpl getApiServiceImpl() {
+    apiServiceImpl = MyApp.getApplication().getApiServiceImpl();
+    return apiServiceImpl;
   }
 }

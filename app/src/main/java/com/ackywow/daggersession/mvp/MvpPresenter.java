@@ -1,5 +1,6 @@
 package com.ackywow.daggersession.mvp;
 
+import com.ackywow.daggersession.bean.LoginInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +20,23 @@ public class MvpPresenter extends MVPContact.Presenter {
   @Override
   void loadNetDate() {
     try {
-      Subscription subscription = getSubscription3();
+      Subscription subscription =
+          getApiServiceImpl().login("ll", "222", new Subscriber<LoginInfo>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(LoginInfo loginInfo) {
+
+            }
+          });
       addSubscription(subscription);
     } catch (Exception e) {
       e.printStackTrace();
@@ -36,8 +53,8 @@ public class MvpPresenter extends MVPContact.Presenter {
           }
         })
         .delay(3, TimeUnit.SECONDS)
-        .subscribeOn(schedulerProvider.computation())
-        .observeOn(schedulerProvider.ui())
+        .subscribeOn(getSchedulerProvider().computation())
+        .observeOn(getSchedulerProvider().ui())
         .subscribe(new Subscriber<Integer>() {
 
           @Override
@@ -79,8 +96,8 @@ public class MvpPresenter extends MVPContact.Presenter {
           }
         })
         .delay(3, TimeUnit.SECONDS)
-        .subscribeOn(schedulerProvider.computation())
-        .observeOn(schedulerProvider.ui())
+        .subscribeOn(getSchedulerProvider().computation())
+        .observeOn(getSchedulerProvider().ui())
         .subscribe(new Action1<Integer>() {
           @Override
           public void call(Integer s) {
@@ -126,8 +143,7 @@ public class MvpPresenter extends MVPContact.Presenter {
         })
         .take(1) //截取数据数量
         .delay(3, TimeUnit.SECONDS) //延迟发射
-        .subscribeOn(schedulerProvider.computation())
-        .observeOn(schedulerProvider.ui())
+        .subscribeOn(getSchedulerProvider().computation()).observeOn(getSchedulerProvider().ui())
         .subscribe(new Subscriber<String>() {
 
           @Override

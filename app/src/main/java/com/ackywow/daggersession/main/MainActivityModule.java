@@ -1,8 +1,10 @@
-package com.ackywow.daggersession.ui;
+package com.ackywow.daggersession.main;
 
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Named;
+
+import static com.ackywow.daggersession.constant.Nameds.Activity_Name;
 
 /**
  * Created by Jiang on 2016/11/21.
@@ -24,7 +26,7 @@ public class MainActivityModule {
 
   @Provides
   @MainActivityScope
-  @Named("Activity_Name")
+  @Named(Activity_Name)
   String provideName() {
     return activity.getComponentName().toString();
   }
