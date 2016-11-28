@@ -90,7 +90,7 @@ java.lang.Object writeReplace();
 java.lang.Object readResolve();
 }
 #实体类和gson实体不混淆
--keepclassmembers class com.yinhu.app.**entities*.**{
+-keepclassmembers class **.bean.**{
 <fields>;
 }
 -keep class com.yinhu.app.ui.entities.** { *;}
@@ -221,3 +221,14 @@ public static ** valueOf(java.lang.String);
 -keep class * extends dagger.internal.Binding
 -keep class * extends dagger.internal.ModuleAdapter
 -keep class * extends dagger.internal.StaticInjection
+
+# GreenDao
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+public static java.lang.String TABLENAME;
+}
+-keep class **$Properties
+
+# If you do not use SQLCipher:
+-dontwarn org.greenrobot.greendao.database.**
+# If you do not use Rx:
+-dontwarn rx.**
