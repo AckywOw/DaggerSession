@@ -47,13 +47,15 @@ public abstract class BaseActivity<Presenter extends CommonPresenter> extends Ap
 
   /**
    * 是否需要Presenter
+   *
    * @return boolean
    */
   protected abstract boolean hasPresenter();
 
   @Override
   public void setPresenter(@NonNull Presenter presenter) {
-    this.presenter = checkNotNull(presenter, presenter.getClass().getName() + " cannot be " +
+    this.presenter = checkNotNull(presenter, presenter.getClass()
+                                                      .getName() + " cannot be " +
         "null!");
     this.presenter.setView(this);
   }

@@ -27,11 +27,15 @@ public class PrefUtil {
    * 清空全部
    */
   public static void clean() {
-    getSharedPreferences().edit().clear().commit();
+    getSharedPreferences().edit()
+                          .clear()
+                          .commit();
   }
 
   public static boolean putString(String key, String value) {
-    return getSharedPreferences().edit().putString(key, value).commit();
+    return getSharedPreferences().edit()
+                                 .putString(key, value)
+                                 .commit();
   }
 
   public static String getString(String key, String defValue) {
@@ -39,7 +43,9 @@ public class PrefUtil {
   }
 
   public static boolean putBoolean(String key, boolean value) {
-    return getSharedPreferences().edit().putBoolean(key, value).commit();
+    return getSharedPreferences().edit()
+                                 .putBoolean(key, value)
+                                 .commit();
   }
 
   public static boolean getBoolean(String key, boolean defValue) {
@@ -47,7 +53,9 @@ public class PrefUtil {
   }
 
   public static boolean putInt(String key, int value) {
-    return getSharedPreferences().edit().putInt(key, value).commit();
+    return getSharedPreferences().edit()
+                                 .putInt(key, value)
+                                 .commit();
   }
 
   public static int getInt(String key, int defValue) {
@@ -55,7 +63,9 @@ public class PrefUtil {
   }
 
   public static boolean putLong(String key, long value) {
-    return getSharedPreferences().edit().putLong(key, value).commit();
+    return getSharedPreferences().edit()
+                                 .putLong(key, value)
+                                 .commit();
   }
 
   public static long getLong(String key, long defValue) {
@@ -63,7 +73,9 @@ public class PrefUtil {
   }
 
   public static boolean putFloat(String key, float value) {
-    return getSharedPreferences().edit().putFloat(key, value).commit();
+    return getSharedPreferences().edit()
+                                 .putFloat(key, value)
+                                 .commit();
   }
 
   public static float getFloat(String key, float defValue) {
@@ -71,7 +83,9 @@ public class PrefUtil {
   }
 
   public static boolean putStringSet(String key, Set<String> values) {
-    return getSharedPreferences().edit().putStringSet(key, values).commit();
+    return getSharedPreferences().edit()
+                                 .putStringSet(key, values)
+                                 .commit();
   }
 
   public static Set<String> getStringSet(String key, Set<String> defValues) {

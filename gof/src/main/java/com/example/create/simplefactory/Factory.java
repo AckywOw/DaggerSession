@@ -15,7 +15,9 @@ public class Factory {
     Properties properties = new Properties();
     InputStream in = null;
     System.out.println(new File("gof").getAbsoluteFile());
-    System.out.println(Factory.class.getClassLoader().getResource("").getFile());
+    System.out.println(Factory.class.getClassLoader()
+                                    .getResource("")
+                                    .getFile());
     String path = "/D:/AndroidProjects/DaggerSession/gof/";
     try {
       in = Factory.class.getResourceAsStream(path + "simplefactory.properties");
@@ -32,7 +34,8 @@ public class Factory {
 
     Api api = null;
     try {
-      api = (Api) Class.forName(properties.getProperty("ImplClass")).newInstance();
+      api = (Api) Class.forName(properties.getProperty("ImplClass"))
+                       .newInstance();
     } catch (InstantiationException e) {
       e.printStackTrace();
     } catch (IllegalAccessException e) {

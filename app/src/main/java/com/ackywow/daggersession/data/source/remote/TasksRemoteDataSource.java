@@ -60,15 +60,16 @@ public class TasksRemoteDataSource implements TasksDataSource {
   @Override
   public Observable<List<Task>> getTasks() {
     return Observable.from(TASKS_SERVICE_DATA.values())
-        .delay(SERVICE_LATENCY_IN_MILLIS, TimeUnit.MILLISECONDS)
-        .toList();
+                     .delay(SERVICE_LATENCY_IN_MILLIS, TimeUnit.MILLISECONDS)
+                     .toList();
   }
 
   @Override
   public Observable<Task> getTask(@NonNull String taskId) {
     final Task task = TASKS_SERVICE_DATA.get(taskId);
     if (task != null) {
-      return Observable.just(task).delay(SERVICE_LATENCY_IN_MILLIS, TimeUnit.MILLISECONDS);
+      return Observable.just(task)
+                       .delay(SERVICE_LATENCY_IN_MILLIS, TimeUnit.MILLISECONDS);
     } else {
       return Observable.empty();
     }
@@ -105,10 +106,12 @@ public class TasksRemoteDataSource implements TasksDataSource {
 
   @Override
   public void clearCompletedTasks() {
-    Iterator<Map.Entry<String, Task>> it = TASKS_SERVICE_DATA.entrySet().iterator();
+    Iterator<Map.Entry<String, Task>> it = TASKS_SERVICE_DATA.entrySet()
+                                                             .iterator();
     while (it.hasNext()) {
       Map.Entry<String, Task> entry = it.next();
-      if (entry.getValue().isCompleted()) {
+      if (entry.getValue()
+               .isCompleted()) {
         it.remove();
       }
     }

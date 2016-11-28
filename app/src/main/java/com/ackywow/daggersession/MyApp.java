@@ -34,8 +34,9 @@ public class MyApp extends Application {
   public void onCreate() {
     super.onCreate();
     application = this;
-    applicationComponent =
-        DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
+    applicationComponent = DaggerApplicationComponent.builder()
+                                                     .applicationModule(new ApplicationModule(this))
+                                                     .build();
     applicationComponent.inject(this);
   }
 

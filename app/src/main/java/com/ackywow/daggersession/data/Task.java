@@ -39,7 +39,8 @@ public final class Task {
    * Use this constructor to create a new active Task.
    */
   public Task(@Nullable String title, @Nullable String description) {
-    mId = UUID.randomUUID().toString();
+    mId = UUID.randomUUID()
+              .toString();
     mTitle = title;
     mDescription = description;
     mCompleted = false;
@@ -62,7 +63,8 @@ public final class Task {
    * Use this constructor to create a new completed Task.
    */
   public Task(@Nullable String title, @Nullable String description, boolean completed) {
-    mId = UUID.randomUUID().toString();
+    mId = UUID.randomUUID()
+              .toString();
     mTitle = title;
     mDescription = description;
     mCompleted = completed;

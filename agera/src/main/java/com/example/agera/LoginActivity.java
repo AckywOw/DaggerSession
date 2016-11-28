@@ -78,59 +78,62 @@ public class LoginActivity extends AppCompatActivity
 
   @Override
   public void update() {
-    repository.get().ifSucceededSendTo(this);
+    repository.get()
+              .ifSucceededSendTo(this);
   }
 
   @Override
   public void accept(@NonNull String value) {
-    Toast.makeText(this, value, Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, value, Toast.LENGTH_SHORT)
+         .show();
   }
 
   private void attemptLogin() {
     repository = Repositories.repositoryWithInitialValue(Result.<String>absent())
-        .observe()
-        .onUpdatesPerLoop()
-        .goTo(WORK_EXECUTOR)
-        .attemptGetFrom(new Supplier<Result<String>>() {
-          @NonNull
-          @Override
-          public Result<String> get() {
-            try {
-              return Result.success("attemptGetFrom-");
-            } catch (ArithmeticException e) {
-              return Result.failure(e);
-            }
-          }
-        })
-        .orEnd(new Function<Throwable, Result<String>>() {
-          @NonNull
-          @Override
-          public Result<String> apply(@NonNull Throwable input) {
-            return Result.absentIfNull(null);
-          }
-        })
-        .transform(new Function<String, Result<String>>() {
-          @NonNull
-          @Override
-          public Result<String> apply(@NonNull String input) {
-            return Result.success(input + "transform");
-          }
-        })
-        .thenMergeIn(new Supplier<Integer>() {
-          @NonNull
-          @Override
-          public Integer get() {
-            return 110;
-          }
-        }, new Merger<Result<String>, Integer, Result<String>>() {
-          @NonNull
-          @Override
-          public Result<String> merge(@NonNull Result<String> s, @NonNull Integer integer) {
-            return Result.success(s.get() + integer);
-          }
-        })
-        .onDeactivation(RepositoryConfig.SEND_INTERRUPT)
-        .compile();
+                             .observe()
+                             .onUpdatesPerLoop()
+                             .goTo(WORK_EXECUTOR)
+                             .attemptGetFrom(new Supplier<Result<String>>() {
+                               @NonNull
+                               @Override
+                               public Result<String> get() {
+                                 try {
+                                   return Result.success("attemptGetFrom-");
+                                 } catch (ArithmeticException e) {
+                                   return Result.failure(e);
+                                 }
+                               }
+                             })
+                             .orEnd(new Function<Throwable, Result<String>>() {
+                               @NonNull
+                               @Override
+                               public Result<String> apply(@NonNull Throwable input) {
+                                 return Result.absentIfNull(null);
+                               }
+                             })
+                             .transform(new Function<String, Result<String>>() {
+                               @NonNull
+                               @Override
+                               public Result<String> apply(@NonNull String input) {
+                                 return Result.success(input + "transform");
+                               }
+                             })
+                             .thenMergeIn(new Supplier<Integer>() {
+                               @NonNull
+                               @Override
+                               public Integer get() {
+                                 return 110;
+                               }
+                             }, new Merger<Result<String>, Integer, Result<String>>() {
+                               @NonNull
+                               @Override
+                               public Result<String> merge(@NonNull Result<String> s,
+                                   @NonNull Integer integer) {
+                                 return Result.success(s.get() + integer);
+                               }
+                             })
+                             .onDeactivation(RepositoryConfig.SEND_INTERRUPT)
+                             .compile();
     repository.addUpdatable(this);
   }
 
@@ -183,13 +186,13 @@ public class LoginActivity extends AppCompatActivity
     }
     if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
       Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-          .setAction(android.R.string.ok, new View.OnClickListener() {
-            @Override
-            @TargetApi(Build.VERSION_CODES.M)
-            public void onClick(View v) {
-              requestPermissions(new String[] { READ_CONTACTS }, REQUEST_READ_CONTACTS);
-            }
-          });
+              .setAction(android.R.string.ok, new View.OnClickListener() {
+                @Override
+                @TargetApi(Build.VERSION_CODES.M)
+                public void onClick(View v) {
+                  requestPermissions(new String[] { READ_CONTACTS }, REQUEST_READ_CONTACTS);
+                }
+              });
     } else {
       requestPermissions(new String[] { READ_CONTACTS }, REQUEST_READ_CONTACTS);
     }
@@ -224,8 +227,10 @@ public class LoginActivity extends AppCompatActivity
     mPasswordView.setError(null);
 
     // Store values at the time of the login attempt.
-    String email = mEmailView.getText().toString();
-    String password = mPasswordView.getText().toString();
+    String email = mEmailView.getText()
+                             .toString();
+    String password = mPasswordView.getText()
+                                   .toString();
 
     boolean cancel = false;
     View focusView = null;
@@ -284,25 +289,25 @@ public class LoginActivity extends AppCompatActivity
 
       mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
       mLoginFormView.animate()
-          .setDuration(shortAnimTime)
-          .alpha(show ? 0 : 1)
-          .setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-              mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-          });
+                    .setDuration(shortAnimTime)
+                    .alpha(show ? 0 : 1)
+                    .setListener(new AnimatorListenerAdapter() {
+                      @Override
+                      public void onAnimationEnd(Animator animation) {
+                        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                      }
+                    });
 
       mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
       mProgressView.animate()
-          .setDuration(shortAnimTime)
-          .alpha(show ? 1 : 0)
-          .setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-              mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-          });
+                   .setDuration(shortAnimTime)
+                   .alpha(show ? 1 : 0)
+                   .setListener(new AnimatorListenerAdapter() {
+                     @Override
+                     public void onAnimationEnd(Animator animation) {
+                       mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                     }
+                   });
     } else {
       // The ViewPropertyAnimator APIs are not available, so simply show
       // and hide the relevant UI components.

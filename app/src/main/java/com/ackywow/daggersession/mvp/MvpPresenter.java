@@ -34,37 +34,37 @@ public class MvpPresenter extends MVPContact.Presenter {
 
   private Subscription getSubscription1() {
     return Observable.just("11111")
-        .map(new Func1<String, Integer>() {
-          @Override
-          public Integer call(String s) {
-            return s.hashCode();
-          }
-        })
-        .delay(3, TimeUnit.SECONDS)
-        .subscribeOn(getSchedulerProvider().computation())
-        .observeOn(getSchedulerProvider().ui())
-        .subscribe(new Subscriber<Integer>() {
+                     .map(new Func1<String, Integer>() {
+                       @Override
+                       public Integer call(String s) {
+                         return s.hashCode();
+                       }
+                     })
+                     .delay(3, TimeUnit.SECONDS)
+                     .subscribeOn(getSchedulerProvider().computation())
+                     .observeOn(getSchedulerProvider().ui())
+                     .subscribe(new Subscriber<Integer>() {
 
-          @Override
-          public void onStart() {
-            getView().showToast("onStart: ");
-          }
+                       @Override
+                       public void onStart() {
+                         getView().showToast("onStart: ");
+                       }
 
-          @Override
-          public void onCompleted() {
-            getView().showToast("onCompleted: ");
-          }
+                       @Override
+                       public void onCompleted() {
+                         getView().showToast("onCompleted: ");
+                       }
 
-          @Override
-          public void onError(Throwable e) {
-            getView().showToast("onError: " + e.toString());
-          }
+                       @Override
+                       public void onError(Throwable e) {
+                         getView().showToast("onError: " + e.toString());
+                       }
 
-          @Override
-          public void onNext(Integer s) {
-            getView().showToast("onNext: " + s);
-          }
-        });
+                       @Override
+                       public void onNext(Integer s) {
+                         getView().showToast("onNext: " + s);
+                       }
+                     });
   }
 
   private Subscription getSubscription2() {
@@ -77,31 +77,31 @@ public class MvpPresenter extends MVPContact.Presenter {
         subscriber.onCompleted();
       }
     })
-        .map(new Func1<String, Integer>() {
-          @Override
-          public Integer call(String s) {
-            return s.hashCode();
-          }
-        })
-        .delay(3, TimeUnit.SECONDS)
-        .subscribeOn(getSchedulerProvider().computation())
-        .observeOn(getSchedulerProvider().ui())
-        .subscribe(new Action1<Integer>() {
-          @Override
-          public void call(Integer s) {
-            getView().showToast("Action1.call(): " + s);
-          }
-        }, new Action1<Throwable>() {
-          @Override
-          public void call(Throwable throwable) {
+                     .map(new Func1<String, Integer>() {
+                       @Override
+                       public Integer call(String s) {
+                         return s.hashCode();
+                       }
+                     })
+                     .delay(3, TimeUnit.SECONDS)
+                     .subscribeOn(getSchedulerProvider().computation())
+                     .observeOn(getSchedulerProvider().ui())
+                     .subscribe(new Action1<Integer>() {
+                       @Override
+                       public void call(Integer s) {
+                         getView().showToast("Action1.call(): " + s);
+                       }
+                     }, new Action1<Throwable>() {
+                       @Override
+                       public void call(Throwable throwable) {
 
-          }
-        }, new Action0() {
-          @Override
-          public void call() {
-            getView().showToast("onCompleted: ");
-          }
-        });
+                       }
+                     }, new Action0() {
+                       @Override
+                       public void call() {
+                         getView().showToast("onCompleted: ");
+                       }
+                     });
   }
 
   private Subscription getSubscription3() {
@@ -113,52 +113,57 @@ public class MvpPresenter extends MVPContact.Presenter {
     list.add("44444");
     list.add("55555");
     return Observable.just(list)
-        .map(new Func1<List<String>, List<String>>() { //修改数据并返回它
-          @Override
-          public List<String> call(List<String> strings) {
-            return strings;
-          }
-        })
-        .flatMap(new Func1<List<String>, Observable<String>>() { //修改数据并返回Observable
-          @Override
-          public Observable<String> call(List<String> strings) {
-            return Observable.from(strings);
-          }
-        }).observeOn(getSchedulerProvider().ui()).doOnNext(new Action1<String>() {
-          @Override
-          public void call(String s) {
-            getView().showToast("doOnNext: " + s);
-          }
-        }).observeOn(getSchedulerProvider().io())
-        .filter(new Func1<String, Boolean>() { //过滤
-          @Override
-          public Boolean call(String s) {
-            return !"2222".equals(s);
-          }
-        }).take(3) //截取数据数量
-        .delay(2, TimeUnit.SECONDS) //延迟发射
-        .subscribeOn(getSchedulerProvider().io()).observeOn(getSchedulerProvider().ui())
-        .subscribe(new Subscriber<String>() {
+                     .map(new Func1<List<String>, List<String>>() { //修改数据并返回它
+                       @Override
+                       public List<String> call(List<String> strings) {
+                         return strings;
+                       }
+                     })
+                     .flatMap(new Func1<List<String>, Observable<String>>() { //修改数据并返回Observable
+                       @Override
+                       public Observable<String> call(List<String> strings) {
+                         return Observable.from(strings);
+                       }
+                     })
+                     .observeOn(getSchedulerProvider().ui())
+                     .doOnNext(new Action1<String>() {
+                       @Override
+                       public void call(String s) {
+                         getView().showToast("doOnNext: " + s);
+                       }
+                     })
+                     .observeOn(getSchedulerProvider().io())
+                     .filter(new Func1<String, Boolean>() { //过滤
+                       @Override
+                       public Boolean call(String s) {
+                         return !"2222".equals(s);
+                       }
+                     })
+                     .take(3) //截取数据数量
+                     .delay(2, TimeUnit.SECONDS) //延迟发射
+                     .subscribeOn(getSchedulerProvider().io())
+                     .observeOn(getSchedulerProvider().ui())
+                     .subscribe(new Subscriber<String>() {
 
-          @Override
-          public void onStart() {
-            getView().showToast("onStart: ");
-          }
+                       @Override
+                       public void onStart() {
+                         getView().showToast("onStart: ");
+                       }
 
-          @Override
-          public void onCompleted() {
-            getView().showToast("onCompleted: ");
-          }
+                       @Override
+                       public void onCompleted() {
+                         getView().showToast("onCompleted: ");
+                       }
 
-          @Override
-          public void onError(Throwable e) {
-            getView().showToast("onError: " + e.toString());
-          }
+                       @Override
+                       public void onError(Throwable e) {
+                         getView().showToast("onError: " + e.toString());
+                       }
 
-          @Override
-          public void onNext(String s) {
-            getView().showToast("onNext: " + s);
-          }
-        });
+                       @Override
+                       public void onNext(String s) {
+                         getView().showToast("onNext: " + s);
+                       }
+                     });
   }
 }

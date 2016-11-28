@@ -16,7 +16,8 @@ public class TwoStackCalculator {
     System.out.println(str);
     Stack<Character> charStack = new Stack<>();
     Stack<Double> doubleStack = new Stack<>();
-    char[] chars = str.replace(" ", "").toCharArray();
+    char[] chars = str.replace(" ", "")
+                      .toCharArray();
     for (char c : chars) {
       if (c == '(') {
         continue;

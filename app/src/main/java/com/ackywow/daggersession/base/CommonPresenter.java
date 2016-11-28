@@ -55,25 +55,29 @@ public abstract class CommonPresenter<View extends BaseView> implements BasePres
 
   @NonNull
   public TasksDataSource getTasksDataSource() {
-    tasksDataSource = MyApp.getApplication().getTasksDataSource();
+    tasksDataSource = MyApp.getApplication()
+                           .getTasksDataSource();
     return tasksDataSource;
   }
 
   @NonNull
   public BaseSchedulerProvider getSchedulerProvider() {
-    schedulerProvider = MyApp.getApplication().getSchedulerProvider();
+    schedulerProvider = MyApp.getApplication()
+                             .getSchedulerProvider();
     return schedulerProvider;
   }
 
   @NonNull
   public ApiService getApiService() {
-    apiService = MyApp.getApplication().getApiService();
+    apiService = MyApp.getApplication()
+                      .getApiService();
     return apiService;
   }
 
   @NonNull
   public RequestUtil getrequestUtil() {
-    requestUtil = MyApp.getApplication().getRequestUtil();
+    requestUtil = MyApp.getApplication()
+                       .getRequestUtil();
     return requestUtil;
   }
 }

@@ -8,12 +8,14 @@ public class MvpActivity extends MVPContact.View {
 
   @Override
   void showErrowDialog() {
-    Toast.makeText(activity, "error", Toast.LENGTH_SHORT).show();
+    Toast.makeText(activity, "error", Toast.LENGTH_SHORT)
+         .show();
   }
 
   @Override
   void showToast(String str) {
-    Toast.makeText(activity, str, Toast.LENGTH_SHORT).show();
+    Toast.makeText(activity, str, Toast.LENGTH_SHORT)
+         .show();
   }
 
   @Override

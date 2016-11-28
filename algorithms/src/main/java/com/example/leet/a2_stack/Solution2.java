@@ -26,19 +26,22 @@ public class Solution2 {
       if (s.charAt(i) == '(' || s.charAt(i) == '[' || s.charAt(i) == '{') {
         stack.push(s.charAt(i));
       } else if (s.charAt(i) == ')') {
-        if (!stack.isEmpty() && stack.peek().equals('(')) {
+        if (!stack.isEmpty() && stack.peek()
+                                     .equals('(')) {
           stack.pop();
         } else {
           return false;
         }
       } else if (s.charAt(i) == ']') {
-        if (!stack.isEmpty() && stack.peek().equals('[')) {
+        if (!stack.isEmpty() && stack.peek()
+                                     .equals('[')) {
           stack.pop();
         } else {
           return false;
         }
       } else if (s.charAt(i) == '}') {
-        if (!stack.isEmpty() && stack.peek().equals('{')) {
+        if (!stack.isEmpty() && stack.peek()
+                                     .equals('{')) {
           stack.pop();
         } else {
           return false;

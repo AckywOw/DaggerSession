@@ -28,6 +28,7 @@ public class MainActivityModule {
   @MainActivityScope
   @Named(Activity_Name)
   String provideName() {
-    return activity.getComponentName().toString();
+    return activity.getComponentName()
+                   .toString();
   }
 }

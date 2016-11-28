@@ -68,8 +68,8 @@ public class NetModule {
   @Singleton
   static OkHttpClient provideOkHttpClient(@Named(ConnectTimeout) long connectTimeout, Cache cache) {
     return new OkHttpClient.Builder().connectTimeout(connectTimeout, TimeUnit.SECONDS)
-        .cache(cache)
-        .build();
+                                     .cache(cache)
+                                     .build();
   }
 
   @Provides
@@ -78,10 +78,10 @@ public class NetModule {
       @Named(BASE_URL) String baseUrl) {
     Retrofit retrofit =
         new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .baseUrl(baseUrl)
-            .client(okHttpClient)
-            .build();
+                              .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                              .baseUrl(baseUrl)
+                              .client(okHttpClient)
+                              .build();
     return retrofit;
   }
 

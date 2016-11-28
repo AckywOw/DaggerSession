@@ -56,13 +56,14 @@ public class MainActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
     ((MyApp) getApplication()).getApplicationComponent()
-        .plus(new MainActivityModule(this))
-        .inject(this);
+                              .plus(new MainActivityModule(this))
+                              .inject(this);
     Log.e(TAG, gson.toString());
     Log.e(TAG, okHttpClient.toString());
     Log.e(TAG, sharedPreferences.toString());
     Log.e(TAG, retrofit.toString());
-    Log.e(TAG, retrofit.baseUrl().toString());
+    Log.e(TAG, retrofit.baseUrl()
+                       .toString());
     Log.e(TAG, application.toString());
     Log.e(TAG, name);
   }

@@ -90,7 +90,8 @@ public class TasksLocalDataSource implements TasksDataSource {
     };
     String sql =
         String.format("SELECT %s FROM %s", TextUtils.join(",", projection), TaskEntry.TABLE_NAME);
-    return mDatabaseHelper.createQuery(TaskEntry.TABLE_NAME, sql).mapToList(mTaskMapperFunction);
+    return mDatabaseHelper.createQuery(TaskEntry.TABLE_NAME, sql)
+                          .mapToList(mTaskMapperFunction);
   }
 
   @Override
@@ -102,7 +103,7 @@ public class TasksLocalDataSource implements TasksDataSource {
     String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection),
         TaskEntry.TABLE_NAME, TaskEntry.COLUMN_NAME_ENTRY_ID);
     return mDatabaseHelper.createQuery(TaskEntry.TABLE_NAME, sql, taskId)
-        .mapToOneOrDefault(mTaskMapperFunction, null);
+                          .mapToOneOrDefault(mTaskMapperFunction, null);
   }
 
   @Override

@@ -90,7 +90,8 @@ public abstract class BaseFragment<Presenter extends CommonPresenter> extends Fr
 
   @Override
   public void setPresenter(@NonNull Presenter presenter) {
-    this.presenter = checkNotNull(presenter, presenter.getClass().getName() + " cannot be " +
+    this.presenter = checkNotNull(presenter, presenter.getClass()
+                                                      .getName() + " cannot be " +
         "null!");
     this.presenter.setView(this);
   }

@@ -45,10 +45,11 @@ public class RequestUtil {
    */
   public <T> Subscription dealRxNetRequest(Observable<HttpResult<T>> observable,
       Subscriber<T> subscriber, Func1<HttpResult<T>, T> func1) {
-    return observable.subscribeOn(schedulerProvider.io()).map(func1)
-        .observeOn(schedulerProvider.ui())
-        .unsubscribeOn(schedulerProvider.io())
-        .subscribe(subscriber);
+    return observable.subscribeOn(schedulerProvider.io())
+                     .map(func1)
+                     .observeOn(schedulerProvider.ui())
+                     .unsubscribeOn(schedulerProvider.io())
+                     .subscribe(subscriber);
   }
 
   /**
@@ -62,29 +63,29 @@ public class RequestUtil {
   public <T> Subscription dealRxNetRequestWithLoadingDialog(Observable<HttpResult<T>> observable,
       Subscriber<T> subscriber) {
     return observable.map(new HttpResultFunc<T>())
-        .subscribeOn(schedulerProvider.io())
-        .doOnSubscribe(new Action0() {
-          @Override
-          public void call() {
-            view.showLoadingDialog();
-          }
-        })
-        .subscribeOn(schedulerProvider.ui())
-        .doOnCompleted(new Action0() {
-          @Override
-          public void call() {
-            view.dismissLoadingDialog();
-          }
-        })
-        .observeOn(schedulerProvider.ui())
-        .unsubscribeOn(schedulerProvider.io())
-        .doOnUnsubscribe(new Action0() {
-          @Override
-          public void call() {
-            view.dismissLoadingDialog();
-          }
-        })
-        .unsubscribeOn(schedulerProvider.ui())
-        .subscribe(subscriber);
+                     .subscribeOn(schedulerProvider.io())
+                     .doOnSubscribe(new Action0() {
+                       @Override
+                       public void call() {
+                         view.showLoadingDialog();
+                       }
+                     })
+                     .subscribeOn(schedulerProvider.ui())
+                     .doOnCompleted(new Action0() {
+                       @Override
+                       public void call() {
+                         view.dismissLoadingDialog();
+                       }
+                     })
+                     .observeOn(schedulerProvider.ui())
+                     .unsubscribeOn(schedulerProvider.io())
+                     .doOnUnsubscribe(new Action0() {
+                       @Override
+                       public void call() {
+                         view.dismissLoadingDialog();
+                       }
+                     })
+                     .unsubscribeOn(schedulerProvider.ui())
+                     .subscribe(subscriber);
   }
 }
