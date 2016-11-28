@@ -12,33 +12,34 @@ import org.greenrobot.greendao.internal.DaoConfig;
 
 /**
  * {@inheritDoc}
- *
+ * 
  * @see org.greenrobot.greendao.AbstractDaoSession
  */
 public class DaoSession extends AbstractDaoSession {
 
-  private final DaoConfig noteDaoConfig;
+    private final DaoConfig noteDaoConfig;
 
-  private final NoteDao noteDao;
+    private final NoteDao noteDao;
 
-  public DaoSession(Database db, IdentityScopeType type,
-      Map<Class<? extends AbstractDao<?, ?>>, DaoConfig> daoConfigMap) {
-    super(db);
+    public DaoSession(Database db, IdentityScopeType type,
+        Map<Class<? extends AbstractDao<?, ?>>, DaoConfig> daoConfigMap) {
+        super(db);
 
-    noteDaoConfig = daoConfigMap.get(NoteDao.class)
-                                .clone();
-    noteDaoConfig.initIdentityScope(type);
+        noteDaoConfig = daoConfigMap.get(NoteDao.class)
+                                    .clone();
+        noteDaoConfig.initIdentityScope(type);
 
-    noteDao = new NoteDao(noteDaoConfig, this);
+        noteDao = new NoteDao(noteDaoConfig, this);
 
-    registerDao(Note.class, noteDao);
-  }
+        registerDao(Note.class, noteDao);
+    }
 
-  public void clear() {
-    noteDaoConfig.clearIdentityScope();
-  }
+    public void clear() {
+        noteDaoConfig.clearIdentityScope();
+    }
 
-  public NoteDao getNoteDao() {
-    return noteDao;
-  }
+    public NoteDao getNoteDao() {
+        return noteDao;
+    }
+
 }

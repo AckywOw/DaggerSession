@@ -4,6 +4,7 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.session.data.source.TasksDataSource;
+import com.ackywow.session.db.DaoSession;
 import com.ackywow.session.net.ApiService;
 import com.ackywow.session.net.RequestUtil;
 import dagger.Lazy;
@@ -23,6 +24,8 @@ public class MyApp extends Application {
   Lazy<ApiService> apiServiceLazy;
   @Inject
   Lazy<RequestUtil> requestUtilLazy;
+  @Inject
+  Lazy<DaoSession> daoSessionLazy;
 
   private ApplicationComponent applicationComponent;
 
@@ -62,5 +65,10 @@ public class MyApp extends Application {
   @NonNull
   public final RequestUtil getRequestUtil() {
     return requestUtilLazy.get();
+  }
+
+  @NonNull
+  public final DaoSession getDaoSession() {
+    return daoSessionLazy.get();
   }
 }

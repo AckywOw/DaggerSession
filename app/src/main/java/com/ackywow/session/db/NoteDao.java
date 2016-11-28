@@ -16,125 +16,118 @@ import org.greenrobot.greendao.internal.DaoConfig;
  */
 public class NoteDao extends AbstractDao<Note, Long> {
 
-  public static final String TABLENAME = "NOTE";
-  private DaoSession daoSession;
+    public static final String TABLENAME = "NOTE";
 
-  public NoteDao(DaoConfig config) {
-    super(config);
-  }
-
-  public NoteDao(DaoConfig config, DaoSession daoSession) {
-    super(config, daoSession);
-    this.daoSession = daoSession;
-  }
-
-  /** Creates the underlying database table. */
-  public static void createTable(Database db, boolean ifNotExists) {
-    String constraint = ifNotExists ? "IF NOT EXISTS " : "";
-    db.execSQL("CREATE TABLE " + constraint + "\"NOTE\" (" + //
-        "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-        "\"NAME\" TEXT NOT NULL ," + // 1: name
-        "\"AGE\" TEXT);"); // 2: age
-  }
-
-  /** Drops the underlying database table. */
-  public static void dropTable(Database db, boolean ifExists) {
-    String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"NOTE\"";
-    db.execSQL(sql);
-  }
-
-  @Override
-  protected final void bindValues(DatabaseStatement stmt, Note entity) {
-    stmt.clearBindings();
-
-    Long id = entity.getId();
-    if (id != null) {
-      stmt.bindLong(1, id);
+    public NoteDao(DaoConfig config) {
+        super(config);
     }
-    stmt.bindString(2, entity.getName());
 
-    String age = entity.getAge();
-    if (age != null) {
-      stmt.bindString(3, age);
+    public NoteDao(DaoConfig config, DaoSession daoSession) {
+        super(config, daoSession);
     }
-  }
 
-  @Override
-  protected final void bindValues(SQLiteStatement stmt, Note entity) {
-    stmt.clearBindings();
-
-    Long id = entity.getId();
-    if (id != null) {
-      stmt.bindLong(1, id);
+    /** Creates the underlying database table. */
+    public static void createTable(Database db, boolean ifNotExists) {
+        String constraint = ifNotExists ? "IF NOT EXISTS " : "";
+        db.execSQL("CREATE TABLE " + constraint + "\"NOTE\" (" + //
+            "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
+            "\"NAME\" TEXT NOT NULL ," + // 1: name
+            "\"AGE\" TEXT);"); // 2: age
     }
-    stmt.bindString(2, entity.getName());
 
-    String age = entity.getAge();
-    if (age != null) {
-      stmt.bindString(3, age);
+    /** Drops the underlying database table. */
+    public static void dropTable(Database db, boolean ifExists) {
+        String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"NOTE\"";
+        db.execSQL(sql);
     }
-  }
 
-  @Override
-  protected final void attachEntity(Note entity) {
-    super.attachEntity(entity);
-    entity.__setDaoSession(daoSession);
-  }
+    @Override
+    protected final void bindValues(DatabaseStatement stmt, Note entity) {
+        stmt.clearBindings();
 
-  @Override
-  public Long readKey(Cursor cursor, int offset) {
-    return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
-  }
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
+        stmt.bindString(2, entity.getName());
 
-  @Override
-  public Note readEntity(Cursor cursor, int offset) {
-    Note entity = new Note( //
-        cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-        cursor.getString(offset + 1), // name
-        cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // age
-    );
-    return entity;
-  }
-
-  @Override
-  public void readEntity(Cursor cursor, Note entity, int offset) {
-    entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-    entity.setName(cursor.getString(offset + 1));
-    entity.setAge(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-  }
-
-  @Override
-  protected final Long updateKeyAfterInsert(Note entity, long rowId) {
-    entity.setId(rowId);
-    return rowId;
-  }
-
-  @Override
-  public Long getKey(Note entity) {
-    if (entity != null) {
-      return entity.getId();
-    } else {
-      return null;
+        String age = entity.getAge();
+        if (age != null) {
+            stmt.bindString(3, age);
+        }
     }
-  }
 
-  @Override
-  public boolean hasKey(Note entity) {
-    return entity.getId() != null;
-  }
+    @Override
+    protected final void bindValues(SQLiteStatement stmt, Note entity) {
+        stmt.clearBindings();
 
-  @Override
-  protected final boolean isEntityUpdateable() {
-    return true;
-  }
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
+        stmt.bindString(2, entity.getName());
 
-  /**
-   * Properties of entity Note.<br/>
-   * Can be used for QueryBuilder and for referencing column names.
-   */
-  public static class Properties {
-    public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-    public final static Property Name = new Property(1, String.class, "name", false, "NAME");
-    public final static Property Age = new Property(2, String.class, "age", false, "AGE");
-  }
+        String age = entity.getAge();
+        if (age != null) {
+            stmt.bindString(3, age);
+        }
+    }
+
+    @Override
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+    }
+
+    @Override
+    public Note readEntity(Cursor cursor, int offset) {
+        Note entity = new Note( //
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+            cursor.getString(offset + 1), // name
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // age
+        );
+        return entity;
+    }
+
+    @Override
+    public void readEntity(Cursor cursor, Note entity, int offset) {
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setName(cursor.getString(offset + 1));
+        entity.setAge(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+    }
+
+    @Override
+    protected final Long updateKeyAfterInsert(Note entity, long rowId) {
+        entity.setId(rowId);
+        return rowId;
+    }
+
+    @Override
+    public Long getKey(Note entity) {
+        if (entity != null) {
+            return entity.getId();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean hasKey(Note entity) {
+        return entity.getId() != null;
+    }
+
+    @Override
+    protected final boolean isEntityUpdateable() {
+        return true;
+    }
+
+    /**
+     * Properties of entity Note.<br/>
+     * Can be used for QueryBuilder and for referencing column names.
+     */
+    public static class Properties {
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
+        public final static Property Name = new Property(1, String.class, "name", false, "NAME");
+        public final static Property Age = new Property(2, String.class, "age", false, "AGE");
+    }
+    
 }

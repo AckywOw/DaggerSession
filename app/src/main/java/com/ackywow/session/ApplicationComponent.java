@@ -3,6 +3,7 @@ package com.ackywow.session;
 import com.ackywow.base.scope.ApplicationScope;
 import com.ackywow.base.util.schedulers.SchedulerModule;
 import com.ackywow.session.data.TasksDataSourceModule;
+import com.ackywow.session.db.DBModule;
 import com.ackywow.session.main.MainActivityComponent;
 import com.ackywow.session.main.MainActivityModule;
 import com.ackywow.session.net.NetModule;
@@ -16,7 +17,8 @@ import javax.inject.Singleton;
 @ApplicationScope
 @Component(
     modules = {
-        NetModule.class, ApplicationModule.class, SchedulerModule.class, TasksDataSourceModule.class
+        NetModule.class, DBModule.class, ApplicationModule.class, SchedulerModule.class,
+        TasksDataSourceModule.class
     })
 public interface ApplicationComponent {
 
