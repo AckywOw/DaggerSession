@@ -1,4 +1,4 @@
-package com.ackywow.session.net;
+package com.ackywow.session.data.net;
 
 import android.support.annotation.NonNull;
 import com.ackywow.base.util.schedulers.BaseSchedulerProvider;

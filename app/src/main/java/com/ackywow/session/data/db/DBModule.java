@@ -1,8 +1,11 @@
-package com.ackywow.session.db;
+package com.ackywow.session.data.db;
 
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
-import com.ackywow.session.db.upgrade.MainDBUpgradeOpenHelper;
+import com.ackywow.session.data.db.dao.DaoMaster;
+import com.ackywow.session.data.db.dao.DaoSession;
+import com.ackywow.session.data.db.upgrade.MainDBUpgradeOpenHelper;
+import com.ackywow.session.data.db.util.NoteDaoUtil;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -31,5 +34,10 @@ public class DBModule {
   @Singleton
   static DaoSession getDaoSession(DaoMaster daoMaster) {
     return daoMaster.newSession(IdentityScopeType.None);
+  }
+
+  @Provides
+  static NoteDaoUtil getNoteDaoUtil(DaoSession daoSession) {
+    return new NoteDaoUtil(daoSession.getNoteDao());
   }
 }

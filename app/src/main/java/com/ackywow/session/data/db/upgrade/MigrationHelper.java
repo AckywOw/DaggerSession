@@ -1,4 +1,4 @@
-package com.ackywow.session.db.upgrade;
+package com.ackywow.session.data.db.upgrade;
 
 import android.database.Cursor;
 import android.text.TextUtils;

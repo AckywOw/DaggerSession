@@ -1,8 +1,8 @@
-package com.ackywow.session.db;
+package com.ackywow.session.data.db.dao;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
-import com.ackywow.session.db.bean.Note;
+import com.ackywow.session.data.db.bean.Note;
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.database.Database;
@@ -21,6 +21,7 @@ public class NoteDao extends AbstractDao<Note, Long> {
     public NoteDao(DaoConfig config) {
         super(config);
     }
+
 
     public NoteDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
@@ -94,7 +95,7 @@ public class NoteDao extends AbstractDao<Note, Long> {
         entity.setName(cursor.getString(offset + 1));
         entity.setAge(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
     }
-
+     
     @Override
     protected final Long updateKeyAfterInsert(Note entity, long rowId) {
         entity.setId(rowId);

@@ -31,7 +31,7 @@ android {
 
 greendao {
   schemaVersion project.versionCode as int
-  daoPackage 'com.ackywow.session.db'
+  daoPackage 'com.ackywow.session.data.db.dao'
   targetGenDir 'src/main/java'
 }
 

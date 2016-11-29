@@ -1,4 +1,4 @@
-package com.ackywow.session.db;
+package com.ackywow.session.data.db;
 
 /**
  * Created by Jiang on 2016/11/28.

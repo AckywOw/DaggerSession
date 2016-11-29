@@ -1,10 +1,18 @@
 package com.ackywow.session.mvp;
 
 import android.util.Log;
+import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
+import com.ackywow.session.MyApp;
 import com.ackywow.session.bean.LoginInfo;
+import com.ackywow.session.data.db.util.NoteDaoUtil;
+import com.ackywow.session.data.net.ApiService;
+import com.ackywow.session.data.net.RequestUtil;
+import com.ackywow.session.data.sp.SPDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
+import javax.inject.Named;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -12,18 +20,45 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+import static com.ackywow.session.constant.Nameds.MVP;
+
 /**
  * Created by Jiang on 2016/11/17.
  */
 
-public class MvpPresenter extends MVPContact.Presenter {
+public class MvpPresenter extends MvpContact.Presenter {
 
-  private static final String TAG = "Observable";
-  Observable<String> observable;
+  @Inject
+  RequestUtil requestUtil;
+
+  @Inject
+  ApiService apiService;
+
+  @Inject
+  BaseSchedulerProvider schedulerProvider;
+
+  @Inject
+  NoteDaoUtil noteDaoUtil;
+
+  @Inject
+  SPDataUtil spDataUtil;
+
+  @Inject
+  @Named(MVP)
+  String name;
+
+  public MvpPresenter() {
+    MyApp.getApplicationComponent()
+         .plusMvpComponet()
+         .inject(this);
+  }
 
   @Override
   void loadNetDate() {
     try {
+      Log.e(TAG, name);
+      Log.e(TAG, noteDaoUtil.toString());
+      Log.e(TAG, spDataUtil.toString());
       Subscription subscription = getSubscription4();
       addSubscription(subscription);
     } catch (Exception e) {
@@ -33,7 +68,7 @@ public class MvpPresenter extends MVPContact.Presenter {
   }
 
   public Subscription login(String username, String password, Subscriber<LoginInfo> subscriber) {
-    return getrequestUtil().dealRxNetRequest(getApiService().login(username, password), subscriber);
+    return requestUtil.dealRxNetRequest(apiService.login(username, password), subscriber);
   }
 
   private Subscription getSubscription1() {
@@ -45,8 +80,8 @@ public class MvpPresenter extends MVPContact.Presenter {
                        }
                      })
                      .delay(3, TimeUnit.SECONDS)
-                     .subscribeOn(getSchedulerProvider().computation())
-                     .observeOn(getSchedulerProvider().ui())
+                     .subscribeOn(schedulerProvider.computation())
+                     .observeOn(schedulerProvider.ui())
                      .subscribe(new Subscriber<Integer>() {
 
                        @Override
@@ -88,8 +123,8 @@ public class MvpPresenter extends MVPContact.Presenter {
                        }
                      })
                      .delay(3, TimeUnit.SECONDS)
-                     .subscribeOn(getSchedulerProvider().computation())
-                     .observeOn(getSchedulerProvider().ui())
+                     .subscribeOn(schedulerProvider.computation())
+                     .observeOn(schedulerProvider.ui())
                      .subscribe(new Action1<Integer>() {
                        @Override
                        public void call(Integer s) {
@@ -128,14 +163,14 @@ public class MvpPresenter extends MVPContact.Presenter {
                          return Observable.from(strings);
                        }
                      })
-                     .observeOn(getSchedulerProvider().ui())
+                     .observeOn(schedulerProvider.ui())
                      .doOnNext(new Action1<String>() {
                        @Override
                        public void call(String s) {
                          getView().showToast("doOnNext: " + s);
                        }
                      })
-                     .observeOn(getSchedulerProvider().io())
+                     .observeOn(schedulerProvider.io())
                      .filter(new Func1<String, Boolean>() { //过滤
                        @Override
                        public Boolean call(String s) {
@@ -144,8 +179,8 @@ public class MvpPresenter extends MVPContact.Presenter {
                      })
                      .take(3) //截取数据数量
                      .delay(2, TimeUnit.SECONDS) //延迟发射
-                     .subscribeOn(getSchedulerProvider().io())
-                     .observeOn(getSchedulerProvider().ui())
+                     .subscribeOn(schedulerProvider.io())
+                     .observeOn(schedulerProvider.ui())
                      .subscribe(new Subscriber<String>() {
 
                        @Override
@@ -175,7 +210,6 @@ public class MvpPresenter extends MVPContact.Presenter {
   }
 
   private Observable<String> getObservable() {
-    if (observable != null) return observable;
     List<String> list = new ArrayList();
     list.add("11111");
     list.add("22222");
@@ -195,26 +229,25 @@ public class MvpPresenter extends MVPContact.Presenter {
                          return Observable.from(strings);
                        }
                      })
-                     .delay(3, TimeUnit.SECONDS)
-                     .observeOn(getSchedulerProvider().ui())
+                     .observeOn(schedulerProvider.ui())
                      .doOnNext(new Action1<String>() {
                        @Override
                        public void call(String s) {
                          Log.i(TAG, "doOnNext:" + s);
-                         //getView().showToast("doOnNext: " + s);
+                         getView().showToast("doOnNext: " + s);
                        }
                      })
-                     .observeOn(getSchedulerProvider().io())
+                     .observeOn(schedulerProvider.io())
                      .filter(new Func1<String, Boolean>() { //过滤
                        @Override
                        public Boolean call(String s) {
                          return !"11111".equals(s);
                        }
                      })
-                     .take(1) //截取数据数量
+                     .take(2) //截取数据数量
                      .delay(3, TimeUnit.SECONDS) //延迟发射
-                     .subscribeOn(getSchedulerProvider().io())
-                     .observeOn(getSchedulerProvider().ui());
+                     .subscribeOn(schedulerProvider.io())
+                     .observeOn(schedulerProvider.ui());
   }
 
   private Subscriber<String> getSubscriber() {

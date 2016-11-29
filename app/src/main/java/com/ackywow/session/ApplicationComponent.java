@@ -2,11 +2,12 @@ package com.ackywow.session;
 
 import com.ackywow.base.scope.ApplicationScope;
 import com.ackywow.base.util.schedulers.SchedulerModule;
-import com.ackywow.session.data.TasksDataSourceModule;
-import com.ackywow.session.db.DBModule;
+import com.ackywow.session.data.db.DBModule;
+import com.ackywow.session.data.net.NetModule;
+import com.ackywow.session.data.sp.SPModule;
 import com.ackywow.session.main.MainActivityComponent;
 import com.ackywow.session.main.MainActivityModule;
-import com.ackywow.session.net.NetModule;
+import com.ackywow.session.mvp.MvpComponet;
 import dagger.Component;
 import javax.inject.Singleton;
 
@@ -17,12 +18,12 @@ import javax.inject.Singleton;
 @ApplicationScope
 @Component(
     modules = {
-        NetModule.class, DBModule.class, ApplicationModule.class, SchedulerModule.class,
-        TasksDataSourceModule.class
+        ApplicationModule.class, SchedulerModule.class, NetModule.class, DBModule.class,
+        SPModule.class
     })
 public interface ApplicationComponent {
 
-  void inject(MyApp app);
+  MvpComponet plusMvpComponet();
 
-  MainActivityComponent plus(MainActivityModule module);
+  MainActivityComponent plusMainActivityComponent(MainActivityModule mainActivityModule);
 }

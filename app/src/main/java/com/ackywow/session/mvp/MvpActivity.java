@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.widget.Toast;
 import com.ackywow.session.R;
 
-public class MvpActivity extends MVPContact.View {
+public class MvpActivity extends MvpContact.View {
 
   @Override
   void showErrowDialog() {
@@ -25,7 +25,7 @@ public class MvpActivity extends MVPContact.View {
 
   @NonNull
   @Override
-  public MVPContact.Presenter initPresenter() {
+  public MvpContact.Presenter initPresenter() {
     return new MvpPresenter();
   }
 

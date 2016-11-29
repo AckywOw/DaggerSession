@@ -17,4 +17,6 @@ public @interface Nameds {
   String BASE_URL = "BASE_URL";
   String Activity_Name = "Activity_Name";
   String ConnectTimeout = "connectTimeout";
+
+  String MVP = "MVP";
 }

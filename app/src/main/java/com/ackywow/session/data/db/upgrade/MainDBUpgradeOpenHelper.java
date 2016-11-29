@@ -1,9 +1,9 @@
-package com.ackywow.session.db.upgrade;
+package com.ackywow.session.data.db.upgrade;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import com.ackywow.session.db.DaoMaster;
+import com.ackywow.session.data.db.dao.DaoMaster;
 import org.greenrobot.greendao.database.Database;
 
 /**

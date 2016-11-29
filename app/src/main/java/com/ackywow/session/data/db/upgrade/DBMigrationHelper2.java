@@ -1,6 +1,6 @@
-package com.ackywow.session.db.upgrade;
+package com.ackywow.session.data.db.upgrade;
 
-import com.ackywow.session.db.NoteDao;
+import com.ackywow.session.data.db.dao.NoteDao;
 import org.greenrobot.greendao.database.Database;
 
 /**

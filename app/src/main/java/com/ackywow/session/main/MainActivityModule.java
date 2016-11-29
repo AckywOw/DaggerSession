@@ -29,6 +29,6 @@ public class MainActivityModule {
   @Named(Activity_Name)
   String provideName() {
     return activity.getComponentName()
-                   .toString();
+                   .getClassName();
   }
 }

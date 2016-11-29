@@ -1,4 +1,4 @@
-package com.ackywow.base.scope;
+package com.ackywow.session.data;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -6,10 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import javax.inject.Scope;
 
 /**
- * Created by Jiang on 2016/11/21.
+ * Created by Jiang on 2016/11/29.
  */
-@Scope
 @Documented
+@Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ApplicationScope {
+public @interface PresenterScope {
 }

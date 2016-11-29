@@ -1,8 +1,6 @@
-package com.ackywow.session.net;
+package com.ackywow.session.data.net;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.session.BuildConfig;
 import com.google.gson.FieldNamingPolicy;
@@ -33,12 +31,6 @@ public class NetModule {
   @Named(BASE_URL)
   static String providesBaseUrl() {
     return BuildConfig.BASE_URL;
-  }
-
-  @Provides
-  @Singleton
-  static SharedPreferences providesSharedPreferences(Application application) {
-    return PreferenceManager.getDefaultSharedPreferences(application);
   }
 
   @Provides
@@ -93,7 +85,7 @@ public class NetModule {
 
   @Provides
   @Singleton
-  static RequestUtil provideApiServiceImpl(BaseSchedulerProvider schedulerProvider) {
+  static RequestUtil provideRequestUtil(BaseSchedulerProvider schedulerProvider) {
     return new RequestUtil(schedulerProvider);
   }
 }

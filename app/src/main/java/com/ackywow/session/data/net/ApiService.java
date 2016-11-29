@@ -1,4 +1,4 @@
-package com.ackywow.session.net;
+package com.ackywow.session.data.net;
 
 import com.ackywow.session.bean.HttpResult;
 import com.ackywow.session.bean.LoginInfo;

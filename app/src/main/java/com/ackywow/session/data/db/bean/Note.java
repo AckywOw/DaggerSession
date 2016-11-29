@@ -1,4 +1,4 @@
-package com.ackywow.session.db.bean;
+package com.ackywow.session.data.db.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;

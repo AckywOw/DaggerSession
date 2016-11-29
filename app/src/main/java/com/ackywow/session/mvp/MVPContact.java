@@ -7,7 +7,7 @@ import com.ackywow.session.base.CommonPresenter;
  * Created by Jiang on 2016/11/17.
  */
 
-public interface MVPContact {
+public interface MvpContact {
 
   abstract class View extends BaseActivity<Presenter> {
 

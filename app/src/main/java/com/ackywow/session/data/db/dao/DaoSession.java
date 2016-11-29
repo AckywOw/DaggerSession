@@ -1,6 +1,6 @@
-package com.ackywow.session.db;
+package com.ackywow.session.data.db.dao;
 
-import com.ackywow.session.db.bean.Note;
+import com.ackywow.session.data.db.bean.Note;
 import java.util.Map;
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.AbstractDaoSession;
