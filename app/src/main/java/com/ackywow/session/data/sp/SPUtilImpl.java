@@ -13,21 +13,13 @@ import java.util.Set;
 
 public class SPUtilImpl implements SPUtil {
 
-  private static SPUtilImpl INSTANCE;
   /**
    * The shared preferences.
    */
   private SharedPreferences sharedPreferences;
 
-  private SPUtilImpl(Context context) {
+  public SPUtilImpl(Context context) {
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-  }
-
-  public static synchronized SPUtilImpl getInstance(Context context) {
-    if (INSTANCE == null) {
-      INSTANCE = new SPUtilImpl(context);
-    }
-    return INSTANCE;
   }
 
   private SharedPreferences getSharedPreferences() {

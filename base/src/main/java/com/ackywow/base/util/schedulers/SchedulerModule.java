@@ -19,7 +19,7 @@ public class SchedulerModule {
   @Provides
   @Singleton
   static BaseSchedulerProvider provideSchedulerProvider() {
-    return SchedulerProvider.getInstance();
+    return new SchedulerProvider();
   }
 
   @Provides

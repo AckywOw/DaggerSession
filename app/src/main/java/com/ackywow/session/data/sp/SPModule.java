@@ -14,12 +14,12 @@ public class SPModule {
   @Provides
   @Singleton
   public SPUtil provideSPUtil(Application application) {
-    return SPUtilImpl.getInstance(application);
+    return new SPUtilImpl(application);
   }
 
   @Provides
   @Singleton
   public SPDataUtil provideSPDataUtil(SPUtil spUtil) {
-    return SPDataUtil.getInstance(spUtil);
+    return new SPDataUtil(spUtil);
   }
 }
