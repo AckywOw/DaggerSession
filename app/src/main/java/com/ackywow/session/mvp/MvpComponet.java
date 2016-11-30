@@ -1,6 +1,6 @@
 package com.ackywow.session.mvp;
 
-import com.ackywow.session.data.PresenterScope;
+import com.ackywow.session.base.scope.PresenterScope;
 import dagger.Subcomponent;
 
 /**

@@ -1,4 +1,4 @@
-package com.ackywow.base.scope;
+package com.ackywow.session.base.scope;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

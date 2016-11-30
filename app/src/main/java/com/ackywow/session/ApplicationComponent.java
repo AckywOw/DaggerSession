@@ -1,7 +1,7 @@
 package com.ackywow.session;
 
-import com.ackywow.base.scope.ApplicationScope;
 import com.ackywow.base.util.schedulers.SchedulerModule;
+import com.ackywow.session.base.scope.ApplicationScope;
 import com.ackywow.session.data.db.DBModule;
 import com.ackywow.session.data.net.NetModule;
 import com.ackywow.session.data.sp.SPModule;

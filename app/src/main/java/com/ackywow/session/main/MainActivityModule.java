@@ -1,5 +1,6 @@
 package com.ackywow.session.main;
 
+import com.ackywow.session.base.scope.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Named;
@@ -19,13 +20,13 @@ public class MainActivityModule {
   }
 
   @Provides
-  @MainActivityScope
+  @ActivityScope
   MainActivity provideMainActivity() {
     return activity;
   }
 
   @Provides
-  @MainActivityScope
+  @ActivityScope
   @Named(Activity_Name)
   String provideName() {
     return activity.getComponentName()
