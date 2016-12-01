@@ -1,9 +1,13 @@
 package com.ackywow.session.data.sp;
 
 import android.app.Application;
+import com.ackywow.session.base.scope.ApplicationScope;
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
+import javax.inject.Named;
+
+import static com.ackywow.session.constant.Nameds.MAIN_SPDATAUTIL;
+import static com.ackywow.session.constant.Nameds.MAIN_SPUTIL;
 
 /**
  * Created by Jiang on 2016/11/29.
@@ -12,14 +16,16 @@ import javax.inject.Singleton;
 public class SPModule {
 
   @Provides
-  @Singleton
-  public SPUtil provideSPUtil(Application application) {
+  @ApplicationScope
+  @Named(MAIN_SPUTIL)
+  static SPUtil provideSPUtil(Application application) {
     return new SPUtilImpl(application);
   }
 
   @Provides
-  @Singleton
-  public SPDataUtil provideSPDataUtil(SPUtil spUtil) {
+  @ApplicationScope
+  @Named(MAIN_SPDATAUTIL)
+  static SPDataUtil provideSPDataUtil(@Named(MAIN_SPUTIL) SPUtil spUtil) {
     return new SPDataUtil(spUtil);
   }
 }

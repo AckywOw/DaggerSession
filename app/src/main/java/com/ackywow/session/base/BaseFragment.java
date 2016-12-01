@@ -17,7 +17,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 
 public abstract class BaseFragment<Presenter extends CommonPresenter> extends Fragment
-    implements BaseView<Presenter> {
+    implements BaseMVPView<Presenter> {
 
   protected final String TAG = getClass().getSimpleName();
 
@@ -59,7 +59,7 @@ public abstract class BaseFragment<Presenter extends CommonPresenter> extends Fr
   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     if (hasPresenter()) {
-      setPresenter(initPresenter());
+      setPresenter(presenter);
     }
   }
 
@@ -111,8 +111,7 @@ public abstract class BaseFragment<Presenter extends CommonPresenter> extends Fr
     }
   }
 
-  @Override
-  public boolean isAvailable() {
+  protected boolean isAvailable() {
     return isAvailable;
   }
 }

@@ -2,12 +2,13 @@ package com.ackywow.session.mvp;
 
 import android.util.Log;
 import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
-import com.ackywow.session.MyApp;
-import com.ackywow.session.bean.LoginInfo;
+import com.ackywow.session.data.db.bean.User;
 import com.ackywow.session.data.db.util.NoteDaoUtil;
+import com.ackywow.session.data.db.util.UserDaoUtil;
 import com.ackywow.session.data.net.ApiService;
-import com.ackywow.session.data.net.RequestUtil;
+import com.ackywow.session.data.net.RxRequestUtil;
 import com.ackywow.session.data.sp.SPDataUtil;
+import dagger.Lazy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,42 +21,49 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+import static com.ackywow.session.constant.Nameds.MAIN_SPDATAUTIL;
 import static com.ackywow.session.constant.Nameds.MVP;
+import static com.ackywow.session.constant.Nameds.UNIQUE_ID;
+import static com.ackywow.session.constant.Nameds.USER_SPDATAUTIL;
 
 /**
  * Created by Jiang on 2016/11/17.
  */
-
 public class MvpPresenter extends MvpContact.Presenter {
 
   @Inject
-  RequestUtil requestUtil;
-
-  @Inject
   ApiService apiService;
-
   @Inject
   BaseSchedulerProvider schedulerProvider;
-
   @Inject
   NoteDaoUtil noteDaoUtil;
-
   @Inject
+  @Named(MAIN_SPDATAUTIL)
   SPDataUtil spDataUtil;
 
   @Inject
   @Named(MVP)
   String name;
 
+  @Inject
+  boolean isLogged;
+  @Inject
+  @Named(UNIQUE_ID)
+  Lazy<String> uniqueIdLazy;
+  @Inject
+  @Named(USER_SPDATAUTIL)
+  Lazy<SPDataUtil> spDataUtilLazy;
+  @Inject
+  Lazy<UserDaoUtil> userDaoUtilLazy;
+
+  @Inject
   public MvpPresenter() {
-    MyApp.getApplicationComponent()
-         .plusMvpComponet()
-         .inject(this);
   }
 
   @Override
   void loadNetDate() {
     try {
+      Log.e(TAG, "isLogged:" + isLogged);
       Log.e(TAG, name);
       Log.e(TAG, noteDaoUtil.toString());
       Log.e(TAG, spDataUtil.toString());
@@ -67,8 +75,9 @@ public class MvpPresenter extends MvpContact.Presenter {
     }
   }
 
-  public Subscription login(String username, String password, Subscriber<LoginInfo> subscriber) {
-    return requestUtil.dealRxNetRequest(apiService.login(username, password), subscriber);
+  public Subscription login(String username, String password, Subscriber<User> subscriber) {
+    return RxRequestUtil.dealRxNetRequest(apiService.login(username, password), subscriber,
+        schedulerProvider);
   }
 
   private Subscription getSubscription1() {

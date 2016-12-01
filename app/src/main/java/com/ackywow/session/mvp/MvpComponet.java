@@ -9,5 +9,5 @@ import dagger.Subcomponent;
 @PresenterScope
 @Subcomponent(modules = MvpModule.class)
 public interface MvpComponet {
-  void inject(MvpPresenter presenter);
+  void inject(MvpActivity mvpActivity);
 }

@@ -1,7 +1,5 @@
 package com.ackywow.session.data.net;
 
-import com.ackywow.session.bean.HttpResult;
-import com.ackywow.session.exception.ApiException;
 import rx.functions.Func1;
 
 /**

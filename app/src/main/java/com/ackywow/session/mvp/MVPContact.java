@@ -1,6 +1,6 @@
 package com.ackywow.session.mvp;
 
-import com.ackywow.session.base.BaseActivity;
+import com.ackywow.session.base.BaseMVPActivity;
 import com.ackywow.session.base.CommonPresenter;
 
 /**
@@ -9,7 +9,7 @@ import com.ackywow.session.base.CommonPresenter;
 
 public interface MvpContact {
 
-  abstract class View extends BaseActivity<Presenter> {
+  abstract class View<P extends Presenter, Component> extends BaseMVPActivity<P, Component> {
 
     /**
      * 显示错误信息
@@ -17,11 +17,6 @@ public interface MvpContact {
     abstract void showErrowDialog();
 
     abstract void showToast(String str);
-
-    @Override
-    protected boolean hasPresenter() {
-      return true;
-    }
   }
 
   abstract class Presenter extends CommonPresenter<View> {

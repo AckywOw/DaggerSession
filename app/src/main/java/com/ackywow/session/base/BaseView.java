@@ -1,31 +1,10 @@
 package com.ackywow.session.base;
 
-import android.support.annotation.NonNull;
-
 /**
- * Created by Jiang on 2016/11/16.
+ * Created by Jiang on 2016/12/1.
  */
-public interface BaseView<Presenter extends CommonPresenter> {
 
-  /**
-   * 初始化Presenter
-   *
-   * @return Presenter
-   */
-  @NonNull
-  Presenter initPresenter();
-
-  /**
-   * 设置Presenter
-   */
-  void setPresenter(@NonNull Presenter presenter);
-
-  /**
-   * 当前View的UI是否可用
-   *
-   * @return boolean
-   */
-  boolean isAvailable();
+public interface BaseView {
 
   /**
    * 显示loading框

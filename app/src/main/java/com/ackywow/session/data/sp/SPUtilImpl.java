@@ -18,8 +18,23 @@ public class SPUtilImpl implements SPUtil {
    */
   private SharedPreferences sharedPreferences;
 
+  /**
+   * 主share
+   *
+   * @param context
+   */
   public SPUtilImpl(Context context) {
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+  }
+
+  /**
+   * 用户share
+   *
+   * @param context
+   * @param uniqueId
+   */
+  public SPUtilImpl(Context context, String uniqueId) {
+    sharedPreferences = context.getSharedPreferences(uniqueId, Context.MODE_PRIVATE);
   }
 
   private SharedPreferences getSharedPreferences() {

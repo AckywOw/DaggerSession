@@ -10,7 +10,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Jiang on 2016/11/16.
  */
 
-public abstract class CommonPresenter<View extends BaseView> implements BasePresenter<View> {
+public abstract class CommonPresenter<View extends BaseMVPView> implements BasePresenter<View> {
 
   protected final String TAG = getClass().getSimpleName();
 

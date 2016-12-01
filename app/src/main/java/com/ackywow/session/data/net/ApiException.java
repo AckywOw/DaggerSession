@@ -1,6 +1,4 @@
-package com.ackywow.session.exception;
-
-import com.ackywow.session.bean.HttpResult;
+package com.ackywow.session.data.net;
 
 /**
  * Created by Jiang on 2016/11/24.

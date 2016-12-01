@@ -1,4 +1,4 @@
-package com.ackywow.session.bean;
+package com.ackywow.session.data.net;
 
 /**
  * Created by Jiang on 2016/11/24.

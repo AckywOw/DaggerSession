@@ -6,7 +6,7 @@ import rx.Subscription;
 /**
  * Created by Jiang on 2016/11/16.
  */
-public interface BasePresenter<View extends BaseView> {
+public interface BasePresenter<View extends BaseMVPView> {
 
   /**
    * 添加Subscription

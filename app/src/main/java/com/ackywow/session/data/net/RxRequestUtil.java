@@ -3,7 +3,6 @@ package com.ackywow.session.data.net;
 import android.support.annotation.NonNull;
 import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.session.base.BaseView;
-import com.ackywow.session.bean.HttpResult;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -14,25 +13,11 @@ import rx.functions.Func1;
  * Created by Jiang on 2016/11/24.
  */
 
-public class RequestUtil {
+public class RxRequestUtil {
 
-  @NonNull
-  protected BaseSchedulerProvider schedulerProvider;
-
-  @NonNull
-  protected BaseView view;
-
-  public RequestUtil(@NonNull BaseSchedulerProvider schedulerProvider) {
-    this.schedulerProvider = schedulerProvider;
-  }
-
-  public void setView(@NonNull BaseView view) {
-    this.view = view;
-  }
-
-  public <T> Subscription dealRxNetRequest(Observable<HttpResult<T>> observable,
-      Subscriber<T> subscriber) {
-    return dealRxNetRequest(observable, subscriber, new HttpResultFunc<T>());
+  public static <T> Subscription dealRxNetRequest(Observable<HttpResult<T>> observable,
+      Subscriber<T> subscriber, @NonNull BaseSchedulerProvider schedulerProvider) {
+    return dealRxNetRequest(observable, subscriber, new HttpResultFunc<T>(), schedulerProvider);
   }
 
   /**
@@ -43,13 +28,21 @@ public class RequestUtil {
    * @param <T>
    * @return
    */
-  public <T> Subscription dealRxNetRequest(Observable<HttpResult<T>> observable,
-      Subscriber<T> subscriber, Func1<HttpResult<T>, T> func1) {
+  public static <T> Subscription dealRxNetRequest(Observable<HttpResult<T>> observable,
+      Subscriber<T> subscriber, Func1<HttpResult<T>, T> func1,
+      BaseSchedulerProvider schedulerProvider) {
     return observable.subscribeOn(schedulerProvider.io())
                      .map(func1)
                      .observeOn(schedulerProvider.ui())
                      .unsubscribeOn(schedulerProvider.io())
                      .subscribe(subscriber);
+  }
+
+  public static <T> Subscription dealRxNetRequestWithLoadingDialog(
+      Observable<HttpResult<T>> observable, Subscriber<T> subscriber,
+      @NonNull BaseSchedulerProvider schedulerProvider, @NonNull final BaseView view) {
+    return dealRxNetRequestWithLoadingDialog(observable, subscriber, new HttpResultFunc<T>(),
+        schedulerProvider, view);
   }
 
   /**
@@ -60,9 +53,10 @@ public class RequestUtil {
    * @param <T>
    * @return
    */
-  public <T> Subscription dealRxNetRequestWithLoadingDialog(Observable<HttpResult<T>> observable,
-      Subscriber<T> subscriber) {
-    return observable.map(new HttpResultFunc<T>())
+  public static <T> Subscription dealRxNetRequestWithLoadingDialog(
+      Observable<HttpResult<T>> observable, Subscriber<T> subscriber, Func1<HttpResult<T>, T> func1,
+      BaseSchedulerProvider schedulerProvider, @NonNull final BaseView view) {
+    return observable.map(func1)
                      .subscribeOn(schedulerProvider.io())
                      .doOnSubscribe(new Action0() {
                        @Override
@@ -71,13 +65,13 @@ public class RequestUtil {
                        }
                      })
                      .subscribeOn(schedulerProvider.ui())
+                     .observeOn(schedulerProvider.ui())
                      .doOnCompleted(new Action0() {
                        @Override
                        public void call() {
                          view.dismissLoadingDialog();
                        }
                      })
-                     .observeOn(schedulerProvider.ui())
                      .unsubscribeOn(schedulerProvider.io())
                      .doOnUnsubscribe(new Action0() {
                        @Override

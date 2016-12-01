@@ -2,16 +2,13 @@ package com.ackywow.session.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.ackywow.session.MyApp;
 import com.ackywow.session.R;
 import com.ackywow.session.base.BaseActivity;
-import com.ackywow.session.base.CommonPresenter;
 import com.ackywow.session.mvp.MvpActivity;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,9 +28,10 @@ public class MainActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
-    ((MyApp) getApplication()).getApplicationComponent()
-                              .plusMainActivityComponent(new MainActivityModule(this))
-                              .inject(this);
+    DaggerMainActivityComponent.builder()
+                               .mainActivityModule(new MainActivityModule(this))
+                               .build()
+                               .inject(this);
     Toast.makeText(this, name, Toast.LENGTH_SHORT)
          .show();
   }
@@ -41,17 +39,6 @@ public class MainActivity extends BaseActivity {
   @Override
   protected int getLayoutId() {
     return R.layout.activity_main;
-  }
-
-  @Override
-  protected boolean hasPresenter() {
-    return false;
-  }
-
-  @NonNull
-  @Override
-  public CommonPresenter initPresenter() {
-    return null;
   }
 
   @OnClick(R.id.imageView)

@@ -1,9 +1,11 @@
-package com.ackywow.base.util.schedulers;
+package com.ackywow.session.base.module;
 
+import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
+import com.ackywow.base.util.schedulers.SchedulerProvider;
+import com.ackywow.session.base.scope.ApplicationScope;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Named;
-import javax.inject.Singleton;
 import rx.Scheduler;
 
 /**
@@ -17,34 +19,34 @@ public class SchedulerModule {
   public static final String IMMEDIATE = "immediate";
 
   @Provides
-  @Singleton
+  @ApplicationScope
   static BaseSchedulerProvider provideSchedulerProvider() {
     return new SchedulerProvider();
   }
 
   @Provides
-  @Singleton
+  @ApplicationScope
   @Named(COMPUTATION)
   static Scheduler provideSchedulerComputation(BaseSchedulerProvider provider) {
     return provider.computation();
   }
 
   @Provides
-  @Singleton
+  @ApplicationScope
   @Named(IO)
   static Scheduler provideSchedulerIO(BaseSchedulerProvider provider) {
     return provider.io();
   }
 
   @Provides
-  @Singleton
+  @ApplicationScope
   @Named(UI)
   static Scheduler provideSchedulerUI(BaseSchedulerProvider provider) {
     return provider.ui();
   }
 
   @Provides
-  @Singleton
+  @ApplicationScope
   @Named(IMMEDIATE)
   static Scheduler provideSchedulerImmediate(BaseSchedulerProvider provider) {
     return provider.immediate();

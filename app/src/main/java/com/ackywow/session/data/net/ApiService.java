@@ -1,7 +1,6 @@
 package com.ackywow.session.data.net;
 
-import com.ackywow.session.bean.HttpResult;
-import com.ackywow.session.bean.LoginInfo;
+import com.ackywow.session.data.db.bean.User;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -13,6 +12,6 @@ import rx.Observable;
 public interface ApiService {
 
   @GET("login")
-  Observable<HttpResult<LoginInfo>> login(@Query("username") String username,
+  Observable<HttpResult<User>> login(@Query("username") String username,
       @Query("password") String password);
 }

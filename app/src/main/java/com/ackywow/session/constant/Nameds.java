@@ -1,22 +1,26 @@
 package com.ackywow.session.constant;
 
-import android.support.annotation.StringDef;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import static com.ackywow.session.constant.Nameds.Activity_Name;
-import static com.ackywow.session.constant.Nameds.BASE_URL;
-import static com.ackywow.session.constant.Nameds.ConnectTimeout;
-
 /**
  * Created by Jiang on 2016/11/24.
  */
-@StringDef({ BASE_URL, Activity_Name, ConnectTimeout })
-@Retention(RetentionPolicy.SOURCE)
-public @interface Nameds {
+public interface Nameds {
   String BASE_URL = "BASE_URL";
   String Activity_Name = "Activity_Name";
   String ConnectTimeout = "connectTimeout";
 
   String MVP = "MVP";
+
+  String UNIQUE_ID = "UNIQUE_ID";
+  String MAIN_SPUTIL = "main_SPUTIL";
+  String MAIN_SPDATAUTIL = "main_SPDATAUTIL";
+  String USER_SPUTIL = "user_spUtil";
+  String USER_SPDATAUTIL = "USER_SPDATAUTIL";
+
+  String MAIN_SQLITEDATABASE = "main_SQLiteDatabase";
+  String MAIN_DAOMASTER = "MAIN_DaoMaster";
+  String MAIN_DAOSESSION = "MAIN_DaoSession";
+
+  String USER_SQLITEDATABASE = "USER_SQLITEDATABASE";
+  String USER_DAOMASTER = "USER_DAOMASTER";
+  String USER_DAOSESSION = "USER_DAOSESSION";
 }

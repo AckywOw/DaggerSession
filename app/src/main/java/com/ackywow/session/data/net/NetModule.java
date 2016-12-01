@@ -1,8 +1,8 @@
 package com.ackywow.session.data.net;
 
 import android.app.Application;
-import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.session.BuildConfig;
+import com.ackywow.session.base.scope.ApplicationScope;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,7 +10,6 @@ import dagger.Module;
 import dagger.Provides;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Named;
-import javax.inject.Singleton;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -27,14 +26,14 @@ import static com.ackywow.session.constant.Nameds.ConnectTimeout;
 public class NetModule {
 
   @Provides
-  @Singleton
+  @ApplicationScope
   @Named(BASE_URL)
   static String providesBaseUrl() {
     return BuildConfig.BASE_URL;
   }
 
   @Provides
-  @Singleton
+  @ApplicationScope
   static Cache provideOkHttpCache(Application application) {
     int cacheSize = 10 * 1024 * 1024;//10M
     Cache cache = new Cache(application.getCacheDir(), cacheSize);
@@ -42,7 +41,7 @@ public class NetModule {
   }
 
   @Provides
-  @Singleton
+  @ApplicationScope
   static Gson provideGson() {
     GsonBuilder builder = new GsonBuilder();
     builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
@@ -50,14 +49,14 @@ public class NetModule {
   }
 
   @Provides
-  @Singleton
+  @ApplicationScope
   @Named(ConnectTimeout)
   static long provideConnectTimeout() {
     return 10L;
   }
 
   @Provides
-  @Singleton
+  @ApplicationScope
   static OkHttpClient provideOkHttpClient(@Named(ConnectTimeout) long connectTimeout, Cache cache) {
     return new OkHttpClient.Builder().connectTimeout(connectTimeout, TimeUnit.SECONDS)
                                      .cache(cache)
@@ -65,7 +64,7 @@ public class NetModule {
   }
 
   @Provides
-  @Singleton
+  @ApplicationScope
   static Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient,
       @Named(BASE_URL) String baseUrl) {
     Retrofit retrofit =
@@ -78,14 +77,8 @@ public class NetModule {
   }
 
   @Provides
-  @Singleton
+  @ApplicationScope
   static ApiService provideApiService(Retrofit retrofit) {
     return retrofit.create(ApiService.class);
-  }
-
-  @Provides
-  @Singleton
-  static RequestUtil provideRequestUtil(BaseSchedulerProvider schedulerProvider) {
-    return new RequestUtil(schedulerProvider);
   }
 }

@@ -1,10 +1,9 @@
 package com.ackywow.session.mvp;
 
-import android.support.annotation.NonNull;
 import android.widget.Toast;
 import com.ackywow.session.R;
 
-public class MvpActivity extends MvpContact.View {
+public class MvpActivity extends MvpContact.View<MvpPresenter, MvpComponet> {
 
   @Override
   void showErrowDialog() {
@@ -19,14 +18,18 @@ public class MvpActivity extends MvpContact.View {
   }
 
   @Override
-  protected int getLayoutId() {
-    return R.layout.activity_mvp;
+  protected void initComponent() {
+    component = activityComponent.newMvpComponet();
   }
 
-  @NonNull
   @Override
-  public MvpContact.Presenter initPresenter() {
-    return new MvpPresenter();
+  protected void inject() {
+    component.inject(this);
+  }
+
+  @Override
+  protected int getLayoutId() {
+    return R.layout.activity_mvp;
   }
 
   @Override
