@@ -1,5 +1,6 @@
 package com.example.leet.b_sort;
 
+import com.example.book.a_1_3.Node;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -66,6 +67,24 @@ public class Solution {
 
   public static void main(String[] args) {
     //        System.out.println(Arrays.toString(threeSum(new int[]{2, 7, 11, 15}));
+  }
+
+  public static Node<Integer> sortNode(Node<Integer> head) {
+    Node<Integer> dummy = new Node<Integer>(0);
+    // 这个dummy的作用是，把head开头的链表一个个的插入到dummy开头的链表里
+    // 所以这里不需要dummy.next = head;
+
+    while (head != null) {
+      Node<Integer> node = dummy;
+      while (node.next != null && node.next.item <= head.item) {
+        node = node.next;
+      }
+      Node temp = head.next;
+      head.next = node.next;
+      node.next = head;
+      head = temp;
+    }
+    return dummy.next;
   }
 
   /**

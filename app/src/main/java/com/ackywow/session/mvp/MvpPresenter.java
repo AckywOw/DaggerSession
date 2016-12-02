@@ -90,7 +90,7 @@ public class MvpPresenter extends MvpContact.Presenter {
                      })
                      .delay(3, TimeUnit.SECONDS)
                      .subscribeOn(schedulerProvider.computation())
-                     .observeOn(schedulerProvider.ui())
+                     .observeOn(schedulerProvider.ui(), true)
                      .subscribe(new Subscriber<Integer>() {
 
                        @Override
@@ -133,7 +133,7 @@ public class MvpPresenter extends MvpContact.Presenter {
                      })
                      .delay(3, TimeUnit.SECONDS)
                      .subscribeOn(schedulerProvider.computation())
-                     .observeOn(schedulerProvider.ui())
+                     .observeOn(schedulerProvider.ui(), true)
                      .subscribe(new Action1<Integer>() {
                        @Override
                        public void call(Integer s) {
@@ -189,7 +189,7 @@ public class MvpPresenter extends MvpContact.Presenter {
                      .take(3) //截取数据数量
                      .delay(2, TimeUnit.SECONDS) //延迟发射
                      .subscribeOn(schedulerProvider.io())
-                     .observeOn(schedulerProvider.ui())
+                     .observeOn(schedulerProvider.ui(), true)
                      .subscribe(new Subscriber<String>() {
 
                        @Override
@@ -256,7 +256,7 @@ public class MvpPresenter extends MvpContact.Presenter {
                      .take(2) //截取数据数量
                      .delay(3, TimeUnit.SECONDS) //延迟发射
                      .subscribeOn(schedulerProvider.io())
-                     .observeOn(schedulerProvider.ui());
+                     .observeOn(schedulerProvider.ui(), true);
   }
 
   private Subscriber<String> getSubscriber() {

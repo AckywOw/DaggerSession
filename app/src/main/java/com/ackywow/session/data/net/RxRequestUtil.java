@@ -33,7 +33,7 @@ public class RxRequestUtil {
       BaseSchedulerProvider schedulerProvider) {
     return observable.subscribeOn(schedulerProvider.io())
                      .map(func1)
-                     .observeOn(schedulerProvider.ui())
+                     .observeOn(schedulerProvider.ui(), true)
                      .unsubscribeOn(schedulerProvider.io())
                      .subscribe(subscriber);
   }
@@ -65,7 +65,7 @@ public class RxRequestUtil {
                        }
                      })
                      .subscribeOn(schedulerProvider.ui())
-                     .observeOn(schedulerProvider.ui())
+                     .observeOn(schedulerProvider.ui(), true)
                      .doOnCompleted(new Action0() {
                        @Override
                        public void call() {
