@@ -22,6 +22,7 @@ public class UserDao extends AbstractDao<User, String> {
         super(config);
     }
 
+
     public UserDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
     }
@@ -107,7 +108,7 @@ public class UserDao extends AbstractDao<User, String> {
         entity.setAge(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setAddress(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
     }
-
+     
     @Override
     protected final String updateKeyAfterInsert(User entity, long rowId) {
         return entity.getUserId();
