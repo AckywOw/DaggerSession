@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
-  compileSdkVersion project.compileSdkVersion as int
-  buildToolsVersion project.buildToolsVersion
+  compileSdkVersion rootProject.ext.buildVersions.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildVersions.buildToolsVersion
 
   defaultConfig {
     applicationId "com.ackywow.session"
-    minSdkVersion project.minSdkVersion
-    targetSdkVersion project.targetSdkVersion
-    versionCode project.versionCode as int
-    versionName project.versionName
+    minSdkVersion rootProject.ext.buildVersions.minSdkVersion
+    targetSdkVersion rootProject.ext.buildVersions.targetSdkVersion
+    versionCode rootProject.ext.buildVersions.versionCode
+    versionName rootProject.ext.buildVersions.versionName
   }
   buildTypes {
     debug {
@@ -30,7 +30,7 @@ android {
 }
 
 greendao {
-  schemaVersion project.versionCode as int
+  schemaVersion rootProject.ext.buildVersions.versionCode
   daoPackage 'com.ackywow.session.data.db.dao'
   targetGenDir 'src/main/java'
 }
@@ -40,18 +40,17 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
 
-  compile "com.android.support:design:$project.androidSupportLibrary"
-  compile "com.android.support:appcompat-v7:$project.androidSupportLibrary"
-  compile "com.android.support:recyclerview-v7:$project.androidSupportLibrary"
-  compile "com.android.support.constraint:constraint-layout:$project.constraintLayout"
+  compile rootProject.ext.deps.androidDesignLibrary
+  compile rootProject.ext.deps.androidRecyclerviewLibrary
+  compile rootProject.ext.deps.constraintLayout
 
   // apt command comes from the android-apt plugin
-  annotationProcessor "com.google.dagger:dagger-compiler:$project.dagger2"
-  compile "com.squareup.retrofit2:retrofit:$project.retrofit"
-  compile "com.squareup.retrofit2:converter-gson:$project.retrofit"
-  compile "com.squareup.retrofit2:adapter-rxjava:$project.retrofit"
-  compile "com.google.code.gson:gson:$project.gson"
-  compile "com.jakewharton:butterknife:$project.butterknife"
-  compile "com.squareup.sqlbrite:sqlbrite:$project.sqlbrite"
-  compile "org.greenrobot:greendao:$project.greendao"
+  annotationProcessor rootProject.ext.deps.dagger2_compiler
+  compile rootProject.ext.deps.retrofit2
+  compile rootProject.ext.deps.retrofit2_converter_gson
+  compile rootProject.ext.deps.retrofit2_adapter_rxjava
+  compile rootProject.ext.deps.gson
+  compile rootProject.ext.deps.butterknife
+  compile rootProject.ext.deps.sqlbrite
+  compile rootProject.ext.deps.greendao
 }

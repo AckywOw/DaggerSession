@@ -27,9 +27,9 @@ public class NoteDao extends AbstractDao<Note, Long> {
         super(config, daoSession);
     }
 
-    /** Creates the underlying database table. */
+  /** Creates the underlying database table. */
     public static void createTable(Database db, boolean ifNotExists) {
-        String constraint = ifNotExists ? "IF NOT EXISTS " : "";
+      String constraint = ifNotExists ? "IF NOT EXISTS " : "";
         db.execSQL("CREATE TABLE " + constraint + "\"NOTE\" (" + //
             "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
             "\"NAME\" TEXT NOT NULL ," + // 1: name
@@ -102,16 +102,16 @@ public class NoteDao extends AbstractDao<Note, Long> {
         return rowId;
     }
 
-    @Override
+  @Override
     public Long getKey(Note entity) {
-        if (entity != null) {
+    if (entity != null) {
             return entity.getId();
         } else {
             return null;
         }
     }
 
-    @Override
+  @Override
     public boolean hasKey(Note entity) {
         return entity.getId() != null;
     }

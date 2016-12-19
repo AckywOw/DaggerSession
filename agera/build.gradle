@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion project.compileSdkVersion as int
-  buildToolsVersion project.buildToolsVersion
+  compileSdkVersion rootProject.ext.buildVersions.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildVersions.buildToolsVersion
 
   defaultConfig {
     applicationId "com.example.agera"
-    minSdkVersion project.minSdkVersion
-    targetSdkVersion project.targetSdkVersion
+    minSdkVersion rootProject.ext.buildVersions.minSdkVersion
+    targetSdkVersion rootProject.ext.buildVersions.targetSdkVersion
     versionCode 1
     versionName "1.0"
 
@@ -26,8 +26,8 @@ dependencies {
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
-  compile "com.android.support:design:$project.androidSupportLibrary"
-  compile "com.android.support:appcompat-v7:$project.androidSupportLibrary"
-  compile "com.google.android.agera:agera:$project.agera"
+  compile rootProject.ext.deps.androidDesignLibrary
+  //  compile "com.android.support:appcompat-v7:$project.androidSupportLibrary"
+  compile rootProject.ext.deps.agera
   testCompile 'junit:junit:4.12'
 }

@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-  compileSdkVersion project.compileSdkVersion as int
-  buildToolsVersion project.buildToolsVersion
+  compileSdkVersion rootProject.ext.buildVersions.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildVersions.buildToolsVersion
 
   defaultConfig {
-    minSdkVersion project.minSdkVersion
-    targetSdkVersion project.targetSdkVersion
+    minSdkVersion rootProject.ext.buildVersions.minSdkVersion
+    targetSdkVersion rootProject.ext.buildVersions.targetSdkVersion
     versionCode 1
     versionName "1.0"
 
@@ -25,13 +25,14 @@ dependencies {
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
-  compile "com.android.support:appcompat-v7:$project.androidSupportLibrary"
   testCompile 'junit:junit:4.12'
 
-  compile "org.greenrobot:eventbus:$project.eventbus"
-  compile "com.google.guava:guava:$project.guava"
-  compile "io.reactivex:rxjava:$project.rxjava"
-  compile "io.reactivex:rxandroid:$project.rxandroid"
-  compile "com.google.dagger:dagger:$project.dagger2"
-  annotationProcessor "com.google.dagger:dagger-compiler:$project.dagger2"
+  compile rootProject.ext.deps.androidAppcompatLibrary
+
+  compile rootProject.ext.deps.eventbus
+  compile rootProject.ext.deps.guava
+  compile rootProject.ext.deps.rxjava
+  compile rootProject.ext.deps.rxandroid
+  compile rootProject.ext.deps.dagger2
+  annotationProcessor rootProject.ext.deps.dagger2_compiler
 }
