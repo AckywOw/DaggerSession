@@ -37,7 +37,7 @@ ext {
                    compileSdkVersion: 25]
 
   libsVersions = [androidSupportLibrary: '25.0.1',
-                  constraintLayout     : '1.0.0-beta4',
+                  constraintLayout     : '1.0.0-beta5',
 
                   dagger2              : '2.7',
                   retrofit2            : '2.1.0',
