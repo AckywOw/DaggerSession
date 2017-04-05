@@ -67,7 +67,7 @@ public class MvpPresenter extends MvpContact.Presenter {
       Log.e(TAG, name);
       Log.e(TAG, noteDaoUtil.toString());
       Log.e(TAG, spDataUtil.toString());
-      Subscription subscription = getSubscription4();
+      Subscription subscription = getSubscription2();
       addSubscription(subscription);
     } catch (Exception e) {
       e.printStackTrace();
@@ -122,7 +122,7 @@ public class MvpPresenter extends MvpContact.Presenter {
         subscriber.onNext("first");
         subscriber.onNext("second");
         subscriber.onNext("third");
-        subscriber.onCompleted();
+        //subscriber.onCompleted();
       }
     })
                      .map(new Func1<String, Integer>() {

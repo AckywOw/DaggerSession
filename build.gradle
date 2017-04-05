@@ -5,7 +5,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.3'
+    classpath 'com.android.tools.build:gradle:2.3.0'
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
@@ -37,7 +37,7 @@ ext {
                    compileSdkVersion: 25]
 
   libsVersions = [androidSupportLibrary: '25.0.1',
-                  constraintLayout     : '1.0.0-beta5',
+                  constraintLayout     : '1.0.2',
 
                   dagger2              : '2.7',
                   retrofit2            : '2.1.0',

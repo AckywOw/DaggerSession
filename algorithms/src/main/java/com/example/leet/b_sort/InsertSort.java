@@ -1,5 +1,6 @@
 package com.example.leet.b_sort;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -10,7 +11,7 @@ import java.util.Random;
 public class InsertSort {
   public static void main(String[] args) {
     int[] nums = new int[10];
-    Random random = new Random();
+    Random random = new SecureRandom();
     for (int i = 0; i < nums.length; i++) {
       nums[i] = random.nextInt(10000) + 1;
     }

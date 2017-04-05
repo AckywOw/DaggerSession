@@ -1,6 +1,7 @@
 package com.example.leet.b_sort;
 
 import com.example.book.a_1_3.Node;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,7 +24,7 @@ public class Test_Sort {
 
   private static void arraySort() {
     int[] nums = new int[10];
-    Random random = new Random();
+    Random random = new SecureRandom();
     for (int i = 0; i < nums.length; i++) {
       nums[i] = random.nextInt(100) + 1;
     }
@@ -34,7 +35,7 @@ public class Test_Sort {
   }
 
   private static void linkedSort() {
-    Random random = new Random();
+    Random random = new SecureRandom();
     Node<Integer> first = null;
     Node<Integer> now = null;
     for (int i = 0; i < 10; i++) {
