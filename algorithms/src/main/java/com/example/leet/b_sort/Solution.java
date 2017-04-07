@@ -1,17 +1,59 @@
 package com.example.leet.b_sort;
 
 import com.example.book.a_1_3.Node;
+import com.example.util.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Created by AckywOw on 2016/7/30.
  */
 public class Solution {
+
+  /**
+   * 把数组中的0置后
+   * @param arr
+   */
+  public static void moveZeros(Vector<Integer> arr) {
+    //1
+    //Vector<Integer> temp = new Vector<>();
+    //for (int i = 0; i < arr.size(); i++) {
+    //  if (arr.get(i) != 0) {
+    //    temp.add(arr.get(i));
+    //  }
+    //}
+    //for (int i = temp.size(); i < arr.size(); i++) {
+    //  temp.add(0);
+    //}
+
+    //2
+    //int k=0;
+    //for (int i = 0; i < arr.size(); i++) {
+    //  if(arr.get(i)!=0) {
+    //    arr.set(k++,arr.get(i));
+    //  }
+    //}
+    //while (k<arr.size()) {
+    //  arr.set(k++,0);
+    //}
+
+    //3
+    int k = 0;
+    for (int i = 0; i < arr.size(); i++) {
+      if (arr.get(i) != 0) {
+        if (k != i) {
+          Utils.swap(arr, k++, i);
+        } else {
+          k++;
+        }
+      }
+    }
+  }
 
   /**
    * 两个数组的交
@@ -115,6 +157,7 @@ public class Solution {
       } else {
         result[0] = values[0] + 1;
         result[1] = i + 1;
+        break;
       }
     }
     return result;
@@ -339,23 +382,18 @@ public class Solution {
     int i = 0;
     while (i <= pr) {
       if (nums[i] == 0) {
-        swap(nums, pl, i);
+        Utils.swap(nums, pl, i);
         pl++;
         i++;
       } else if (nums[i] == 1) {
         i++;
       } else {
-        swap(nums, pr, i);
+        Utils.swap(nums, pr, i);
         pr--;
       }
     }
   }
 
-  private void swap(int[] nums, int i, int j) {
-    int tmp = nums[i];
-    nums[i] = nums[j];
-    nums[j] = tmp;
-  }
 
   /**
    * 四数之和
@@ -498,7 +536,7 @@ public class Solution {
   public void wiggleSort(int[] nums) {
     for (int i = 1; i < nums.length; i++) {
       if ((i % 2 == 1 && (nums[i] < nums[i - 1]) || (i % 2 == 0) && (nums[i] > nums[i - 1]))) {
-        swap(nums, i - 1, i);
+        Utils.swap(nums, i - 1, i);
       }
     }
   }

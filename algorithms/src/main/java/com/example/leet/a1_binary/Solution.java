@@ -19,7 +19,7 @@ public class Solution {
     }
     int left = 0, right = nums.length - 1;
     while (left < right) {
-      int mid = left + (right - left) / 2;
+      int mid = left + (right - left) / 2; //这里是为了防止left + right会整型溢出
       if (nums[mid] == target) {
         right = mid;
       } else if (nums[mid] < target) {

@@ -1,6 +1,7 @@
 package com.example.leet.b_sort;
 
 import com.example.book.a_1_3.Node;
+import com.example.util.Utils;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -124,6 +125,24 @@ public class Test_Sort {
       return "0";
     }
     return s;
+  }
+
+  static void sortColor(int[] nums) {
+    if (nums == null && nums.length == 0) return;
+    int left = 0, i = 0;
+    int right = nums.length - 1;
+    while (i <= right) {
+      if (nums[i] == 2) {
+        Utils.swap(nums, i, right);
+        right--;
+      } else if (nums[i] == 1) {
+        i++;
+      } else {
+        Utils.swap(nums, left, i);
+        i++;
+        left++;
+      }
+    }
   }
 
   public int threeSumClosest(int[] numbers, int target) {
