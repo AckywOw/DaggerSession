@@ -7,7 +7,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -16,22 +18,52 @@ import java.util.Vector;
 public class Solution {
 
   /**
+   * 滑动窗口问题
+   *
+   * @param nums
+   * @param target
+   * @return
+   */
+  // 时间复杂度: O(n)
+  // 空间复杂度: O(1)
+  public static int minSubArrayLen(int[] nums, int target) {
+    int l = 0, r = -1;
+    int result = nums.length - 1;
+    int sum = 0;
+    while (l < nums.length) {
+      if (r + 1 < nums.length && sum < target) {
+        sum += nums[++r];
+      } else {
+        sum -= nums[l++];
+      }
+      if (sum >= target) {
+        Utils.min(result, l - r + 1);
+      }
+    }
+    return result;
+  }
+
+  /**
    * 把数组中的0置后
+   *
    * @param arr
    */
+  // 时间复杂度 O(n)
   public static void moveZeros(Vector<Integer> arr) {
     //1
-    //Vector<Integer> temp = new Vector<>();
-    //for (int i = 0; i < arr.size(); i++) {
-    //  if (arr.get(i) != 0) {
-    //    temp.add(arr.get(i));
-    //  }
-    //}
-    //for (int i = temp.size(); i < arr.size(); i++) {
-    //  temp.add(0);
-    //}
+    // 空间复杂度 O(n)
+    Vector<Integer> temp = new Vector<>();
+    for (int i = 0; i < arr.size(); i++) {
+      if (arr.get(i) != 0) {
+        temp.add(arr.get(i));
+      }
+    }
+    for (int i = temp.size(); i < arr.size(); i++) {
+      temp.add(0);
+    }
 
     //2
+    // 空间复杂度 O(1)
     //int k=0;
     //for (int i = 0; i < arr.size(); i++) {
     //  if(arr.get(i)!=0) {
@@ -43,6 +75,7 @@ public class Solution {
     //}
 
     //3
+    // 空间复杂度 O(1)
     int k = 0;
     for (int i = 0; i < arr.size(); i++) {
       if (arr.get(i) != 0) {
@@ -68,30 +101,45 @@ public class Solution {
     if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0) {
       return new int[] {};
     }
-    Arrays.sort(nums1);
-    Arrays.sort(nums2);
-    int[] temp = new int[nums1.length];
-    int i = 0;
-    int j = 0;
-    int index = 0;
-    while (i < nums1.length && j < nums2.length) {
-      if (nums1[i] == nums2[j]) {
-        if ((index == 0 || nums1[i] != temp[index - 1])) {
-          temp[index++] = nums1[i];
-        }
-        i++;
-        j++;
-      } else if (nums1[i] < nums2[j]) {
-        i++;
-      } else {
-        j++;
+    //先排序解法
+    //Arrays.sort(nums1);
+    //Arrays.sort(nums2);
+    //int[] temp = new int[nums1.length];
+    //int i = 0;
+    //int j = 0;
+    //int index = 0;
+    //while (i < nums1.length && j < nums2.length) {
+    //  if (nums1[i] == nums2[j]) {
+    //    if ((index == 0 || nums1[i] != temp[index - 1])) {
+    //      temp[index++] = nums1[i];
+    //    }
+    //    i++;
+    //    j++;
+    //  } else if (nums1[i] < nums2[j]) {
+    //    i++;
+    //  } else {
+    //    j++;
+    //  }
+    //}
+    //int[] result = new int[index];
+    //for (int k = 0; k < index; k++) {
+    //  result[k] = temp[k];
+    //}
+    //return result;
+
+    //利用Set来解决
+    HashSet<Integer> set = new HashSet<Integer>((List) Arrays.asList(nums1));
+    ArrayList<Integer> list = new ArrayList<>();
+    for (int i = 0; i < nums2.length; i++) {
+      if (set.contains(nums2[i])) {
+        list.add(nums2[i]);
       }
     }
-    int[] result = new int[index];
-    for (int k = 0; k < index; k++) {
-      result[k] = temp[k];
+    int[] arr = new int[list.size()];
+    for (int i = 0; i < list.size(); i++) {
+      arr[i] = list.get(i);
     }
-    return result;
+    return arr;
   }
 
   /**
@@ -107,28 +155,55 @@ public class Solution {
     if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0) {
       return new int[] {};
     }
-    Arrays.sort(nums1);
-    Arrays.sort(nums2);
-    int[] temp = new int[nums1.length];
-    int i = 0;
-    int j = 0;
-    int index = 0;
-    while (i < nums1.length && j < nums2.length) {
-      if (nums1[i] == nums2[j]) {
-        temp[index++] = nums1[i];
-        i++;
-        j++;
-      } else if (nums1[i] < nums2[j]) {
-        i++;
+    //先排序解法
+    //Arrays.sort(nums1);
+    //Arrays.sort(nums2);
+    //int[] temp = new int[nums1.length];
+    //int i = 0;
+    //int j = 0;
+    //int index = 0;
+    //while (i < nums1.length && j < nums2.length) {
+    //  if (nums1[i] == nums2[j]) {
+    //    temp[index++] = nums1[i];
+    //    i++;
+    //    j++;
+    //  } else if (nums1[i] < nums2[j]) {
+    //    i++;
+    //  } else {
+    //    j++;
+    //  }
+    //}
+    //int[] result = new int[index];
+    //for (int k = 0; k < index; k++) {
+    //  result[k] = temp[k];
+    //}
+    //return result;
+
+    //利用map解决
+    HashMap<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < nums1.length; i++) {
+      if (map.containsKey(nums1[i])) {
+        map.put(nums1[i], map.get(nums1[i]) + 1);
       } else {
-        j++;
+        map.put(nums1[i], 1);
       }
     }
-    int[] result = new int[index];
-    for (int k = 0; k < index; k++) {
-      result[k] = temp[k];
+
+    ArrayList<Integer> list = new ArrayList<>();
+    for (int i = 0; i < nums2.length; i++) {
+      if (map.containsKey(nums2[i])) {
+        list.add(nums2[i]);
+        map.put(nums2[i], map.get(nums2[i]) - 1);
+        if (map.get(nums2[i]) == 0) {
+          map.remove(nums2[i]);
+        }
+      }
     }
-    return result;
+    int[] arr = new int[list.size()];
+    for (int i = 0; i < list.size(); i++) {
+      arr[i] = list.get(i);
+    }
+    return arr;
   }
 
   /**
@@ -394,7 +469,6 @@ public class Solution {
     }
   }
 
-
   /**
    * 四数之和
    * 给一个包含n个数的整数数组S，在S中找到所有使得和为给定整数target的四元组(a, b, c, d)。
@@ -453,6 +527,65 @@ public class Solution {
     }
 
     return rst;
+  }
+
+  /**
+   * 四数之和2 ，4个数组中找到能满足a[i]+b[j]+c[k]+d[l]==0的个数
+   */
+  public int fourSum2(int[] a, int[] b, int[] c, int[] d) {
+    HashMap<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < c.length; i++) {
+      for (int j = 0; j < d.length; j++) {
+        int sum = c[i] + d[i];
+        if (map.containsKey(sum)) {
+          map.put(sum, map.get(sum) + 1);
+        } else {
+          map.put(sum, 1);
+        }
+      }
+    }
+
+    int result = 0;
+    for (int i = 0; i < a.length; i++) {
+      for (int j = 0; j < b.length; j++) {
+        int sum = -a[i] - b[j];
+        if (map.containsKey(sum)) {
+          result += map.get(sum);
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * 求满足要求点的组数
+   * 给出平面上n个点，求存在多少组三元组(i,j,k)，使得i、j两点的距离等于i、k两点的距离，n最多为500，
+   * 且所有点的坐标在(-10000,10000)之间
+   */
+  public int numberOfBoomerangs(List<Integer[]> points) {
+    int result = 0;
+    for (int i = 0; i < points.size(); i++) {
+      HashMap<Integer, Integer> map = new HashMap<>();
+      for (int j = 0; j < points.size(); j++) {
+        if (i != j) {
+          int dis = dis(points.get(i), points.get(j));
+          if (map.containsKey(dis)) {
+            map.put(dis, map.get(dis) + 1);
+          } else {
+            map.put(dis, 1);
+          }
+        }
+      }
+
+      for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+        result += entry.getValue() * (entry.getValue() - 1);
+      }
+    }
+    return result;
+  }
+
+  private int dis(Integer[] a, Integer[] b) {
+    return (a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]);
   }
 
   /**

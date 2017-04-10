@@ -32,4 +32,12 @@ public class Utils {
     nums[i] = nums[j];
     nums[j] = tmp;
   }
+
+  public static int min(int i, int r) {
+    if (i > r) {
+      return r;
+    } else {
+      return i;
+    }
+  }
 }
