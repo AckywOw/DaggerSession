@@ -6,6 +6,25 @@ package com.example.leet.a4_linked;
 public class Solution {
 
   /**
+   * 在O(1)时间复杂度删除链表节点
+   * 给定一个单链表中的一个等待被删除的节点(非表头或表尾)。请在在O(1)时间复杂度删除该链表节点。
+   *
+   * 给定 1->2->3->4，和节点 3，删除 3 之后，链表应该变为 1->2->4。
+   *
+   * @param node: the node in the list should be deleted
+   * @return: nothing
+   */
+  public void deleteNode(ListNode node) {
+    if (node == null) return;
+    if (node.next == null) {
+      node = null;
+    } else {
+      node.val = node.next.val;
+      node.next = node.next.next;
+    }
+  }
+
+  /**
    * 删除链表中的元素
    * 给出链表 1->2->3->3->4->5->3, 和 val = 3, 你需要返回删除3之后的链表：1->2->4->5。
    * Created by AckywOw on 2016/7/29.
@@ -31,6 +50,54 @@ public class Solution {
       head = head.next;
     }
     return head;
+  }
+
+  /**
+   * 删除链表中的元素
+   * 给出链表 1->2->3->3->4->5->3, 和 val = 3, 你需要返回删除3之后的链表：1->2->4->5。
+   * Created by AckywOw on 2016/7/29.
+   *
+   * @param head a ListNode
+   * @param val an integer
+   * @return a ListNode
+   */
+  public ListNode removeElements2(ListNode head, int val) {
+    // Write your code here
+    ListNode dummyHead = new ListNode(0);
+    dummyHead.next = head;
+    ListNode cur = dummyHead;
+    while (cur.next != null) {
+      if (cur.next.val == val) {
+        cur.next = cur.next.next;
+      } else {
+        cur = cur.next;
+      }
+    }
+    return dummyHead.next;
+  }
+
+  /**
+   * 两两交换链表中的节点
+   * 给一个链表，两两交换其中的节点，然后返回交换后的链表。
+   *
+   * 给出 1->2->3->4, 你应该返回的链表是 2->1->4->3。
+   *
+   * @param head a ListNode
+   * @return a ListNode
+   */
+  public ListNode swapPairs(ListNode head) {
+    ListNode dummyHead = new ListNode(0);
+    dummyHead.next = head;
+    ListNode cur = dummyHead;
+    while (cur.next != null && cur.next.next != null) {
+      ListNode n1 = cur.next;
+      ListNode n2 = cur.next.next;
+      n1.next = n2.next;
+      n2.next = n1;
+      cur.next = n2;
+      cur = n1;
+    }
+    return dummyHead.next;
   }
 
   /**
@@ -154,5 +221,32 @@ public class Solution {
       slow = slow.next;
     }
     return head;
+  }
+
+  /**
+   * 删除链表中倒数第n个节点
+   * 给定一个链表，删除链表中倒数第n个节点，返回链表的头节点。链表中的节点个数大于等于n
+   *
+   * 给出链表1->2->3->4->5->null和 n = 2.
+   * 删除倒数第二个节点之后，这个链表将变成1->2->3->5->null.
+   *
+   * @param head: The first node of linked list.
+   * @param n: An integer.
+   * @return: The head of linked list.
+   */
+  public ListNode removeNthFromEnd(ListNode head, int n) {
+    ListNode dummyHead = new ListNode(0);
+    dummyHead.next = head;
+    ListNode p = dummyHead;
+    ListNode q = p.next;
+    for (int i = 0; i < n; i++) {
+      q = q.next;
+    }
+    while (q != null) {
+      p = p.next;
+      q = q.next;
+    }
+    p.next = p.next.next;
+    return dummyHead.next;
   }
 }

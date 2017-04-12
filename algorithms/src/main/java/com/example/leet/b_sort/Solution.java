@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.Vector;
 
 /**
@@ -326,6 +327,62 @@ public class Solution {
   }
 
   /**
+   * 两个数的和
+   * 给定一个整形数组nums和一个整数k，是否存在索引k和i，使得nums[i]==nums[j]且i和j的差不超过k
+   *
+   * @param nums : An array of Integer
+   * @param k : target = numbers[index1] + numbers[index2]
+   * @return :
+   */
+  public boolean containsNearbyDuplicate(int[] nums, int k) {
+    if (nums == null || nums.length <= 1 || k <= 0) {
+      return false;
+    }
+    HashSet<Integer> set = new HashSet<>();
+    for (int i = 0; i < nums.length; i++) {
+      if (set.contains(nums[i])) {
+        return true;
+      }
+      set.add(nums[i]);
+      // 保持record中最多有k个元素
+      // 因为在下一次循环中会添加一个新元素,使得总共考虑k+1个元素
+      if (set.size() == k + 1) {
+        set.remove(nums[i - k]);
+      }
+    }
+    return false;
+  }
+
+  /**
+   * 两个数的和
+   * 给定一个整形数组nums，是否存在索引k和i，使得nums[i]和nums[j]的差不超过整数t且i和j的差不超过整数k
+   *
+   * @param nums : An array of Integer
+   * @param t : t >= numbers[index1] - numbers[index2]
+   * @param k : t >= index1 - index2
+   * @return :
+   */
+  public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+    if (nums == null || nums.length <= 0 || k <= 0) {
+      return false;
+    }
+    TreeSet<Long> values = new TreeSet<>();
+    for (int i = 0; i < nums.length; i++) {
+      final Long ceil = values.ceiling((long) nums[i] - (long) t);
+      if (ceil != null && ceil.longValue() <= (long) nums[i] + (long) t) {
+        return true;
+      }
+      values.add((long) nums[i]);
+      // 保持record中最多有k个元素
+      // 因为在下一次循环中会添加一个新元素,使得总共考虑k+1个元素
+      if (values.size() > k) {
+        values.remove((long) nums[i - k]);
+      }
+    }
+    return false;
+  }
+
+  /**
    * 三数之和
    *
    * 给出一个有n个整数的数组S，在S中找到三个整数a, b, c，找到所有使得a + b + c = 0的三元组。
@@ -530,7 +587,7 @@ public class Solution {
   }
 
   /**
-   * 四数之和2 ，4个数组中找到能满足a[i]+b[j]+c[k]+d[l]==0的个数
+   * 四数之和2 ，4个数组中找到能满足a[i]+b[j]+c[k]+d[l]==0的个数，数组中数字小于500
    */
   public int fourSum2(int[] a, int[] b, int[] c, int[] d) {
     HashMap<Integer, Integer> map = new HashMap<>();
