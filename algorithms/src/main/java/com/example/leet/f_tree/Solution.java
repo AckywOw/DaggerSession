@@ -59,13 +59,31 @@ public class Solution {
   }
 
   /**
-   * 二叉树的前序遍历
+   * 二叉树的前序遍历（递归）
    *
    * @param root: The root of binary tree.
    * @return: Preorder in ArrayList which contains node values.
    */
   public ArrayList<Integer> preorderTraversal(TreeNode root) {
-    // write your code here
+    ArrayList<Integer> preorder = new ArrayList<Integer>();
+    preorderTraversal(root, preorder);
+    return preorder;
+  }
+
+  private void preorderTraversal(TreeNode root, ArrayList<Integer> preorder) {
+    if (root == null) return;
+    preorder.add(root.val);
+    preorderTraversal(root.left, preorder);
+    preorderTraversal(root.right, preorder);
+  }
+
+  /**
+   * 二叉树的前序遍历（非递归）
+   *
+   * @param root: The root of binary tree.
+   * @return: Preorder in ArrayList which contains node values.
+   */
+  public ArrayList<Integer> preorderTraversal2(TreeNode root) {
     Stack<TreeNode> stack = new Stack<TreeNode>();
     ArrayList<Integer> preorder = new ArrayList<Integer>();
 
@@ -85,6 +103,36 @@ public class Solution {
       }
     }
 
+    return preorder;
+  }
+
+  /**
+   * 二叉树的前序遍历（非递归）
+   *
+   * @param root: The root of binary tree.
+   * @return: Preorder in ArrayList which contains node values.
+   */
+  public ArrayList<Integer> preorderTraversal3(TreeNode root) {
+    Stack<Command> stack = new Stack<Command>();
+    ArrayList<Integer> preorder = new ArrayList<Integer>();
+    if (root == null) {
+      return preorder;
+    }
+    stack.push(new Command(Command.GO, root));
+    while (!stack.empty()) {
+      Command command = stack.pop();
+      if (Command.PRINT == command.order) {
+        preorder.add(command.node.val);
+      } else {
+        if (command.node.right != null) {
+          stack.push(new Command(Command.GO, command.node.right));
+        }
+        if (command.node.left != null) {
+          stack.push(new Command(Command.GO, command.node.left));
+        }
+        stack.push(new Command(Command.PRINT, command.node));
+      }
+    }
     return preorder;
   }
 
@@ -245,6 +293,18 @@ public class Solution {
       leftToRight = !leftToRight;
     }
     return tree;
+  }
+
+  private static class Command {
+    static final int GO = 0;
+    static final int PRINT = 1;
+    int order;
+    TreeNode node;
+
+    public Command(int order, TreeNode node) {
+      this.order = order;
+      this.node = node;
+    }
   }
 
   /**

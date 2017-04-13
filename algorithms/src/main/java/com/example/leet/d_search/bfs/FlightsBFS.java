@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 寻找去另一个城市最换乘的航班走法
  * Created by AckywOw on 2016/6/14.
  */
 public class FlightsBFS {
@@ -22,7 +23,7 @@ public class FlightsBFS {
     tail++;
     while (head < tail) {
       for (int i = 1; i < sum; i++) {
-        if (map[head][i] > 0 && book[i] == 0) {
+        if (map[head][i] > 0 && book[i] == 0) { //到该城市有航班，且还没去这个城市
           start = i;
           book[i] = 1;
           steps.add(new Step(i, steps.get(head).sum + 1, steps.get(head)));
@@ -43,6 +44,12 @@ public class FlightsBFS {
     System.out.println("to 5:" + finalSteps.toString());
   }
 
+  /**
+   * 计算出真正的行程
+   *
+   * @param last
+   * @param finalSteps
+   */
   private static void makeSteps(Step last, ArrayList<Step> finalSteps) {
     finalSteps.add(last);
     if (last.front != null) {

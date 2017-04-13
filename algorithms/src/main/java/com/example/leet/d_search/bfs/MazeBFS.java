@@ -14,11 +14,16 @@ public class MazeBFS {
     int startX = 0, startY = 0, endX = 4, endY = 1;
     int width = 4, height = 7;
     int[][] maze = {
-        { 0, 0, 1, 0 }, { 0, 0, 0, 0 }, { 0, 1, 1, 0 }, { 0, 0, 0, 0 }, { 0, 0, 1, 0 },
-        { 0, 1, 0, 0 }, { 0, 0, 0, 0 }
+        { 0, 0, 1, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 1, 1, 0 },
+        { 0, 0, 0, 0 },
+        { 0, 0, 1, 0 },
+        { 0, 1, 0, 0 },
+        { 0, 0, 0, 0 }
     };
 
-    int[][] book = new int[height][width];
+    int[][] book = new int[height][width]; //这里利用数组在记住历史有效点
     int[][] next = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
     List<Step> steps = new ArrayList<>();
     ArrayList<Step> finalSteps = new ArrayList<>();
