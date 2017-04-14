@@ -1,7 +1,12 @@
 package com.example.leet.f_tree;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -207,6 +212,7 @@ public class Solution {
         }
       }
       tree.add(list);
+      //tree.add(0, list); 这里就会变成自底向上的层次遍历
     }
     return tree;
   }
@@ -293,6 +299,94 @@ public class Solution {
       leftToRight = !leftToRight;
     }
     return tree;
+  }
+
+  /**
+   * 完美平方
+   * 给一个正整数 n, 找到若干个完全平方数(比如1, 4, 9, ... )使得他们的和等于 n。你需要让平方数的个数最少。
+   * 给出 n = 12, 返回 3 因为 12 = 4 + 4 + 4。
+   * 给出 n = 13, 返回 2 因为 13 = 4 + 9。
+   *
+   * @param n a positive integer
+   * @return an integer
+   */
+  public int numSquares(int n) {
+
+    if (n == 0) return 0;
+    LinkedList<int[]> list = new LinkedList<int[]>();
+    list.offer(new int[] { n, 0 });
+    boolean[] book = new boolean[n + 1];
+    book[n] = true;
+    while (!list.isEmpty()) {
+      int num = list.peek()[0];
+      int step = list.peek()[1];
+      list.pop();
+      int i = 1;
+      do {
+        int a = num - i * i;
+        if (a < 0) break;
+        if (!book[a]) {
+          if (a == 0) return step + 1;
+          list.offer(new int[] { a, step + 1 });
+          book[a] = true;
+        }
+        i++;
+      } while (true);
+    }
+    throw new IllegalArgumentException("No solution!");
+  }
+
+  /**
+   * 给定一个非空数组，返回前K个出现频率最高的元素
+   * 如[1,1,1,2,2,3]，k=2
+   * 返回[1,2]
+   *
+   * @param nums
+   * @param k
+   * @return
+   */
+  public List<Integer> topKFrequent(int[] nums, int k) {
+    class Pair {
+      int freq;
+      int num;
+
+      public Pair(int freq, int num) {
+        this.freq = freq;
+        this.num = num;
+      }
+    }
+    class PairComparator implements Comparator<Pair> {
+
+      @Override
+      public int compare(Pair p1, Pair p2) {
+        return p1.freq - p2.freq;
+      }
+    }
+    HashMap<Integer, Integer> freqs = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+      if (freqs.containsKey(nums[i])) {
+        freqs.put(nums[i], freqs.get(nums[i]) + 1);
+      } else {
+        freqs.put(nums[i], 1);
+      }
+    }
+
+    PriorityQueue<Pair> queue = new PriorityQueue<>(new PairComparator());
+    for (Map.Entry<Integer, Integer> entry : freqs.entrySet()) {
+      if (queue.size() == k) {
+        if (entry.getValue() > queue.peek().freq) {
+          queue.poll();
+          queue.offer(new Pair(entry.getValue(), entry.getKey()));
+        }
+      } else {
+        queue.offer(new Pair(entry.getValue(), entry.getKey()));
+      }
+    }
+    List<Integer> list = new ArrayList<>();
+    while (!queue.isEmpty()) {
+      list.add(0, queue.poll().num);
+    }
+    return list;
   }
 
   private static class Command {
