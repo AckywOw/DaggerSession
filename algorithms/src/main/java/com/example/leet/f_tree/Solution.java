@@ -22,20 +22,38 @@ public class Solution {
    */
   public int maxDepth(TreeNode root) {
     // write your code here
-    if (root == null) {
+    if (root == null) { //终止条件
       return 0;
     }
+    //开始递归逻辑
     int left = maxDepth(root.left);
     int right = maxDepth(root.right);
     return Math.max(left, right) + 1;
   }
 
   /**
+   * 二叉树的最小深度
+   *
+   * @param root: The root of binary tree.
+   * @return: An integer.
+   */
+  public int minDepth(TreeNode root) {
+    if (root == null) { //终止条件
+      return 0;
+    }
+    //开始递归逻辑
+    int left = minDepth(root.left);
+    int right = minDepth(root.right);
+    return (left == 0 || right == 0) ? left + right + 1 : Math.min(left, right) + 1;
+  }
+
+  /**
+   * 反转二叉树
+   *
    * @param root: a TreeNode, the root of the binary tree
    * @return: nothing
    */
   public void invertBinaryTree(TreeNode root) {
-    // write your code here
     if (root == null) {
       return;
     }
@@ -334,6 +352,116 @@ public class Solution {
       } while (true);
     }
     throw new IllegalArgumentException("No solution!");
+  }
+
+  /**
+   * 二叉树的路径和
+   * 给定一个二叉树，是否存在一个路径，其各节点相加总和等于给定目标值sum。
+   * 一个有效的路径，指的是从根节点到叶节点的路径。
+   *
+   * @param root
+   * @param sum
+   * @return
+   */
+  public boolean hasPathSum(TreeNode root, int sum) {
+    if (root == null) return false;
+    if (root.left == null && root.right == null && root.val == sum) return true;
+    return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+  }
+
+  /**
+   * 二叉树的所有路径
+   * 给一棵二叉树，找出从根节点到叶子节点的所有路径。
+   * 给出下面这棵二叉树：
+   * 1
+   * /   \
+   * 2     3
+   * \
+   * 5
+   * 所有根到叶子的路径为：
+   * [
+   * "1->2->5",
+   * "1->3"
+   * ]
+   *
+   * @param root the root of the binary tree
+   * @return all root-to-leaf paths
+   */
+  public List<String> binaryTreePaths(TreeNode root) {
+    List<String> list = new ArrayList<>();
+    if (root == null) return list;
+    if (root.left == null && root.right == null) {
+      list.add(root.val + "");
+      return list;
+    }
+    List<String> leftList = binaryTreePaths(root.left);
+    List<String> rightList = binaryTreePaths(root.right);
+    for (int i = 0; i < leftList.size(); i++) {
+      list.add(root.val + "->" + leftList.get(i));
+    }
+    for (int i = 0; i < rightList.size(); i++) {
+      list.add(root.val + "->" + rightList.get(i));
+    }
+    return list;
+  }
+
+  /**
+   * 二叉树的路径和
+   * 给定一个二叉树，找出所有路径中各节点相加总和等于给定 目标值 的路径有多少个。
+   * 一个有效的路径的起点和终点没有限制，只是必须从上向下。
+   * 树的节点数少于1000，节点值在-1000000到1000000之间
+   *
+   * @param root
+   * @param sum
+   * @return
+   */
+  public int pathSum(TreeNode root, int sum) {
+    if (root == null) return 0;
+    int num = findPath(root, sum);
+    num += pathSum(root.left, sum);
+    num += pathSum(root.right, sum);
+    return num;
+  }
+
+  private int findPath(TreeNode root, int sum) {
+    if (root == null) return 0;
+    int num = 0;
+    if (root.val == sum) {
+      num++;
+    }
+    num += findPath(root.left, sum - root.val);
+    num += findPath(root.right, sum - root.val);
+    return num;
+  }
+
+  /**
+   * 最近公共祖先
+   * 给定一棵二分搜索树，找到两个节点的最近公共父节点(LCA)。最近公共祖先是两个节点的公共的祖先节点且具有最大深度。
+   * 对于下面这棵二叉树
+   * ______6______
+   * /              \
+   * ___2__          ___8__
+   * /       \       /       \
+   * 0        4      7        9
+   * /  \
+   * 3   5
+   * LCA(2, 8) = 6
+   * LCA(2, 4) = 2
+   *
+   * @param root
+   * @param p
+   * @param q
+   * @return
+   */
+  public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null) return null;
+    if (p.val < root.val && q.val < root.val) {
+      return lowestCommonAncestor(root.left, p, q);
+    }
+    if (p.val > root.val && q.val > root.val) {
+      return lowestCommonAncestor(root.right, p, q);
+    }
+    return root;
   }
 
   /**
