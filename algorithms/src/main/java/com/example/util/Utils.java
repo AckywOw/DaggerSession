@@ -1,5 +1,6 @@
 package com.example.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,6 +14,13 @@ public class Utils {
     for (int i = 0; i < arr.length; i++) {
       System.out.println(Arrays.toString(arr[i]));
     }
+  }
+
+  public static void printArrs(ArrayList<ArrayList<Integer>> lists) {
+    for (ArrayList<Integer> list : lists) {
+      System.out.print(list.toString());
+    }
+    System.out.println();
   }
 
   public static void printArrs(boolean[][] arr) {

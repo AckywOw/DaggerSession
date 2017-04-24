@@ -3,6 +3,7 @@ package com.example.leet.e_shortestpath;
 import java.util.Arrays;
 
 /**
+ * 最短路径问题
  * Created by AckywOw on 2016/6/14.
  */
 public class Dijkstra {
@@ -10,8 +11,10 @@ public class Dijkstra {
   public static void main(String[] args) {
     int infinity = Integer.MAX_VALUE / 2;
     int[][] map = {
-        { 0, 1, 12, infinity, infinity, infinity }, { infinity, 0, 9, 3, infinity, infinity },
-        { infinity, infinity, 0, infinity, 5, infinity }, { infinity, infinity, 4, 0, 13, 15 },
+        { 0, 1, 12, infinity, infinity, infinity },
+        { infinity, 0, 9, 3, infinity, infinity },
+        { infinity, infinity, 0, infinity, 5, infinity },
+        { infinity, infinity, 4, 0, 13, 15 },
         { infinity, infinity, infinity, infinity, 0, 4 },
         { infinity, infinity, infinity, infinity, infinity, 0 }
     };
