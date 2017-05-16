@@ -262,7 +262,7 @@ public class Solution {
    */
   public List<List<Integer>> combine(int n, int k) {
     List<List<Integer>> lists = new ArrayList<>();
-    if (n > 0 || k > 0 || k > n) {
+    if (n > 0 && k > 0 && n > k) {
       LinkedList<Integer> list = new LinkedList<>();
       findCombine(lists, n, k, list, 1);
     }
