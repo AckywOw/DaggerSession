@@ -38,7 +38,7 @@ public class Solution {
         sum -= nums[l++];
       }
       if (sum >= target) {
-        Utils.min(result, l - r + 1);
+        result = Utils.min(result, l - r + 1);
       }
     }
     return result;
@@ -130,15 +130,15 @@ public class Solution {
 
     //利用Set来解决
     HashSet<Integer> set = new HashSet<Integer>((List) Arrays.asList(nums1));
-    ArrayList<Integer> list = new ArrayList<>();
+    HashSet<Integer> list = new HashSet<>();
     for (int i = 0; i < nums2.length; i++) {
       if (set.contains(nums2[i])) {
         list.add(nums2[i]);
       }
     }
     int[] arr = new int[list.size()];
-    for (int i = 0; i < list.size(); i++) {
-      arr[i] = list.get(i);
+    for (Integer i : list) {
+      arr[i] = i;
     }
     return arr;
   }

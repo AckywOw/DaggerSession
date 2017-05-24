@@ -11,6 +11,186 @@ import java.util.Map;
 public class Solution {
   Map<Integer, Integer> map = new HashMap<>();
 
+  /**
+   * 给定一个正整数数组，能否把它分成两部分，每部分的和是相等的？
+   * 每个数字最大是100
+   * 数组最多200个元素
+   *
+   * @param nums
+   * @return
+   */
+  public static boolean canPartition(int[] nums) {
+    if (nums == null || nums.length <= 1) return false;
+    int sum = 0;
+    for (int i = 0; i < nums.length; i++) {
+      sum += nums[i];
+    }
+    if (sum % 2 == 1) return false;
+    //背包个数nums.length, 背包大小sum/2, 判断是否可以有数相加==sum/2
+    sum /= 2;
+    boolean[] arr = new boolean[sum + 1];
+    for (int i = 0; i <= sum; i++) {
+      arr[i] = i == nums[0];
+    }
+    for (int i = 1; i < nums.length; i++) {
+      for (int j = sum; j >= nums[i]; j--) {
+        arr[j] = arr[j] || arr[j - nums[i]]; //不放入当前元素，与放入当前元素
+      }
+    }
+    return arr[sum];
+  }
+
+  public static boolean canPartition2(int[] nums) {
+    if (nums == null || nums.length <= 1) return false;
+    int sum = 0;
+    for (int i = 0; i < nums.length; i++) {
+      sum += nums[i];
+    }
+    if (sum % 2 == 1) return false;
+    //背包个数nums.length, 背包大小sum/2, 判断是否可以有数相加==sum/2
+    sum /= 2;
+    int[][] arrs = new int[nums.length][sum + 1];
+    return tryPut(arrs, nums, nums.length - 1, sum);
+  }
+
+  private static boolean tryPut(int[][] arrs, int[] nums, int index, int sum) {
+    if (sum == 0) return true;
+    if (index < 0 || sum < 0) return false;
+    if (arrs[index][sum] != 0) return arrs[index][sum] == 1;
+    arrs[index][sum] =
+        (tryPut(arrs, nums, index - 1, sum) || tryPut(arrs, nums, index - 1, sum - nums[index])) ? 1
+            : -1;
+    return arrs[index][sum] == 1;
+  }
+
+  /**
+   * 最长上升子序列
+   * 给定一个整数序列，找到最长上升子序列（LIS），返回LIS的长度。
+   * 说明
+   * 最长上升子序列的定义：
+   * 最长上升子序列问题是在一个无序的给定序列中找到一个尽可能长的由低到高排列的子序列，这种子序列不一定是连续的或者唯一的。
+   * https://en.wikipedia.org/wiki/Longest_increasing_subsequence
+   * 样例
+   * 给出 [5,4,1,2,3]，LIS 是 [1,2,3]，返回 3
+   * 给出 [4,2,4,5,3,7]，LIS 是 [2,4,5,7]，返回 4
+   *
+   * @param nums
+   * @return
+   */
+  public static int lengthOfLIS(int[] nums) {
+    if (nums == null || nums.length == 0) return 0;
+    int[] arr = new int[nums.length]; //arr表示必须选择当前角标元素时的最大子序列的长度
+    for (int i = 0; i < nums.length; i++) {
+      arr[i] = 1;
+    }
+    int max = 1; //由于arr的定义，这里需要一个max来进行记录真正的最大长度
+    for (int i = 1; i < nums.length; i++) {
+      for (int j = i - 1; j >= arr[i] - 1; j--) {
+        if (nums[i] > nums[j]) {
+          arr[i] = Math.max(arr[i], 1 + arr[j]); //这里比较不选择i与必须选择i
+          max = Math.max(max, arr[i]);
+        }
+      }
+    }
+    return max;
+  }
+
+  public static int lengthOfLIS2(int[] nums) {
+    if (nums == null || nums.length == 0) return 0;
+    int[] arrs = new int[nums.length];//arr表示必须选择当前角标元素时的最大子序列的长度
+    int max = 1;//由于arr的定义，这里需要一个max来进行记录真正的最大长度
+    for (int i = 1; i < nums.length; i++) {
+      max = Math.max(max, getIt(nums, i, arrs));
+    }
+    return max;
+  }
+
+  /**
+   * 求出[0,index]中，index元素必须选择时的最长上升子序列的长度
+   *
+   * @param nums
+   * @param index
+   * @param arrs
+   * @return
+   */
+  private static int getIt(int[] nums, int index, int[] arrs) {
+    if (arrs[index] > 0) return arrs[index];
+    int max = 1;
+    for (int i = 0; i < index; i++) {
+      if (nums[i] < nums[index]) {
+        max = Math.max(max, 1 + getIt(nums, i, arrs)); //如果不选择index，与同时选择index和i的情况进行比较
+      }
+    }
+    arrs[index] = max;
+    return max;
+  }
+
+  /**
+   * 最长公共子序列
+   * 给出两个字符串，找到最长公共子序列(LCS)，返回LCS的长度。
+   * 说明
+   * 最长公共子序列的定义：
+   * 最长公共子序列问题是在一组序列（通常2个）中找到最长公共子序列（注意：不同于子串，LCS不需要是连续的子串）。该问题是典型的计算机科学问题，是文件差异比较程序的基础，在生物信息学中也有所应用。
+   * https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
+   * 样例
+   * 给出"ABCD" 和 "EDCA"，这个LCS是 "A" (或 D或C)，返回1
+   * 给出 "ABCD" 和 "EACB"，这个LCS是"AC"返回 2
+   *
+   * @param A, B: Two strings.
+   * @return: The length of longest common subsequence of A and B.
+   */
+  public static int longestCommonSubsequence(String A, String B) {
+    if (A.length() == 0 || B.length() == 0) return 0;
+    int[][] arrs = new int[A.length()][B.length()]; //用二维数组表示A和B分别取前一部分时的LSC的长度
+    return lcs(A, B, A.length() - 1, B.length() - 1, arrs);
+  }
+
+  private static int lcs(String A, String B, int aIndex, int bIndex, int[][] arrs) {
+    if (aIndex < 0 || bIndex < 0) return 0;
+    if (arrs[aIndex][bIndex] > 0) return arrs[aIndex][bIndex];
+    int max;
+    if (A.charAt(aIndex) == B.charAt(bIndex)) {
+      max = 1 + lcs(A, B, aIndex - 1, bIndex - 1, arrs);
+    } else {
+      max = Math.max(lcs(A, B, aIndex - 1, bIndex, arrs), lcs(A, B, aIndex, bIndex - 1, arrs));
+    }
+    arrs[aIndex][bIndex] = max;
+    return max;
+  }
+
+  public static int longestCommonSubsequence2(String A, String B) {
+    if (A.length() == 0 || B.length() == 0) return 0;
+    int[][] arrs = new int[A.length()][B.length()];
+    for (int i = 0; i < A.length(); i++) {
+      if (A.charAt(i) == B.charAt(0)) {
+        arrs[i][0] = 1;
+      }
+    }
+    for (int i = 0; i < B.length(); i++) {
+      if (A.charAt(0) == B.charAt(i)) {
+        arrs[0][i] = 1;
+      }
+    }
+    for (int i = 1; i < A.length(); i++) {
+      for (int j = 1; j < B.length(); j++) {
+        if (A.charAt(i) == B.charAt(i)) {
+          arrs[i][j] = arrs[i - 1][j - 1] + 1;
+        } else {
+          arrs[i][j] = Math.max(arrs[i - 1][j], arrs[i][j - 1]);
+        }
+      }
+    }
+    return arrs[A.length() - 1][B.length() - 1];
+  }
+
+  public static void main(String[] args) {
+    //int[] A = { 10, 4, 2, 4, 5, 3, 7, 1 };
+    String A = "ABCD";
+    String B = "EACB";
+
+    System.out.println(longestCommonSubsequence2(A, B));
+  }
+
   //----------------------------------------------------------------
   //时间复杂度O(A * m)
   //空间复杂度O(A * m)
@@ -70,182 +250,6 @@ public class Solution {
       }
     }
     return arrs[m];
-  }
-
-  /**
-   * 给定一个正整数数组，能否把它分成两部分，每部分的和是相等的？
-   * 每个数字最大是100
-   * 数组最多200个元素
-   *
-   * @param nums
-   * @return
-   */
-  public static boolean canPartition(int[] nums) {
-    if (nums == null || nums.length <= 1) return false;
-    int sum = 0;
-    for (int i = 0; i < nums.length; i++) {
-      sum += nums[i];
-    }
-    if (sum % 2 == 1) return false;
-    //背包个数nums.length, 背包大小sum/2
-    sum /= 2;
-    boolean[] arr = new boolean[sum + 1];
-    for (int i = 0; i <= sum; i++) {
-      arr[i] = i == nums[0];
-    }
-    for (int i = 1; i < nums.length; i++) {
-      for (int j = sum; j >= nums[i]; j--) {
-        arr[j] = arr[j] || arr[j - nums[i]];
-      }
-    }
-    return arr[sum];
-  }
-
-  public static boolean canPartition2(int[] nums) {
-    if (nums == null || nums.length <= 1) return false;
-    int sum = 0;
-    for (int i = 0; i < nums.length; i++) {
-      sum += nums[i];
-    }
-    if (sum % 2 == 1) return false;
-    //背包个数nums.length, 背包大小sum/2
-    int[][] arrs = new int[nums.length][sum / 2 + 1];
-    for (int i = 0; i < arrs.length; i++) {
-      for (int j = 0; j < arrs[i].length; j++) {
-        arrs[i][j] = -1;
-      }
-    }
-    return tryPut(arrs, nums, nums.length - 1, sum / 2);
-  }
-
-  private static boolean tryPut(int[][] arrs, int[] nums, int index, int sum) {
-    if (sum == 0) return true;
-    if (index < 0 || sum < 0) return false;
-    if (arrs[index][sum] > 0) return arrs[index][sum] == 1;
-    arrs[index][sum] =
-        (tryPut(arrs, nums, index - 1, sum) || tryPut(arrs, nums, index - 1, sum - nums[index])) ? 1
-            : -1;
-    return arrs[index][sum] == 1;
-  }
-
-  /**
-   * 最长上升子序列
-   * 给定一个整数序列，找到最长上升子序列（LIS），返回LIS的长度。
-   * 说明
-   * 最长上升子序列的定义：
-   * 最长上升子序列问题是在一个无序的给定序列中找到一个尽可能长的由低到高排列的子序列，这种子序列不一定是连续的或者唯一的。
-   * https://en.wikipedia.org/wiki/Longest_increasing_subsequence
-   * 样例
-   * 给出 [5,4,1,2,3]，LIS 是 [1,2,3]，返回 3
-   * 给出 [4,2,4,5,3,7]，LIS 是 [2,4,5,7]，返回 4
-   *
-   * @param nums
-   * @return
-   */
-  public static int lengthOfLIS(int[] nums) {
-    if (nums == null || nums.length == 0) return 0;
-    int[] arr = new int[nums.length];
-    for (int i = 0; i < nums.length; i++) {
-      arr[i] = 1;
-    }
-    int max = 1;
-    for (int i = 1; i < nums.length; i++) {
-      for (int j = i - 1; j >= arr[i] - 1; j--) {
-        if (nums[i] > nums[j]) {
-          arr[i] = Math.max(arr[i], 1 + arr[j]);
-          max = Math.max(max, arr[i]);
-        }
-      }
-    }
-    return max;
-  }
-
-  public static int lengthOfLIS2(int[] nums) {
-    if (nums == null || nums.length == 0) return 0;
-    int[] arrs = new int[nums.length];
-    int max = 1;
-    for (int i = 1; i < nums.length; i++) {
-      max = Math.max(max, getIt(nums, i, arrs));
-    }
-    return max;
-  }
-
-  private static int getIt(int[] nums, int index, int[] arrs) {
-    if (arrs[index] > 0) return arrs[index];
-    int max = 1;
-    for (int i = 0; i < index; i++) {
-      if (nums[i] < nums[index]) {
-        max = Math.max(max, 1 + getIt(nums, i, arrs));
-      }
-    }
-    arrs[index] = max;
-    return max;
-  }
-
-  /**
-   * 最长公共子序列
-   * 给出两个字符串，找到最长公共子序列(LCS)，返回LCS的长度。
-   * 说明
-   * 最长公共子序列的定义：
-   * 最长公共子序列问题是在一组序列（通常2个）中找到最长公共子序列（注意：不同于子串，LCS不需要是连续的子串）。该问题是典型的计算机科学问题，是文件差异比较程序的基础，在生物信息学中也有所应用。
-   * https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
-   * 样例
-   * 给出"ABCD" 和 "EDCA"，这个LCS是 "A" (或 D或C)，返回1
-   * 给出 "ABCD" 和 "EACB"，这个LCS是"AC"返回 2
-   *
-   * @param A, B: Two strings.
-   * @return: The length of longest common subsequence of A and B.
-   */
-  public static int longestCommonSubsequence(String A, String B) {
-    if (A.length() == 0 || B.length() == 0) return 0;
-    int[][] arrs = new int[A.length()][B.length()];
-    return lcs(A, B, A.length() - 1, B.length() - 1, arrs);
-  }
-
-  private static int lcs(String A, String B, int aIndex, int bIndex, int[][] arrs) {
-    if (aIndex < 0 || bIndex < 0) return 0;
-    if (arrs[aIndex][bIndex] > 0) return arrs[aIndex][bIndex];
-    int max;
-    if (A.charAt(aIndex) == B.charAt(bIndex)) {
-      max = 1 + lcs(A, B, aIndex - 1, bIndex - 1, arrs);
-    } else {
-      max = Math.max(lcs(A, B, aIndex - 1, bIndex, arrs), lcs(A, B, aIndex, bIndex - 1, arrs));
-    }
-    arrs[aIndex][bIndex] = max;
-    return max;
-  }
-
-  public static int longestCommonSubsequence2(String A, String B) {
-    if (A.length() == 0 || B.length() == 0) return 0;
-    int[][] arrs = new int[A.length()][B.length()];
-    for (int i = 0; i < A.length(); i++) {
-      if (A.charAt(i) == B.charAt(0)) {
-        arrs[i][0] = 1;
-      }
-    }
-    for (int i = 0; i < B.length(); i++) {
-      if (A.charAt(0) == B.charAt(i)) {
-        arrs[0][i] = 1;
-      }
-    }
-    for (int i = 1; i < A.length(); i++) {
-      for (int j = 1; j < B.length(); j++) {
-        if (A.charAt(i) == B.charAt(i)) {
-          arrs[i][j] = arrs[i - 1][j - 1] + 1;
-        } else {
-          arrs[i][j] = Math.max(arrs[i - 1][j], arrs[i][j - 1]);
-        }
-      }
-    }
-    return arrs[A.length() - 1][B.length() - 1];
-  }
-
-  public static void main(String[] args) {
-    //int[] A = { 10, 4, 2, 4, 5, 3, 7, 1 };
-    String A = "ABCD";
-    String B = "EACB";
-
-    System.out.println(longestCommonSubsequence2(A, B));
   }
 
   /**
@@ -344,8 +348,8 @@ public class Solution {
     arr[0] = nums[0];
     arr[1] = Math.max(nums[0], nums[1]);
     for (int i = 2; i < nums.length; i++) {
-      for (int j = i - 2; j >= 0; j--) { //状态的转移
-        arr[i] = Math.max(Math.max(arr[i - 1], arr[i - 2] + nums[i]), arr[i]);
+      for (int j = i; j >= 2; j--) { //状态的转移
+        arr[i] = Math.max(Math.max(arr[j - 1], arr[j - 2] + nums[j]), arr[i]);
       }
     }
     return arr[nums.length - 1];
