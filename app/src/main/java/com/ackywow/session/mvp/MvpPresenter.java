@@ -9,17 +9,21 @@ import com.ackywow.session.data.net.ApiService;
 import com.ackywow.session.data.net.RxRequestUtil;
 import com.ackywow.session.data.sp.SPDataUtil;
 import dagger.Lazy;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.observers.DisposableObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Named;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 import static com.ackywow.session.constant.Nameds.MAIN_SPDATAUTIL;
 import static com.ackywow.session.constant.Nameds.MVP;
@@ -67,7 +71,7 @@ public class MvpPresenter extends MvpContact.Presenter {
       Log.e(TAG, name);
       Log.e(TAG, noteDaoUtil.toString());
       Log.e(TAG, spDataUtil.toString());
-      Subscription subscription = getSubscription2();
+      Disposable subscription = getSubscription2();
       addSubscription(subscription);
     } catch (Exception e) {
       e.printStackTrace();
@@ -75,84 +79,84 @@ public class MvpPresenter extends MvpContact.Presenter {
     }
   }
 
-  public Subscription login(String username, String password, Subscriber<User> subscriber) {
-    return RxRequestUtil.dealRxNetRequest(apiService.login(username, password), subscriber,
+  public Disposable login(String username, String password, DisposableObserver<User> observer) {
+    return RxRequestUtil.dealRxNetRequest(apiService.login(username, password), observer,
         schedulerProvider);
   }
 
-  private Subscription getSubscription1() {
+  private Disposable getSubscription1() {
     return Observable.just("11111")
-                     .map(new Func1<String, Integer>() {
+                     .map(new Function<String, Integer>() {
                        @Override
-                       public Integer call(String s) {
+                       public Integer apply(@NonNull String s) throws Exception {
                          return s.hashCode();
                        }
                      })
                      .delay(3, TimeUnit.SECONDS)
                      .subscribeOn(schedulerProvider.computation())
                      .observeOn(schedulerProvider.ui(), true)
-                     .subscribe(new Subscriber<Integer>() {
-
+                     .subscribeWith(new DisposableObserver<Integer>() {
                        @Override
-                       public void onStart() {
+                       protected void onStart() {
                          getView().showToast("onStart: ");
                        }
 
                        @Override
-                       public void onCompleted() {
-                         getView().showToast("onCompleted: ");
+                       public void onNext(@NonNull Integer integer) {
+                         getView().showToast("onNext: " + integer);
                        }
 
                        @Override
-                       public void onError(Throwable e) {
+                       public void onError(@NonNull Throwable e) {
                          getView().showToast("onError: " + e.toString());
                        }
 
                        @Override
-                       public void onNext(Integer s) {
-                         getView().showToast("onNext: " + s);
+                       public void onComplete() {
+                         getView().showToast("onCompleted: ");
                        }
                      });
   }
 
-  private Subscription getSubscription2() {
-    return Observable.create(new Observable.OnSubscribe<String>() {
+  private Disposable getSubscription2() {
+    return Observable.create(new ObservableOnSubscribe<String>() {
+
       @Override
-      public void call(Subscriber<? super String> subscriber) {
-        subscriber.onNext("first");
-        subscriber.onNext("second");
-        subscriber.onNext("third");
-        //subscriber.onCompleted();
+      public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
+        e.onNext("first");
+        e.onNext("second");
+        e.onNext("third");
+        //e.onCompleted();
       }
     })
-                     .map(new Func1<String, Integer>() {
+                     .map(new Function<String, Integer>() {
                        @Override
-                       public Integer call(String s) {
+                       public Integer apply(@NonNull String s) throws Exception {
                          return s.hashCode();
                        }
                      })
                      .delay(3, TimeUnit.SECONDS)
                      .subscribeOn(schedulerProvider.computation())
                      .observeOn(schedulerProvider.ui(), true)
-                     .subscribe(new Action1<Integer>() {
+                     .subscribeWith(new DisposableObserver<Integer>() {
                        @Override
-                       public void call(Integer s) {
-                         getView().showToast("Action1.call(): " + s);
+                       public void onNext(@NonNull Integer integer) {
+                         getView().showToast("Action1.call(): " + integer);
                        }
-                     }, new Action1<Throwable>() {
-                       @Override
-                       public void call(Throwable throwable) {
 
-                       }
-                     }, new Action0() {
                        @Override
-                       public void call() {
+                       public void onError(@NonNull Throwable e) {
+                         getView().showToast("onError: " + e.toString());
+                       }
+
+                       @Override
+                       public void onComplete() {
                          getView().showToast("onCompleted: ");
                        }
                      });
   }
 
-  private Subscription getSubscription3() {
+  private Disposable getSubscription3() {
     List<String> list = new ArrayList();
     list.add("11111");
     list.add("2222");
@@ -160,29 +164,29 @@ public class MvpPresenter extends MvpContact.Presenter {
     list.add("44444");
     list.add("55555");
     return Observable.just(list)
-                     .map(new Func1<List<String>, List<String>>() { //修改数据并返回它
+                     .map(new Function<List<String>, List<String>>() {//修改数据并返回它
                        @Override
-                       public List<String> call(List<String> strings) {
+                       public List<String> apply(@NonNull List<String> strings) throws Exception {
                          return strings;
                        }
                      })
-                     .flatMap(new Func1<List<String>, Observable<String>>() { //修改数据并返回Observable
+                     .flatMap(new Function<List<String>, Observable<String>>() { //修改数据并返回Observable
                        @Override
-                       public Observable<String> call(List<String> strings) {
-                         return Observable.from(strings);
+                       public Observable<String> apply(List<String> strings) {
+                         return Observable.fromIterable(strings);
                        }
                      })
                      .observeOn(schedulerProvider.ui())
-                     .doOnNext(new Action1<String>() {
+                     .doOnNext(new Consumer<String>() {
                        @Override
-                       public void call(String s) {
+                       public void accept(@NonNull String s) throws Exception {
                          getView().showToast("doOnNext: " + s);
                        }
                      })
                      .observeOn(schedulerProvider.io())
-                     .filter(new Func1<String, Boolean>() { //过滤
+                     .filter(new Predicate<String>() { //过滤
                        @Override
-                       public Boolean call(String s) {
+                       public boolean test(@NonNull String s) throws Exception {
                          return !"2222".equals(s);
                        }
                      })
@@ -190,32 +194,32 @@ public class MvpPresenter extends MvpContact.Presenter {
                      .delay(2, TimeUnit.SECONDS) //延迟发射
                      .subscribeOn(schedulerProvider.io())
                      .observeOn(schedulerProvider.ui(), true)
-                     .subscribe(new Subscriber<String>() {
+                     .subscribeWith(new DisposableObserver<String>() {
 
                        @Override
-                       public void onStart() {
+                       protected void onStart() {
                          getView().showToast("onStart: ");
                        }
 
                        @Override
-                       public void onCompleted() {
-                         getView().showToast("onCompleted: ");
+                       public void onNext(@NonNull String s) {
+                         getView().showToast("onNext: " + s);
                        }
 
                        @Override
-                       public void onError(Throwable e) {
+                       public void onError(@NonNull Throwable e) {
                          getView().showToast("onError: " + e.toString());
                        }
 
                        @Override
-                       public void onNext(String s) {
-                         getView().showToast("onNext: " + s);
+                       public void onComplete() {
+                         getView().showToast("onCompleted: ");
                        }
                      });
   }
 
-  private Subscription getSubscription4() {
-    return getObservable().subscribe(getSubscriber());
+  private Disposable getSubscription4() {
+    return getObservable().subscribeWith(getSubscriber());
   }
 
   private Observable<String> getObservable() {
@@ -226,30 +230,32 @@ public class MvpPresenter extends MvpContact.Presenter {
     list.add("44444");
     list.add("55555");
     return Observable.just(list)
-                     .map(new Func1<List<String>, List<String>>() { //修改数据并返回它
+                     .map(new Function<List<String>, List<String>>() {//修改数据并返回它
                        @Override
-                       public List<String> call(List<String> strings) {
+                       public List<String> apply(@NonNull List<String> strings) throws Exception {
                          return strings;
                        }
                      })
-                     .flatMap(new Func1<List<String>, Observable<String>>() { //修改数据并返回Observable
-                       @Override
-                       public Observable<String> call(List<String> strings) {
-                         return Observable.from(strings);
-                       }
-                     })
+                     .flatMap(
+                         new Function<List<String>, ObservableSource<String>>() {//修改数据并返回Observable
+                           @Override
+                           public ObservableSource<String> apply(@NonNull List<String> strings)
+                               throws Exception {
+                             return Observable.fromIterable(strings);
+                           }
+                         })
                      .observeOn(schedulerProvider.ui())
-                     .doOnNext(new Action1<String>() {
+                     .doOnNext(new Consumer<String>() {
                        @Override
-                       public void call(String s) {
+                       public void accept(@NonNull String s) throws Exception {
                          Log.i(TAG, "doOnNext:" + s);
                          getView().showToast("doOnNext: " + s);
                        }
                      })
                      .observeOn(schedulerProvider.io())
-                     .filter(new Func1<String, Boolean>() { //过滤
+                     .filter(new Predicate<String>() {//过滤
                        @Override
-                       public Boolean call(String s) {
+                       public boolean test(@NonNull String s) throws Exception {
                          return !"11111".equals(s);
                        }
                      })
@@ -259,31 +265,30 @@ public class MvpPresenter extends MvpContact.Presenter {
                      .observeOn(schedulerProvider.ui(), true);
   }
 
-  private Subscriber<String> getSubscriber() {
-    return new Subscriber<String>() {
-
+  private DisposableObserver<String> getSubscriber() {
+    return new DisposableObserver<String>() {
       @Override
-      public void onStart() {
+      protected void onStart() {
         Log.i(TAG, "onStart:");
         getView().showToast("onStart: ");
       }
 
       @Override
-      public void onCompleted() {
-        Log.i(TAG, "onCompleted:");
-        getView().showToast("onCompleted: ");
-        //loadNetDate();
+      public void onNext(@NonNull String s) {
+        Log.i(TAG, "onNext:" + s);
+        getView().showToast("onNext: " + s);
       }
 
       @Override
-      public void onError(Throwable e) {
+      public void onError(@NonNull Throwable e) {
         getView().showToast("onError: " + e.toString());
       }
 
       @Override
-      public void onNext(String s) {
-        Log.i(TAG, "onNext:" + s);
-        getView().showToast("onNext: " + s);
+      public void onComplete() {
+        Log.i(TAG, "onCompleted:");
+        getView().showToast("onCompleted: ");
+        //loadNetDate();
       }
     };
   }

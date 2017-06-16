@@ -2,9 +2,9 @@ package com.ackywow.session.base;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import java.lang.ref.WeakReference;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Jiang on 2016/11/16.
@@ -15,24 +15,24 @@ public abstract class CommonPresenter<View extends BaseMVPView> implements BaseP
   protected final String TAG = getClass().getSimpleName();
 
   @NonNull
-  private CompositeSubscription mSubscriptions;
+  private CompositeDisposable mDisposables;
   @NonNull
   private WeakReference<View> wrView;
 
   protected CommonPresenter() {
-    mSubscriptions = new CompositeSubscription();
+    mDisposables = new CompositeDisposable();
   }
 
   @Override
-  public void addSubscription(Subscription subscription) {
-    Log.e(TAG, "addSubscription:" + subscription.toString());
-    mSubscriptions.add(subscription);
+  public void addSubscription(Disposable disposable) {
+    Log.e(TAG, "addSubscription:" + disposable.toString());
+    mDisposables.add(disposable);
   }
 
   @Override
   public void clearSubscriptions() {
     Log.e(TAG, "clearSubscriptions:");
-    mSubscriptions.clear();
+    mDisposables.clear();
   }
 
   @Override

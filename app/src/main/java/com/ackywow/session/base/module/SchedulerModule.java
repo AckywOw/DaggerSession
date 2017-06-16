@@ -5,8 +5,8 @@ import com.ackywow.base.util.schedulers.SchedulerProvider;
 import com.ackywow.session.base.scope.ApplicationScope;
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.Scheduler;
 import javax.inject.Named;
-import rx.Scheduler;
 
 /**
  * Created by Jiang on 2016/11/21.
@@ -43,12 +43,5 @@ public class SchedulerModule {
   @Named(UI)
   static Scheduler provideSchedulerUI(BaseSchedulerProvider provider) {
     return provider.ui();
-  }
-
-  @Provides
-  @ApplicationScope
-  @Named(IMMEDIATE)
-  static Scheduler provideSchedulerImmediate(BaseSchedulerProvider provider) {
-    return provider.immediate();
   }
 }

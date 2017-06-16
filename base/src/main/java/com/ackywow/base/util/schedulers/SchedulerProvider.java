@@ -1,9 +1,9 @@
 package com.ackywow.base.util.schedulers;
 
 import android.support.annotation.NonNull;
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Provides different types of schedulers.
@@ -26,11 +26,5 @@ public class SchedulerProvider implements BaseSchedulerProvider {
   @NonNull
   public Scheduler ui() {
     return AndroidSchedulers.mainThread();
-  }
-
-  @NonNull
-  @Override
-  public Scheduler immediate() {
-    return Schedulers.immediate();
   }
 }
