@@ -166,7 +166,6 @@ public class Solution {
    * @return: Inorder in ArrayList which contains node values.
    */
   public ArrayList<Integer> inorderTraversal(TreeNode root) {
-    // write your code here
     Stack<TreeNode> stack = new Stack<TreeNode>();
     ArrayList<Integer> result = new ArrayList<Integer>();
     TreeNode curt = root;
@@ -209,7 +208,6 @@ public class Solution {
    * @return: Level order a list of lists of integer
    */
   public ArrayList<ArrayList<Integer>> levelOrder(TreeNode root) {
-    // write your code here
     Queue<TreeNode> queue = new LinkedList<TreeNode>();
     ArrayList<ArrayList<Integer>> tree = new ArrayList<ArrayList<Integer>>();
     if (root == null) {
@@ -462,6 +460,32 @@ public class Solution {
       return lowestCommonAncestor(root.right, p, q);
     }
     return root;
+  }
+
+  /**
+   * 最近公共祖先
+   * 给定一棵二叉树，找到两个节点的最近公共父节点(LCA)。最近公共祖先是两个节点的公共的祖先节点且具有最大深度。
+   * 对于下面这棵二叉树
+   * ______6______
+   * /              \
+   * ___2__          ___8__
+   * /       \       /       \
+   * 0        4      7        9
+   * /  \
+   * 3   5
+   * LCA(2, 8) = 6
+   * LCA(2, 4) = 2
+   *
+   * @param root
+   * @param p
+   * @param q
+   * @return
+   */
+  public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null || root == p || root == q) return root;
+    TreeNode left = lowestCommonAncestor2(root.left, p, q);
+    TreeNode right = lowestCommonAncestor2(root.right, p, q);
+    return left == null ? right : right == null ? left : root;
   }
 
   /**

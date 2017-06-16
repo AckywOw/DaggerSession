@@ -346,11 +346,9 @@ public class Solution {
     if (nums.length == 1) return nums[0];
     int[] arr = new int[nums.length]; //定义状态
     arr[0] = nums[0];
-    arr[1] = Math.max(nums[0], nums[1]);
-    for (int i = 2; i < nums.length; i++) {
-      for (int j = i; j >= 2; j--) { //状态的转移
-        arr[i] = Math.max(Math.max(arr[j - 1], arr[j - 2] + nums[j]), arr[i]);
-      }
+    for (int i = 1; i < nums.length; i++) {
+      arr[i] = Math.max((i - 3 < 0 ? 0 : arr[i - 3]) + nums[i - 1],
+          (i - 2 < 0 ? 0 : arr[i - 2]) + nums[i]);
     }
     return arr[nums.length - 1];
   }
