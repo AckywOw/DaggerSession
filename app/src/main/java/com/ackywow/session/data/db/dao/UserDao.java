@@ -27,9 +27,11 @@ public class UserDao extends AbstractDao<User, String> {
         super(config, daoSession);
     }
 
-  /** Creates the underlying database table. */
+  /**
+   * Creates the underlying database table.
+   */
     public static void createTable(Database db, boolean ifNotExists) {
-      String constraint = ifNotExists ? "IF NOT EXISTS " : "";
+      String constraint = ifNotExists ? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"USER\" (" + //
             "\"USER_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: userId
             "\"NAME\" TEXT NOT NULL ," + // 1: name
@@ -107,7 +109,7 @@ public class UserDao extends AbstractDao<User, String> {
         entity.setName(cursor.getString(offset + 1));
         entity.setAge(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setAddress(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-    }
+     }
      
     @Override
     protected final String updateKeyAfterInsert(User entity, long rowId) {
@@ -120,8 +122,8 @@ public class UserDao extends AbstractDao<User, String> {
             return entity.getUserId();
         } else {
             return null;
-        }
     }
+  }
 
   @Override
     public boolean hasKey(User entity) {
@@ -138,8 +140,7 @@ public class UserDao extends AbstractDao<User, String> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-      public final static Property UserId =
-          new Property(0, String.class, "userId", true, "USER_ID");
+      public final static Property UserId = new Property(0, String.class, "userId", true, "USER_ID");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Age = new Property(2, String.class, "age", false, "AGE");
       public final static Property Address =

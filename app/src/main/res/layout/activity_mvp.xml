@@ -18,4 +18,62 @@
       android:layout_height="wrap_content"
       />
 
+  <com.ackywow.session.view.GreatLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/tv"
+      android:background="#3222ff"
+      >
+
+    <ImageView
+        android:id="@+id/iv_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_dark"
+        android:src="@drawable/icon_hz"
+        />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_0"
+        android:background="#33ffff"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="111111111111"
+        />
+
+    <ImageView
+        android:id="@+id/iv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tv_title"
+        android:background="@android:color/holo_red_dark"
+        android:src="@drawable/icon_hz"
+        />
+
+    <ImageView
+        android:id="@+id/iv_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_1"
+        android:background="@android:color/holo_orange_light"
+        android:src="@drawable/icon_hz"
+        />
+
+    <ImageView
+        android:id="@+id/iv_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:background="#44ff55"
+        android:src="@drawable/icon_hz"
+        />
+  </com.ackywow.session.view.GreatLayout>
+
 </RelativeLayout>
