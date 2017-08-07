@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_mvp"
     android:layout_width="match_parent"
@@ -20,9 +21,11 @@
 
   <com.ackywow.session.view.TextViewAsTitleWithImagesLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="50dp"
       android:layout_below="@id/tv"
       android:background="#3222ff"
+      android:gravity="center_vertical"
+      app:target="@+id/tv_title"
       >
 
     <ImageView
@@ -42,7 +45,7 @@
         android:background="#33ffff"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="111111111111"
+        android:text="111111111111111111111111111111111111"
         />
 
     <ImageView
@@ -67,6 +70,16 @@
 
     <ImageView
         android:id="@+id/iv_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_2"
+        android:background="@android:color/holo_orange_light"
+        android:src="@drawable/icon_hz"
+        />
+
+    <ImageView
+        android:id="@+id/iv_4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
