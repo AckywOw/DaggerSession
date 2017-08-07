@@ -18,7 +18,7 @@
       android:layout_height="wrap_content"
       />
 
-  <com.ackywow.session.view.GreatLayout
+  <com.ackywow.session.view.TextViewAsTitleWithImagesLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@id/tv"
@@ -74,6 +74,6 @@
         android:background="#44ff55"
         android:src="@drawable/icon_hz"
         />
-  </com.ackywow.session.view.GreatLayout>
+  </com.ackywow.session.view.TextViewAsTitleWithImagesLayout>
 
 </RelativeLayout>

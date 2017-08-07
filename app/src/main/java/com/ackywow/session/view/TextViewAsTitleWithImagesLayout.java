@@ -12,17 +12,18 @@ import android.widget.TextView;
  * Created by Jiang on 2017/7/28.
  */
 
-public class GreatLayout extends RelativeLayout {
+public class TextViewAsTitleWithImagesLayout extends RelativeLayout {
 
-  public GreatLayout(Context context) {
+  public TextViewAsTitleWithImagesLayout(Context context) {
     this(context, null);
   }
 
-  public GreatLayout(Context context, @Nullable AttributeSet attrs) {
+  public TextViewAsTitleWithImagesLayout(Context context, @Nullable AttributeSet attrs) {
     this(context, attrs, 0);
   }
 
-  public GreatLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+  public TextViewAsTitleWithImagesLayout(Context context, @Nullable AttributeSet attrs,
+      int defStyleAttr) {
     super(context, attrs, defStyleAttr);
   }
 
