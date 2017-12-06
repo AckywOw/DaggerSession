@@ -58,6 +58,7 @@ dependencies {
   compile rootProject.ext.deps.retrofit2_adapter_rxjava
   compile rootProject.ext.deps.gson
   compile rootProject.ext.deps.butterknife
+  annotationProcessor rootProject.ext.deps.butterknife_compiler
   compile rootProject.ext.deps.sqlbrite
   compile rootProject.ext.deps.greendao
 }

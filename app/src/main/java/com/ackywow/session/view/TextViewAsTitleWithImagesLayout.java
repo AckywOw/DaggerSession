@@ -60,7 +60,7 @@ public class TextViewAsTitleWithImagesLayout extends RelativeLayout {
         childAllWidth -= child.getMeasuredWidth() + lp.leftMargin;
       }
     }
-    if (tv != null && tv.getMeasuredWidth() > childAllWidth) {
+    if (tv != null && tv.getMeasuredWidth() >= childAllWidth) {
       tv.setMaxWidth(childAllWidth);
     } else {
       tv.setMaxWidth(Integer.MAX_VALUE);

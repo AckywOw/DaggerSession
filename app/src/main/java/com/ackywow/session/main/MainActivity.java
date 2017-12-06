@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.ackywow.session.R;
@@ -17,7 +17,7 @@ import static com.ackywow.session.constant.Nameds.Activity_Name;
 
 public class MainActivity extends BaseActivity {
 
-  @Bind(R.id.imageView)
+  @BindView(R.id.imageView)
   ImageView imageView;
 
   @Inject
