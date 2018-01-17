@@ -3,7 +3,6 @@ package com.ackywow.session.base;
 /**
  * Created by Jiang on 2016/12/1.
  */
-
 public interface BaseView {
 
   /**

@@ -1,5 +1,7 @@
 package com.ackywow.session.mvp;
 
+import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
 import com.ackywow.base.util.schedulers.BaseSchedulerProvider;
 import com.ackywow.session.data.db.bean.User;
@@ -17,11 +19,13 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Function3;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -71,12 +75,241 @@ public class MvpPresenter extends MvpContact.Presenter {
       Log.e(TAG, name);
       Log.e(TAG, noteDaoUtil.toString());
       Log.e(TAG, spDataUtil.toString());
-      Disposable subscription = getSubscription2();
+      Disposable subscription = getSubscriptionContact();
       addSubscription(subscription);
     } catch (Exception e) {
       e.printStackTrace();
       getView().showErrowDialog();
     }
+  }
+
+  private Disposable getSubscriptionSample() {
+    Long timeTag = SystemClock.elapsedRealtime();
+    return Observable.create(new ObservableOnSubscribe<String>() {
+      @Override
+      public void subscribe(ObservableEmitter<String> e) throws Exception {
+        Log.e("zips__one", "start");
+        e.onNext(111 + Thread.currentThread()
+                             .getName());
+        SystemClock.sleep(1000L);
+        e.onNext(222 + Thread.currentThread()
+                             .getName());
+        SystemClock.sleep(1000L);
+        e.onNext(333 + Thread.currentThread()
+                             .getName());
+        SystemClock.sleep(1000L);
+        e.onComplete();
+        Log.e("zips__one", "end");
+      }
+    })
+                     .delay(3000L - (SystemClock.elapsedRealtime() - timeTag),
+                         TimeUnit.MILLISECONDS)
+                     .subscribeOn(schedulerProvider.io())
+                     .observeOn(schedulerProvider.ui())
+                     .subscribeWith(new DisposableObserver<String>() {
+                       @Override
+                       protected void onStart() {
+                         Log.e("zips__onStart", "onStart");
+                         getView().showToast("onStart: ");
+                       }
+
+                       @Override
+                       public void onNext(@NonNull String integer) {
+                         Log.e("zips__onNext", "onNext");
+                         getView().showToast("onNext: \n" + integer);
+                       }
+
+                       @Override
+                       public void onError(@NonNull Throwable e) {
+                         Log.e("zips__onError", "onError");
+                         getView().showToast("onError: " + e.toString());
+                       }
+
+                       @Override
+                       public void onComplete() {
+                         Log.e("zips__onComplete", "onComplete");
+                         getView().showToast("onCompleted: " + Thread.currentThread()
+                                                                     .getName());
+                       }
+                     });
+  }
+
+  private Disposable getSubscriptionContact() {
+    Observable<String> one = Observable.create(new ObservableOnSubscribe<String>() {
+      @Override
+      public void subscribe(ObservableEmitter<String> e) throws Exception {
+        Log.e("zips__one", "start");
+        SystemClock.sleep(2000L);
+        Log.e("zips__one", "end");
+        e.onNext(111 + Thread.currentThread()
+                             .getName());
+        e.onComplete();
+      }
+    })
+                                       .timeout(3, TimeUnit.SECONDS)
+                                       .onErrorResumeNext(Observable.just(""))
+                                       .subscribeOn(schedulerProvider.io())
+                                       .observeOn(schedulerProvider.io());
+
+    Observable<String> two = Observable.create(new ObservableOnSubscribe<String>() {
+      @Override
+      public void subscribe(ObservableEmitter<String> e) throws Exception {
+        Log.e("zips__two", "start");
+        SystemClock.sleep(2000L);
+        if (true) {
+          throw new IllegalArgumentException("testError");
+        }
+        Log.e("zips__two", "end");
+        e.onNext(222 + Thread.currentThread()
+                             .getName());
+        e.onComplete();
+      }
+    })
+                                       .timeout(3, TimeUnit.SECONDS)
+                                       .onErrorResumeNext(Observable.just(""))
+                                       .subscribeOn(schedulerProvider.io())
+                                       .observeOn(schedulerProvider.io());
+
+    Observable<String> three = Observable.create(new ObservableOnSubscribe<String>() {
+      @Override
+      public void subscribe(ObservableEmitter<String> e) throws Exception {
+        Log.e("zips__three", "start");
+        SystemClock.sleep(2000L);
+        Log.e("zips__three", "end");
+        e.onNext(333 + Thread.currentThread()
+                             .getName());
+        e.onComplete();
+      }
+    })
+                                         .timeout(3, TimeUnit.SECONDS)
+                                         .onErrorResumeNext(Observable.just(""))
+                                         .subscribeOn(schedulerProvider.io())
+                                         .observeOn(schedulerProvider.io());
+
+    final AtomicLong timeTag = new AtomicLong();
+    return Observable.zip(one, two, three, new Function3<String, String, String, String>() {
+      @Override
+      public String apply(String s, String s2, String s3) throws Exception {
+        Log.e("zips__zip", "start+" + s + "=" + s2 + "=" + s3);
+        StringBuilder sb = new StringBuilder();
+        if (!TextUtils.isEmpty(s)) {
+          sb.append(s + "\n");
+        }
+        if (!TextUtils.isEmpty(s2)) {
+          sb.append(s2 + "\n");
+        }
+        if (!TextUtils.isEmpty(s3)) {
+          sb.append(s3 + "\n");
+        }
+        sb.append(Thread.currentThread()
+                        .getName() + "\n");
+        Log.e("zips__zip", "end");
+        return sb.toString();
+      }
+    })
+                     .delay(new Function<String, ObservableSource<Long>>() {
+                       @Override
+                       public ObservableSource<Long> apply(String s) throws Exception {
+                         return Observable.timer(
+                             4000L - (SystemClock.elapsedRealtime() - timeTag.get()),
+                             TimeUnit.MILLISECONDS);
+                       }
+                     })
+                     .doOnSubscribe(new Consumer<Disposable>() {
+                       @Override
+                       public void accept(Disposable disposable) throws Exception {
+                         Log.e("zips__doOnSubscribe", Thread.currentThread()
+                                                            .getName());
+                         timeTag.set(SystemClock.elapsedRealtime());
+                       }
+                     })
+                     .subscribeOn(schedulerProvider.io())
+                     .observeOn(schedulerProvider.ui())
+                     .subscribeWith(new DisposableObserver<String>() {
+                       @Override
+                       protected void onStart() {
+                         Log.e("zips__onStart", "onStart");
+                         getView().showToast("onStart: ");
+                       }
+
+                       @Override
+                       public void onNext(@NonNull String integer) {
+                         Log.e("zips__onNext", "onNext");
+                         getView().showToast("onNext: \n" + integer);
+                       }
+
+                       @Override
+                       public void onError(@NonNull Throwable e) {
+                         Log.e("zips__onError", "onError");
+                         getView().showToast("onError: " + e.toString());
+                       }
+
+                       @Override
+                       public void onComplete() {
+                         Log.e("zips__onComplete", "onComplete");
+                         getView().showToast("onCompleted: " + Thread.currentThread()
+                                                                     .getName());
+                       }
+                     });
+  }
+
+  private Disposable getSubscriptionTimeout() {
+    return Observable.create(new ObservableOnSubscribe<Integer>() {
+      @Override
+      public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+        e.onNext(111);
+      }
+    })
+
+                     .delay(2, TimeUnit.SECONDS)
+                     .flatMap(new Function<Integer, Observable<Integer>>() { //修改数据并返回Observable
+                       @Override
+                       public Observable<Integer> apply(Integer integer) {
+                         return Observable.create(new ObservableOnSubscribe<Integer>() {
+                           @Override
+                           public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+                             e.onNext(222);
+                           }
+                         });
+                       }
+                     })
+                     .delay(2, TimeUnit.SECONDS)
+                     .flatMap(new Function<Integer, Observable<Integer>>() { //修改数据并返回Observable
+                       @Override
+                       public Observable<Integer> apply(Integer integer) {
+                         return Observable.create(new ObservableOnSubscribe<Integer>() {
+                           @Override
+                           public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+                             e.onNext(333);
+                           }
+                         });
+                       }
+                     })
+                     //.delay(2, TimeUnit.SECONDS)
+                     .timeout(3, TimeUnit.SECONDS)
+                     .subscribeOn(schedulerProvider.computation())
+                     .observeOn(schedulerProvider.ui())
+                     .subscribeWith(new DisposableObserver<Integer>() {
+                       @Override
+                       protected void onStart() {
+                         getView().showToast("onStart: ");
+                       }
+
+                       @Override
+                       public void onNext(@NonNull Integer integer) {
+                         getView().showToast("onNext: " + integer);
+                       }
+
+                       @Override
+                       public void onError(@NonNull Throwable e) {
+                         getView().showToast("onError: " + e.toString());
+                       }
+
+                       @Override
+                       public void onComplete() {
+                         getView().showToast("onCompleted: ");
+                       }
+                     });
   }
 
   public Disposable login(String username, String password, DisposableObserver<User> observer) {

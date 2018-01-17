@@ -15,7 +15,7 @@ android {
   buildTypes {
     debug {
       buildConfigField "String", "BASE_URL", "\"https://dev.ackywow.com\""
-      minifyEnabled true
+      minifyEnabled false
       useProguard false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
@@ -49,13 +49,13 @@ dependencies {
 
   compile rootProject.ext.deps.androidDesignLibrary
   compile rootProject.ext.deps.androidRecyclerviewLibrary
-  compile rootProject.ext.deps.constraintLayout
+  compile rootProject.ext.deps.androidConstraintLayout
 
   // apt command comes from the android-apt plugin
   annotationProcessor rootProject.ext.deps.dagger2_compiler
   compile rootProject.ext.deps.retrofit2
   compile rootProject.ext.deps.retrofit2_converter_gson
-  compile rootProject.ext.deps.retrofit2_adapter_rxjava
+  compile rootProject.ext.deps.retrofit2_adapter_rxjava2
   compile rootProject.ext.deps.gson
   compile rootProject.ext.deps.butterknife
   annotationProcessor rootProject.ext.deps.butterknife_compiler
