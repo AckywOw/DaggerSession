@@ -15,8 +15,8 @@ public class TestsTest {
   @Test
   public void aaa() {
     Solution solution = new Solution();
-    int[] arr = new int[] { 1, 2, 3 };
-    solution.nextPermutation(arr);
+    int[] arr = new int[] { 4, 1, 1, 4, 4, 4, 4, 2, 3, 5 };
+    solution.combinationSum2(arr, 10);
     System.out.println(Arrays.toString(arr));
   }
 }

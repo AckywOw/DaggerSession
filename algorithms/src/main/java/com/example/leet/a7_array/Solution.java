@@ -405,4 +405,462 @@ public class Solution {
       end--;
     }
   }
+
+  /**
+   * 33. Search in Rotated Sorted Array
+   * Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+   * (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+   * You are given a target value to search. If found in the array return its index, otherwise return -1.
+   * You may assume no duplicate exists in the array.
+   * Your algorithm's runtime complexity must be in the order of O(log n).
+   * <p>
+   * Example 1:
+   * Input: nums = [4,5,6,7,0,1,2], target = 0
+   * Output: 4
+   * Example 2:
+   * Input: nums = [4,5,6,7,0,1,2], target = 3
+   * Output: -1
+   *
+   * @param nums
+   * @param target
+   * @return
+   */
+  public int search(int[] nums, int target) {
+    int left = 0, right = nums.length - 1;
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (nums[mid] > nums[right]) {
+        if (target > nums[mid] || target <= nums[right]) {
+          left = mid + 1;
+        } else {
+          right = mid;
+        }
+      } else {
+        if (target > nums[mid] && target <= nums[right]) {
+          left = mid + 1;
+        } else {
+          right = mid;
+        }
+      }
+    }
+    if (left == right && target != nums[left] || nums.length == 0) {
+      return -1;
+    }
+    return left;
+  }
+
+  /**
+   * 34. Search for a Range
+   * Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.
+   * Your algorithm's runtime complexity must be in the order of O(log n).
+   * If the target is not found in the array, return [-1, -1].
+   * <p>
+   * Example 1:
+   * Input: nums = [5,7,7,8,8,10], target = 8
+   * Output: [3,4]
+   * Example 2:
+   * Input: nums = [5,7,7,8,8,10], target = 6
+   * Output: [-1,-1]
+   *
+   * @param nums
+   * @param target
+   * @return
+   */
+  public int[] searchRange(int[] nums, int target) {
+    int[] targetRange = { -1, -1 };
+    int leftIdx = findIndex(nums, target, 0, true);
+
+    // assert that `leftIdx` is within the array bounds and that `target`
+    // is actually in `nums`.
+    if (leftIdx == nums.length || nums[leftIdx] != target) {
+      return targetRange;
+    }
+
+    targetRange[0] = leftIdx;
+    targetRange[1] = findIndex(nums, target, leftIdx, false) - 1;
+
+    return targetRange;
+  }
+
+  private int findIndex(int[] nums, int target, int start, boolean left) {
+    int end = nums.length;
+    while (start < end) {
+      int mid = start + (end - start) / 2;
+      if (nums[mid] > target || target == nums[mid] && left) {
+        end = mid;
+      } else {
+        start = mid + 1;
+      }
+    }
+    return start;
+  }
+
+  /**
+   * 35. Search Insert Position
+   * Given a sorted array and a target value, return the index if the target is found.
+   * If not, return the index where it would be if it were inserted in order.
+   * You may assume no duplicates in the array.
+   * <p>
+   * Example 1:
+   * Input: [1,3,5,6], 5
+   * Output: 2
+   * Example 2:
+   * Input: [1,3,5,6], 2
+   * Output: 1
+   * Example 3:
+   * Input: [1,3,5,6], 7
+   * Output: 4
+   * Example 4:
+   * Input: [1,3,5,6], 0
+   * Output: 0
+   *
+   * @param nums
+   * @param target
+   * @return
+   */
+  public int searchInsert(int[] nums, int target) {
+    int low = 0, high = nums.length;
+    while (low < high) {
+      int mid = low + (high - low) / 2; // low<=mid, mid<high
+      if (nums[mid] >= target) {
+        high = mid; // high always decreases (even high-low==1)
+      } else {
+        low = mid + 1; // low always increases
+      }
+    }
+    return low;
+  }
+
+  /**
+   * 39. Combination Sum
+   * Given a set of candidate numbers (candidates) (without duplicates) and a target number (target),
+   * find all unique combinations in candidates where the candidate numbers sums to target.
+   * The same repeated number may be chosen from candidates unlimited number of times.
+   * Note:
+   * All numbers (including target) will be positive integers.
+   * The solution set must not contain duplicate combinations.
+   * <p>
+   * Example 1:
+   * Input: candidates = [2,3,6,7], target = 7,
+   * A solution set is:
+   * [
+   * [7],
+   * [2,2,3]
+   * ]
+   * Example 2:
+   * Input: candidates = [2,3,5], target = 8,
+   * A solution set is:
+   * [
+   * [2,2,2,2],
+   * [2,3,3],
+   * [3,5]
+   * ]
+   *
+   * @param candidates
+   * @param target
+   * @return
+   */
+  public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    Arrays.sort(candidates);
+    List<List<Integer>> lists = new ArrayList<>();
+    combinationSum(candidates, target, 0, 0, new Integer[target], lists);
+    return lists;
+  }
+
+  private void combinationSum(int[] candidates, int target, int len, int start, Integer[] paper,
+      List<List<Integer>> lists) {
+    if (target == 0) {
+      Integer[] temp = new Integer[len];
+      System.arraycopy(paper, 0, temp, 0, len);
+      lists.add(Arrays.asList(temp));
+    } else {
+      for (int i = start; i < candidates.length && target >= candidates[i]; i++) {
+        paper[len] = candidates[i];
+        combinationSum(candidates, target - candidates[i], len + 1, i, paper, lists);
+      }
+    }
+  }
+
+  /**
+   * 40. Combination Sum II
+   * Given a collection of candidate numbers (candidates) and a target number (target),
+   * find all unique combinations in candidates where the candidate numbers sums to target.
+   * Each number in candidates may only be used once in the combination.
+   * Note:
+   * All numbers (including target) will be positive integers.
+   * The solution set must not contain duplicate combinations.
+   * <p>
+   * Example 1:
+   * Input: candidates = [10,1,2,7,6,1,5], target = 8,
+   * A solution set is:
+   * [
+   * [1, 7],
+   * [1, 2, 5],
+   * [2, 6],
+   * [1, 1, 6]
+   * ]
+   * Example 2:
+   * Input: candidates = [2,5,2,1,2], target = 5,
+   * A solution set is:
+   * [
+   * [1,2,2],
+   * [5]
+   * ]
+   *
+   * @param candidates
+   * @param target
+   * @return
+   */
+  public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+    Arrays.sort(candidates);
+    List<List<Integer>> lists = new ArrayList<>();
+
+    combinationSum2(candidates, target, 0, new Integer[candidates.length], 0, lists);
+    return lists;
+  }
+
+  private void combinationSum2(int[] candidates, int target, int start, Integer[] paper, int len,
+      List<List<Integer>> lists) {
+    if (target == 0) {
+      Integer[] temp = new Integer[len];
+      System.arraycopy(paper, 0, temp, 0, len);
+      lists.add(Arrays.asList(temp));
+    } else {
+      for (int i = start; i < candidates.length && candidates[i] <= target; i++) {
+        if (i > start && candidates[i] == paper[len]) {
+          continue;
+        }
+        paper[len] = candidates[i];
+        combinationSum2(candidates, target - candidates[i], i + 1, paper, len + 1, lists);
+      }
+    }
+  }
+
+  /**
+   * 48. Rotate Image
+   * You are given an n x n 2D matrix representing an image.
+   * Rotate the image by 90 degrees (clockwise).
+   * Note:
+   * You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.
+   * DO NOT allocate another 2D matrix and do the rotation.
+   * <p>
+   * Example 1:
+   * Given input matrix =
+   * [
+   * [1,2,3],
+   * [4,5,6],
+   * [7,8,9]
+   * ],
+   * rotate the input matrix in-place such that it becomes:
+   * [
+   * [7,4,1],
+   * [8,5,2],
+   * [9,6,3]
+   * ]
+   * Example 2:
+   * Given input matrix =
+   * [
+   * [ 5, 1, 9,11],
+   * [ 2, 4, 8,10],
+   * [13, 3, 6, 7],
+   * [15,14,12,16]
+   * ],
+   * rotate the input matrix in-place such that it becomes:
+   * [
+   * [15,13, 2, 5],
+   * [14, 3, 4, 1],
+   * [12, 6, 8, 9],
+   * [16, 7,10,11]
+   * ]
+   *
+   * @param matrix
+   */
+  public void rotate(int[][] matrix) {
+    int n = matrix.length;
+    int halfOfN = n / 2;
+    for (int i = 0; i < halfOfN; i++) {
+      for (int j = i; j < n - i - 1; j++) {
+        swapMatrix(matrix, new int[] { i, j }, new int[] { j, n - 1 - i },
+            new int[] { n - 1 - i, n - 1 - j },
+            new int[] { n - 1 - j, i });
+      }
+    }
+  }
+
+  private void swapMatrix(int[][] matrix, int[] index1, int[] index2, int[] index3, int[] index4) {
+    int temp = matrix[index1[0]][index1[1]];
+    matrix[index1[0]][index1[1]] = matrix[index4[0]][index4[1]];
+    matrix[index4[0]][index4[1]] = matrix[index3[0]][index3[1]];
+    matrix[index3[0]][index3[1]] = matrix[index2[0]][index2[1]];
+    matrix[index2[0]][index2[1]] = temp;
+  }
+
+  /**
+   * 53. Maximum Subarray
+   * Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+   * <p>
+   * Example:
+   * Input: [-2,1,-3,4,-1,2,1,-5,4],
+   * Output: 6
+   * Explanation: [4,-1,2,1] has the largest sum = 6.
+   * Follow up:
+   * If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
+   *
+   * @param nums
+   * @return
+   */
+  public int maxSubArray(int[] nums) {
+    int max = nums[0], maxEndingHere = nums[0];
+    for (int i = 1; i < nums.length; ++i) {
+      maxEndingHere = Math.max(maxEndingHere + nums[i], nums[i]);
+      max = Math.max(max, maxEndingHere);
+    }
+    return max;
+  }
+
+  /**
+   * 54. Spiral Matrix
+   * Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
+   * Example 1:
+   * Input:
+   * [
+   * [ 1, 2, 3 ],
+   * [ 4, 5, 6 ],
+   * [ 7, 8, 9 ]
+   * ]
+   * Output: [1,2,3,6,9,8,7,4,5]
+   * Example 2:
+   * Input:
+   * [
+   * [1, 2, 3, 4],
+   * [5, 6, 7, 8],
+   * [9,10,11,12]
+   * ]
+   * Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+   *
+   * @param matrix
+   * @return
+   */
+  public List<Integer> spiralOrder(int[][] matrix) {
+    //List<Integer> list = new ArrayList<>();
+    //if (matrix.length == 0 || matrix[0].length == 0) {
+    //  return list;
+    //}
+    //boolean[][] map = new boolean[matrix.length][matrix[0].length];
+    //int[] step = { 0, 0, 1 };
+    //int index = 1, total = matrix.length * matrix[0].length;
+    //while (index <= total) {
+    //  map[step[0]][step[1]] = true;
+    //  list.add(matrix[step[0]][step[1]]);
+    //
+    //  if (step[2] == 1) {//right
+    //    if (step[1] == matrix[0].length - 1
+    //        || map[step[0]][step[1] + 1]) {
+    //      step[2] = 2;
+    //      step[0] += 1;
+    //    } else {
+    //      step[1] += 1;
+    //    }
+    //  } else if (step[2] == 2) {//down
+    //    if (step[0] == matrix.length - 1 || map[step[0]
+    //        + 1][step[1]]) {
+    //      step[2] = 3;
+    //      step[1] -= 1;
+    //    } else {
+    //      step[0] += 1;
+    //    }
+    //  } else if (step[2] == 3) {//left
+    //    if (step[1] == 0 || map[step[0]][step[1] - 1]) {
+    //      step[2] = 4;
+    //      step[0] -= 1;
+    //    } else {
+    //      step[1] -= 1;
+    //    }
+    //  } else if (step[2] == 4) {//up
+    //    if (step[0] == 0 || map[step[0] - 1][step[1]]) {
+    //      step[2] = 1;
+    //      step[1] += 1;
+    //    } else {
+    //      step[0] -= 1;
+    //    }
+    //  }
+    //  index++;
+    //}
+    //return list;
+
+    List<Integer> list = new ArrayList<>();
+    if (matrix.length == 0 || matrix[0].length == 0) {
+      return list;
+    }
+    int curLeft = 0, curUp = 0, curRight = matrix[0].length - 1, curDown = matrix.length - 1;
+    while (curLeft <= curRight && curUp <= curDown) {
+      for (int i = curLeft; i <= curRight; i++) {
+        list.add(matrix[curUp][i]);
+      }
+      curUp++;
+
+      for (int i = curUp; i <= curDown; i++) {
+        list.add(matrix[i][curRight]);
+      }
+      curRight--;
+
+      if (curUp <= curDown) {
+        for (int i = curRight; i >= curLeft; i--) {
+          list.add(matrix[curDown][i]);
+        }
+      }
+      curDown--;
+
+      if (curLeft <= curRight) {
+        for (int i = curDown; i >= curUp; i--) {
+          list.add(matrix[i][curLeft]);
+        }
+      }
+      curLeft++;
+    }
+    return list;
+  }
+
+  /**
+   * 59. Spiral Matrix II
+   * Given a positive integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+   * <p>
+   * Example:
+   * Input: 3
+   * Output:
+   * [
+   * [ 1, 2, 3 ],
+   * [ 8, 9, 4 ],
+   * [ 7, 6, 5 ]
+   * ]
+   *
+   * @param n
+   * @return
+   */
+  public int[][] generateMatrix(int n) {
+    int[][] arr = new int[n][n];
+    int curLeft = 0, curUp = 0, curRight = n - 1, curDown = n - 1, curNum = 1;
+    while (curLeft <= curRight && curUp <= curDown) {
+      for (int i = curLeft; i <= curRight; i++) {
+        arr[curUp][i] = curNum++;
+      }
+      curUp++;
+
+      for (int i = curUp; i <= curDown; i++) {
+        arr[i][curRight] = curNum++;
+      }
+      curRight--;
+
+      for (int i = curRight; i >= curLeft; i--) {
+        arr[curDown][i] = curNum++;
+      }
+      curDown--;
+
+      for (int i = curDown; i >= curUp; i--) {
+        arr[i][curLeft] = curNum++;
+      }
+      curLeft++;
+    }
+    return arr;
+  }
 }
