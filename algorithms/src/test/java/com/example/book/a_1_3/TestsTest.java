@@ -1,7 +1,7 @@
 package com.example.book.a_1_3;
 
 import com.example.leet.a7_array.Solution;
-import java.util.Arrays;
+import com.google.gson.Gson;
 import org.junit.Test;
 
 /**
@@ -15,8 +15,15 @@ public class TestsTest {
   @Test
   public void aaa() {
     Solution solution = new Solution();
-    int[] arr = new int[] { 4, 1, 1, 4, 4, 4, 4, 2, 3, 5 };
-    solution.combinationSum2(arr, 10);
-    System.out.println(Arrays.toString(arr));
+    int[] arr = new int[] { 2, 3, 4, 1, 2, 1, 4 };
+    int a = solution.jump(arr);
+    System.out.println(a);
+  }
+
+  @Test
+  public void bbb() {
+    Gson gson = new Gson();
+    Solution solution = gson.fromJson("", Solution.class);
+    System.out.println(solution.toString());
   }
 }

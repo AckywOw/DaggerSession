@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Solution {
 
+  public String a;
+
   /**
    * 1. Two Sum
    * Given an array of integers, return indices of the two numbers such that they add up to a specific target.
@@ -862,5 +864,220 @@ public class Solution {
       curLeft++;
     }
     return arr;
+  }
+
+  /**
+   * 66. Plus One
+   * Given a non-empty array of digits representing a non-negative integer, plus one to the integer.
+   * The digits are stored such that the most significant digit is at the head of the list, and each element in the array contain a single digit.
+   * You may assume the integer does not contain any leading zero, except the number 0 itself.
+   * <p>
+   * Example 1:
+   * Input: [1,2,3]
+   * Output: [1,2,4]
+   * Explanation: The array represents the integer 123.
+   * Example 2:
+   * Input: [4,3,2,1]
+   * Output: [4,3,2,2]
+   * Explanation: The array represents the integer 4321.
+   *
+   * @param digits
+   * @return
+   */
+  public int[] plusOne(int[] digits) {
+    for (int i = digits.length - 1; i >= 0; i--) {
+      if (digits[i] < 9) {
+        digits[i]++;
+        break;
+      } else {
+        digits[i] = 0;
+        if (i == 0) {
+          int[] arr = new int[digits.length + 1];
+          arr[0] = 1;
+          System.arraycopy(digits, 0, arr, 1, digits.length);
+          return arr;
+        } else {
+          continue;
+        }
+      }
+    }
+    return digits;
+  }
+
+  /**
+   * 55. Jump Game
+   * Given an array of non-negative integers, you are initially positioned at the first index of the array.
+   * Each element in the array represents your maximum jump length at that position.
+   * Determine if you are able to reach the last index.
+   * <p>
+   * Example 1:
+   * Input: [2,3,1,1,4]
+   * Output: true
+   * Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+   * Example 2:
+   * Input: [3,2,1,0,4]
+   * Output: false
+   * Explanation: You will always arrive at index 3 no matter what. Its maximum
+   * jump length is 0, which makes it impossible to reach the last index.
+   *
+   * @param nums
+   * @return
+   */
+  public boolean canJump(int[] nums) { //Greedy
+    //int lastPos = nums.length - 1;
+    //for (int i = nums.length - 1; i >= 0; i--) {
+    //  if (i + nums[i] >= lastPos) {
+    //    lastPos = i;
+    //  }
+    //}
+    //return lastPos == 0;
+    int last = 0;
+    for (int i = 0; i <= last; i++) {
+      last = Math.max(last, i + nums[i]);
+      if (last >= nums.length - 1) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * 45. Jump Game II
+   * Given an array of non-negative integers, you are initially positioned at the first index of the array.
+   * Each element in the array represents your maximum jump length at that position.
+   * Your goal is to reach the last index in the minimum number of jumps.
+   * <p>
+   * Example:
+   * Input: [2,3,1,1,4]
+   * Output: 2
+   * Explanation: The minimum number of jumps to reach the last index is 2.
+   * Jump 1 step from index 0 to 1, then 3 steps to the last index.
+   * Note:
+   * You can assume that you can always reach the last index.
+   *
+   * @param nums
+   * @return
+   */
+  public int jump(int[] nums) {
+    int step = 0, curEnd = 0, curFurthest = 0;
+    for (int i = 0; i < nums.length - 1; i++) {
+      curFurthest = Math.max(curFurthest, i + nums[i]);
+      if (i == curEnd) {
+        step++;
+        curEnd = curFurthest;
+      }
+    }
+    return step;
+  }
+
+  /**
+   * 121. Best Time to Buy and Sell Stock
+   * Say you have an array for which the ith element is the price of a given stock on day i.
+   * If you were only permitted to complete at most one transaction (i.e., buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+   * Note that you cannot sell a stock before you buy one.
+   * <p>
+   * Example 1:
+   * Input: [7,1,5,3,6,4]
+   * Output: 5
+   * Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+   * Not 7-1 = 6, as selling price needs to be larger than buying price.
+   * Example 2:
+   * Input: [7,6,4,3,1]
+   * Output: 0
+   * Explanation: In this case, no transaction is done, i.e. max profit = 0.
+   *
+   * @param prices
+   * @return
+   */
+  public int maxProfit(int[] prices) {
+    if (prices.length == 0) {
+      return 0;
+    }
+    int profit = 0, min = prices[0];
+    for (int i = 0; i < prices.length; i++) {
+      if (prices[i] < min) {
+        min = prices[i];
+      } else if (prices[i] - min > profit) {
+        profit = prices[i] - min;
+      }
+    }
+    return profit;
+  }
+
+  /**
+   * 122. Best Time to Buy and Sell Stock II
+   * Say you have an array for which the ith element is the price of a given stock on day i.
+   * Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).
+   * Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
+   * <p>
+   * Example 1:
+   * Input: [7,1,5,3,6,4]
+   * Output: 7
+   * Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.
+   * Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
+   * Example 2:
+   * Input: [1,2,3,4,5]
+   * Output: 4
+   * Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
+   * Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are
+   * engaging multiple transactions at the same time. You must sell before buying again.
+   * Example 3:
+   * Input: [7,6,4,3,1]
+   * Output: 0
+   * Explanation: In this case, no transaction is done, i.e. max profit = 0.
+   *
+   * @param prices
+   * @return
+   */
+  public int maxProfit2(int[] prices) {
+    if (prices.length <= 1) {
+      return 0;
+    }
+    int profit = 0;
+    for (int i = 0; i < prices.length - 1; i++) {
+      if (prices[i] < prices[i + 1]) {
+        profit += prices[i + 1] - prices[i];
+      }
+    }
+    return profit;
+  }
+
+  /**
+   * 123. Best Time to Buy and Sell Stock III
+   * Say you have an array for which the ith element is the price of a given stock on day i.
+   * Design an algorithm to find the maximum profit. You may complete at most two transactions.
+   * Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
+   * <p>
+   * Example 1:
+   * Input: [3,3,5,0,0,3,1,4]
+   * Output: 6
+   * Explanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+   * Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
+   * Example 2:
+   * Input: [1,2,3,4,5]
+   * Output: 4
+   * Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
+   * Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are
+   * engaging multiple transactions at the same time. You must sell before buying again.
+   * Example 3:
+   * Input: [7,6,4,3,1]
+   * Output: 0
+   * Explanation: In this case, no transaction is done, i.e. max profit = 0.
+   *
+   * @param prices
+   * @return
+   */
+  public int maxProfit3(int[] prices) {
+    int buy1 = Integer.MIN_VALUE;   //profit after buy 1st stock
+    int buy2 = Integer.MIN_VALUE;   //profit after buy 2nd stock
+    int sell1 = 0;                  //profit after sell 1st stock
+    int sell2 = 0;                  //profit after sell 2nd stock
+    for (int p : prices) {
+      sell2 = Math.max(sell2, buy2 + p);
+      buy2 = Math.max(buy2, sell1 - p);
+      sell1 = Math.max(sell1, buy1 + p);
+      buy1 = Math.max(buy1, -p);
+    }
+    return sell2;
   }
 }
